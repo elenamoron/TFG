@@ -112,7 +112,15 @@ Por la parte de aprendizaje explorar nuevas tecnologías WEB de desarrollo, tant
 
 \section{Descripción del trabajo}
 En la descripción se va hablar de los bloques que tiene la propia aplicación en el lado del desarrollo. Se dispone de dos grandes bloques conocidos como backend y frontend, podemos la descripción de estos con la siguiente imagen.
-\includegraphics{front_back}
+
+En el back nos referimos a la parte que no es visible en la aplicación, ahí también se hacen separaciones en el desarrollo. En este caso vamos a separar en almacenamiento, autenticación y API Rest.
+Se necesita un almacenamiento en el cual tendremos la información referente a los usuarios que manejan la aplicación como los clientes y algunos datos de configuración. Dicho almacenamiento será No SQL, de los diferentes tipos de base de datos que tenemos como No SQL se va a utilizar mongodb. Mongodb es No SQL y sus colecciones se basan en objetos JSON. Los datos que se utlizaran en la aplicación tienen un carácter sensible a vulnerabilidad por lo que se usará una codificación cifrada para prevenir ataques a dichos datos.
+
+Siguiendo con el tema de seguridad tenemos la parte de autenticación, la autenticación que se utilizará será OAuth. El protocolo OAuth nos permitirá conectarnos a la API de forma segura, se basa en un sistema simple para aplicaciones. Además este sistema protege la identidad del usuario y es utilizo en aplicaciones que usamos en nuestro día a día como Google, facebook, twitter, etc.
+
+Por último en este apartado falta explicar que es un API Rest y para que lo va a ser utilizado en este proyecto. API Rest es un medio unificado de intercambio de información, en nuestro caso se utlizada para hacer llamadas al sistema desde la parte de frontend que explicaremos acontinuación.
+
+Acontinuación se explicará que incluye la parte de frontend, esta parte es la visible al usuario en la que encontramos los términos de ubiquidad, experiencia de usuario y sistema multiplataforma. 
 
 
 
