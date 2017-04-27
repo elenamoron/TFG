@@ -70,7 +70,7 @@
 
 \graphicspath{\resources}
 %¿No debería ser Anteproyecto de Trabajo de Fin de Carrera?
-\renewcommand{\CPTitle}{\LARGE Anteproyecto de Fin de Grado.\\\huge\sc Ley de Prevención del blanqueo de capitales}
+\renewcommand{\CPTitle}{\LARGE Anteproyecto de Fin de Grado.\\\huge\sc Aplicación informática para auditorias de Prevención y Blanqueo de Capitales y Financiación del Terrorismo}
 \renewcommand{\CPAuthor}{Autor: \ Elena Morón Muela\\Tutor: \'Oscar Garc\'ia
 Población}
 \renewcommand{\CPDireccion}{Universidad de Alcalá\\Escuela
@@ -92,11 +92,12 @@ Politécnica Superior\\Departamento de Automática\\}
 \listoffixmes
 
 
-
 \section{Introducción}
-Este documento se corresponde con el anteproyecto de fin de grado para la titulación de Ingeniería Informática. El título elegido es Ley de prevencción del blanqueo de capitales.
-En principio se va explicar que objetivos tiene este proyecto, tanto en el desarrollo como en el aprendizaje de nuevas tecnologías. Se incluye también una descripción con estos mismos bloques.
-Se presentará un diagrama de Gantt que mostrará el plan de trabajo a seguir, además del plan de trabajo se hablará de metodología que se usará para el desarrollo del proyecto.
+Este documento presenta el anteproyecto titulado Aplicación informática para auditorias de prevención de blanqueo de capitales y financión del terrorismo. En él se propone el desarrollo de una aplicación informática que ayuda a las labores generales de una empresa de auditorias en la detección de blanqueo de capitales y financión del terrorismo.
+
+La presente Ley de prevención del blanqueo de capitales y financiación del terrorismo tiene por objeto la protección de la integridad del sistema financiero y de otros sectores de actividad económica mediante el establecimiento de obligaciones.
+
+Comenzaremos pot establecer una serie de objetivos, la descripción de trabajo a realizar, organizado en un diagrama de Gantt que muestra el plan de trabajo a seguir, además del plan de trabajo se hablará de metodología que se usará para el desarrollo del proyecto.
 Por último una bibliografía para indicar que fuentes han sido utilizadas.  
 
 
@@ -104,23 +105,33 @@ Por último una bibliografía para indicar que fuentes han sido utilizadas.
 
 
 \section{Objetivos y campo de aplicación.}
-Explicaré que objetivos han movido el desarrollo de este proyecto, como se comentaba en la introducción se van a dividir en dos bloques. El propio desarrollo de la aplicación y los conocimientos que se quieren adquirir.
-En el ámbito de la aplicación son realizar una aplicación informática multiplataforma que permita coordinar las labores de auditoría de una empresa de auditoría de cuentas.
-Por la parte de aprendizaje explorar nuevas tecnologías WEB de desarrollo, tanto para la interacción con el usuario como para el almacenamiento y procesamiento de los datos en el lado del servidor.
+Los objetivos han movido el desarrollo de este proyecto, se dividen en dos bloques desde el punto de vista de la aplicación. El acceso a la aplicación, permitiendo un acceso multiplataforma a los servicios desde móviles y desktop. El almacenamiento y procesado de la información. 
+Para alcanzar estos objetivos será necesario comprender y aplicar adecuadamente varias tecnologías que se describen acontinuación.
 
 
 
 \section{Descripción del trabajo}
-En la descripción se va hablar de los bloques que tiene la propia aplicación en el lado del desarrollo. Se dispone de dos grandes bloques conocidos como backend y frontend, podemos la descripción de estos con la siguiente imagen.
+El trabajo consiste en tres entregables: una memoria explicativa, aplicación javascript basada en angular y una aplicación python basada en django.
 
-En el back nos referimos a la parte que no es visible en la aplicación, ahí también se hacen separaciones en el desarrollo. En este caso vamos a separar en almacenamiento, autenticación y API Rest.
-Se necesita un almacenamiento en el cual tendremos la información referente a los usuarios que manejan la aplicación como los clientes y algunos datos de configuración. Dicho almacenamiento será No SQL, de los diferentes tipos de base de datos que tenemos como No SQL se va a utilizar mongodb. Mongodb es No SQL y sus colecciones se basan en objetos JSON. Los datos que se utlizaran en la aplicación tienen un carácter sensible a vulnerabilidad por lo que se usará una codificación cifrada para prevenir ataques a dichos datos.
+Se dispone de dos grandes bloques conocidos como backend y frontend,en la siguiente imagen se muestran con las tecnologias que intervienen en casa uno de ellos.
 
-Siguiendo con el tema de seguridad tenemos la parte de autenticación, la autenticación que se utilizará será OAuth. El protocolo OAuth nos permitirá conectarnos a la API de forma segura, se basa en un sistema simple para aplicaciones. Además este sistema protege la identidad del usuario y es utilizo en aplicaciones que usamos en nuestro día a día como Google, facebook, twitter, etc.
+\includegraphics[scale=0.8]{resources/frontback.eps}
 
-Por último en este apartado falta explicar que es un API Rest y para que lo va a ser utilizado en este proyecto. API Rest es un medio unificado de intercambio de información, en nuestro caso se utlizada para hacer llamadas al sistema desde la parte de frontend que explicaremos acontinuación.
+En el back encontramos la parte que no es visible en la aplicación, ahí de desarrolla la aplicación Python basada en Django. Django es un framework para el lenguaje Python que facilita el desarrollo de aplicaciones mediante diferentes componentes. Django pone énfasis en el re-uso, la conectividad y extensibilidad de componentes, el desarrollo rápido y el principio de no repetir código.  
 
-Acontinuación se explicará que incluye la parte de frontend, esta parte es la visible al usuario en la que encontramos los términos de ubiquidad, experiencia de usuario y sistema multiplataforma. 
+Se necesita un almacenamiento en el cual tendremos la información referente a los usuarios que manejan la aplicación como los clientes y algunos datos de configuración. Dicho almacenamiento será NoSQL, de los diferentes tipos de base de datos que tenemos como NoSQL se va a utilizar mongodb. Mongodb es NoSQL y sus colecciones se basan en objetos JSON. Los datos que se utilizaran en la aplicación tienen un carácter sensible y están protegidos por la LOPD(Ley Orgánica de la protección de datos), por lo que se usará una codificación cifrada para prevenir ataques a dichos datos.
+
+Respecto a la seguridad tenemos la parte de autenticación, la autenticación que se utilizará será OAuth. El protocolo OAuth nos permitirá conectarnos a la API de forma segura, se basa en un sistema simple para aplicaciones. Además este sistema protege la identidad del usuario y es utilizado en aplicaciones que usamos en nuestro día a día como Google, Facebook, Twitter, etc.
+
+Conectando la parte de frontend y backend se tiene un API RestFull. API Rest es un medio unificado de intercambio de información, en nuestro caso se utilizada para hacer llamadas a la aplicación backend desde la parte de frontend.
+
+El frontend, es parte visible al usuario en la que dispone de la una aplicación Javascript basada en Angular. AngularJS, es un framework de JavaScript de código abierto, mantenido por Google, que se utiliza para crear y mantener aplicaciones web de una sola página. Su objetivo es aumentar las aplicaciones basadas en navegador con capacidad de Modelo Vista Controlador (MVC), para hacer que el desarrollo y las pruebas sean más fáciles.
+
+La aplicación tendrá acceso desde cualquier dispositivo en cualquier localización.Por otro lado presentará una experiencia de usuario que cumpla con la usabilidad y fácil interacción con el usuario de nuestra aplicación.
+
+Englobando lo anterior recogemos que además se va a tratar de un sistema multiplataforma, que quiere decir que se podrá ejecutar en diferentes dispositivos(smartphone,desktop,tablet). Esta adaptación se realiza mediante páginas responsive, que adaptan la apariencia en función del dispositivo.
+
+ 
 
 
 
@@ -128,10 +139,24 @@ Acontinuación se explicará que incluye la parte de frontend, esta parte es la 
 
 
 \section{Metodología y plan de trabajo}
+Se muestra el siguiente diagrama de Gantt en el que se ven las fases que se van a seguir en el proyecto.Las tres fases correspondientes a aplicación web, API RestFull y aplicación backend. Además durante todo el trabajo se llevará a cabo una memoria explicativa.  
 
+\includegraphics[scale=0.3]{resources/gantter.eps} 
 
 
 \section{Medios}
+Para el desarrollo del proyecto se va hacer uso de máquinas en Amazon, son máquinas virtuales en la nube.
+El desarrollo del código se hará con el IDE PhpStorm y Pycharm. PhpStorm para el desarrollo de la parte de frontend que nos proporciona interfaz sencilla aunque no se programe en PHP. Por el otro lado PyCharm para el backend que se desarrollará en Python.
+
+Todo el proyecto se encotrará en un repositorio GIT bajo control de versiones.
+
+\section{Referencias}
+\url{https://es.wikipedia.org/wiki/AngularJS}
+
+\url{https://www.boe.es/buscar/act.php?id=BOE-A-2010-6737}
+
+\url{https://es.wikipedia.org/wiki/Django_(framework)}
+
 
 
 
