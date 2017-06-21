@@ -16,7 +16,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="bower_components/paper-button/paper-button.html">
@@ -28,11 +27,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="bower_components/app-layout/demo/sample-content.html">
 
-<link rel="import" href="x-login.html">
-<link rel="import" href="x-register.html">
-
-
-<dom-module id="x-app">
+<dom-module id="x-register">
 
   <template>
 
@@ -149,18 +144,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <header>
           
               <div>
-                  <p>Email:</p>
-                  <paper-input id="email"
-                    type="email"
-                    label="email"
-                    value=""></paper-input>
-                  <p>Contraseña:</p>
-                  <paper-input id="password"
-                    type="password"
-                    label="password"
-                    value=""></paper-input>
-                  <paper-button raised on-tap="login">Entrar</paper-button>
-                  <a href="/register">Registrar</a>
+                  <p>Registro</p>
+                  
               </div>
           
           
@@ -182,7 +167,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <section id="services">
         <div class="container">
           <div>
-            <img src="media/services.jpg">
+            <img src="//app-layout-assets.appspot.com/assets/landing-page/tomato.jpg">
           </div>
           <div>
             <h3>Services</h3>
@@ -195,7 +180,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <section id="contact">
         <div class="container">
           <div>
-            <img src="media/contacta-con-nosotros.png">
+            <img src="//app-layout-assets.appspot.com/assets/landing-page/red-onion.jpg">
           </div>
           <div>
             <h3>Contact</h3>
@@ -204,14 +189,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </div>
       </section>
-        <iron-pages selected="[[_pageData.page]]" attr-for-selected="name">
-            <x-login name="home"  user="{{user}}">
-              <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
-            </x-login>
-            <x-register name="register">
-              <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
-            </x-register>
-        </iron-pages>
+        
+        <x-login name="home"  user="{{user}}">
+          <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
+        </x-login>
+        <x-register name="register">
+          <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
+        </x-register>
     </app-header-layout>
 
   </template>
@@ -220,14 +204,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     Polymer({
 
-      is: 'x-app',
+      is: 'x-register',
       
       properties: {
-          user: Object ,
-         _route: Object,
-         _subRoute: Object,
-         _pageData: Object,
-         _idData: Object
+         user: Object  
       },
       
       attached: function() {

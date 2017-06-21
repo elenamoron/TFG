@@ -9,3 +9,5 @@
 *.toc
 *.synctex.gz
 
+/TFG/nbproject/private/
+/TFG/bower_components
