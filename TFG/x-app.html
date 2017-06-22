@@ -16,7 +16,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="bower_components/iron-form/iron-form.html">
 
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="bower_components/paper-button/paper-button.html">
@@ -148,20 +149,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <header>
           
-              <div>
+              <form is="iron-form" id="form">
                   <p>Email:</p>
                   <paper-input id="email"
                     type="email"
                     label="email"
-                    value=""></paper-input>
+                    required></paper-input>
                   <p>Contraseña:</p>
                   <paper-input id="password"
                     type="password"
                     label="password"
-                    value=""></paper-input>
-                  <paper-button raised on-tap="login">Entrar</paper-button>
+                    required></paper-input>
+                  <paper-button raised id="login" >Entrar</paper-button>
                   <a href="/register">Registrar</a>
-              </div>
+              </form>
           
           
       </header>
@@ -204,14 +205,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </div>
       </section>
-        <iron-pages selected="[[_pageData.page]]" attr-for-selected="name">
-            <x-login name="home"  user="{{user}}">
-              <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
-            </x-login>
-            <x-register name="register">
-              <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
-            </x-register>
-        </iron-pages>
+       
     </app-header-layout>
 
   </template>
@@ -230,6 +224,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          _idData: Object
       },
       
+      ready:function(){ 
+        this.$.login.addEventListener("click",()=>{
+          debugger
+            this.$.form.submit()
+        })  
+      },
       attached: function() {
       this.async(function() {
         if (!this._route.path) {
@@ -245,7 +245,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       login: function(){
           this.user = this.$.email.value;
           this.user['password'] = this.$.password.value;
-          console.log(this.user);
+          
         }
 
     }
