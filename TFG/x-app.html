@@ -160,7 +160,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     type="password"
                     label="password"
                     required></paper-input>
-                  <paper-button raised id="login" >Entrar</paper-button>
+                  <paper-button raised id="login" on-tap="login" >Entrar</paper-button>
                   <a href="/register">Registrar</a>
               </form>
           
@@ -224,13 +224,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          _idData: Object
       },
       
-      ready:function(){ 
-        this.$.login.addEventListener("click",()=>{
-          debugger
-            this.$.form.submit()
-        })  
-      },
-      attached: function() {
+    attached: function() {
       this.async(function() {
         if (!this._route.path) {
           this.set('_route.path', '/index');
