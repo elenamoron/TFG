@@ -215,9 +215,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
 
       is: 'x-app',
+      config:[GlobalConfig],
       
       properties: {
-          user: Object ,
+          user: String ,
+          password: String ,
          _route: Object,
          _subRoute: Object,
          _pageData: Object,
@@ -236,9 +238,86 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _isHomePage: function(page) {
             return page === 'home';
         },
+    ajax_setup : function () {
+        jQuery.ajaxSetup({
+            url: finametrix_api_config.api_host + finametrix_api_config.api_url_base,
+            global: false,
+            beforeSend: function (xhr) {
+                if (finametrix_api_config.is_user_authenticated) {
+                    xhr.setRequestHeader("Authorization", finametrix_api_config.user_token);
+                } else {
+                    xhr.setRequestHeader("Authorization", finametrix_api_config.finametrix_token);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("ajax call to finametrix failed: ", textStatus, errorThrown);
+            },
+            contentType: "application/json",
+            type: "GET"
+        });
+    },
+
+    ajax_get_finametrix : function (endpoint, event_to_publish, callback, opts) {
+        ajax_setup();
+
+        if (!opts) opts={};
+
+        var config = Object.assign({
+            url: jQuery.ajaxSettings.url + endpoint,
+            method: 'get',
+            success: function (data) {
+                if (callback) callback(data);
+                if (event_to_publish) Finametrix.Event_Manager.publish(event_to_publish, [data]);
+            }
+        },opts);
+
+        jQuery.ajax(config);
+    },
+
+    ajax_post_finametrix : function (endpoint, data, event_to_publish, callback, failback) {
+        ajax_setup();
+        if (data) {
+            data = JSON.stringify(data);
+        }
+        jQuery.ajax({
+            url: jQuery.ajaxSettings.url + endpoint,
+            method: 'post',
+            data: data,
+            success: function (data) {
+                if (callback) callback(data);
+                if (event_to_publish) {
+                    Finametrix.Event_Manager.publish(event_to_publish, data);
+                }
+            },
+            error: function (data) {
+                if (failback) failback(data);
+            }
+        });
+    },
+
+    ajax_put_finametrix : function (endpoint, data, event_to_publish, callback, failback) {
+        ajax_setup();
+        if (data) {
+            data = JSON.stringify(data);
+        }
+        jQuery.ajax({
+            url: jQuery.ajaxSettings.url + endpoint,
+            method: 'put',
+            data: data,
+            success: function (data) {
+                if (callback) callback(data);
+                if (event_to_publish) {
+                    Finametrix.Event_Manager.publish(event_to_publish, data);
+                }
+            },
+            error: function (data) {
+                if (failback) failback(data);
+            }
+        });
+    },
       login: function(){
           this.user = this.$.email.value;
-          this.user['password'] = this.$.password.value;
+          this.password = this.$.password.value;
           
         }
 
