@@ -28,9 +28,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
 
 <link rel="import" href="bower_components/app-layout/demo/sample-content.html">
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 
 <link rel="import" href="x-login.html">
 <link rel="import" href="x-register.html">
+<link rel="import" href="global-config.js">
 
 
 <dom-module id="x-app">
@@ -210,13 +212,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </template>
 
-  <script src="global-config.js" />
+  
   <script>
 
     Polymer({
 
       is: 'x-app',
-      config:[GlobalConfig],
+      //config:[GlobalConfig],
       
       properties: {
           user: String ,
@@ -240,72 +242,86 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             return page === 'home';
         },
     ajax_setup : function () {
-        jQuery.ajaxSetup({
-            url: config.api_host + config.api_url_base,
-            global: false,
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("ajax call failed: ", textStatus, errorThrown);
+      jQuery.ajaxSetup({
+        url: config.api_host + config.api_url_base,
+        global: false,
+        error: function (jqXHR, textStatus, errorThrown) {
+              console.error("ajax call failed: ", textStatus, errorThrown);
             },
             contentType: "application/json",
             type: "GET"
-        });
+      });
     },
 
     ajax_get : function (endpoint, event_to_publish, callback, opts) {
-        ajax_setup();
+      ajax_setup();
 
-        if (!opts) opts={};
+    if (!opts) opts={};
 
-        var config = Object.assign({
-            url: jQuery.ajaxSettings.url + endpoint,
-            method: 'get',
-            success: function (data) {
-                if (callback) callback(data);
-            }
+     var config = Object.assign({
+       url: jQuery.ajaxSettings.url + endpoint,
+         method: 'get',
+         success: function (data) {
+            if (callback) callback(data);
+         }
         },opts);
 
-        jQuery.ajax(config);
+       jQuery.ajax(config);
     },
 
-    ajax_post: function (endpoint, data, event_to_publish, callback, failback) {
-        ajax_setup();
+    ajax_post: function (endpoint, data, callback, failback) {
+      this.ajax_setup();
         if (data) {
-            data = JSON.stringify(data);
+          data = JSON.stringify(data);
         }
         jQuery.ajax({
-            url: jQuery.ajaxSettings.url + endpoint,
-            method: 'post',
+           url: jQuery.ajaxSettings.url + endpoint,
+             method: 'post',
             data: data,
             success: function (data) {
-                if (callback) callback(data);
+               if (callback) callback(data);
             },
             error: function (data) {
-                if (failback) failback(data);
+               if (failback) failback(data);
             }
         });
     },
-
+    
     ajax_put : function (endpoint, data, event_to_publish, callback, failback) {
-        ajax_setup();
+      ajax_setup();
         if (data) {
-            data = JSON.stringify(data);
+              data = JSON.stringify(data);
         }
         jQuery.ajax({
-            url: jQuery.ajaxSettings.url + endpoint,
+              url: jQuery.ajaxSettings.url + endpoint,
             method: 'put',
             data: data,
             success: function (data) {
-                if (callback) callback(data);
+              if (callback) callback(data);
             },
             error: function (data) {
-                if (failback) failback(data);
+               if (failback) failback(data);
             }
         });
     },
       login: function(){
           this.user = this.$.email.value;
           this.password = this.$.password.value;
-          
+          this.ajax_post(
+            '/login'.post_login,
+            {
+                username: this.user,
+                password: this.password
+            },
+            function (data) {
+                //Success
+                if (callback) callback(data);
+            },
+            function (data) {
+                //Failure
+                if (failback) failback(data);
+            }
+        );
         }
 
     }
