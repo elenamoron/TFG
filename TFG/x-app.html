@@ -163,7 +163,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     label="password"
                     required></paper-input>
                   <paper-button raised id="login" on-tap="login" >Entrar</paper-button>
-                  <a href="/register">Registrar</a>
+                  
+                  <a name="register" href="/register">Registrar</a>
+                  
               </form>
           
           
@@ -209,16 +211,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </section>
        
     </app-header-layout>
-
+    <iron-pages selected="[[_pageData.view]]" attr-for-selected="name">
+        <x-register name="register" route="{{_subRoute}}"></x-register>
+    </iron-pages>
   </template>
 
   
   <script>
-
+      var global_config = {
+        access_token: 'Bearer a98988f7bdece40715673967ffa874cd11fee1f2c1b67d1a07983983effbd442',
+        api_host: 'https://prueba.com',
+        api_url_base: '/TFG/elena'
+    };
     Polymer({
 
       is: 'x-app',
-      //config:[GlobalConfig],
+      
       
       properties: {
           user: String ,
@@ -226,7 +234,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          _route: Object,
          _subRoute: Object,
          _pageData: Object,
-         _idData: Object
+         _idData: Object,
       },
       
     attached: function() {
@@ -238,12 +246,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
       
-      _isHomePage: function(page) {
-            return page === 'home';
-        },
+    _pageChanged: function(page) {
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
+        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+    },
     ajax_setup : function () {
       jQuery.ajaxSetup({
-        url: config.api_host + config.api_url_base,
+        url: global_config.api_host + global_config.api_url_base,
         global: false,
         error: function (jqXHR, textStatus, errorThrown) {
               console.error("ajax call failed: ", textStatus, errorThrown);
@@ -319,7 +329,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             },
             function (data) {
                 //Failure
-                if (failback) failback(data);
+                //if (failback) failback(data);
+                console.log("failback");
             }
         );
         }
