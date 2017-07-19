@@ -9,31 +9,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-  <title>Inicio</title>
+    <title>Tests</title>
 
-  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-
-  <link rel="import" href="x-app.html">
-
-  <style>
-
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background-color: #fff;
-    }
-
-  </style>
-
-</head>
-<body>
-
-  <x-app></x-app>
-
-</body>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
+  </head>
+  <body>
+    <script>
+      WCT.loadSuites([
+        'my-view1.html?dom=shady',
+        'my-view1.html?dom=shadow',
+      ]);
+    </script>
+  </body>
 </html>

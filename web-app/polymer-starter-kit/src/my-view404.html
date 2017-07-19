@@ -8,32 +8,24 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<link rel="import" href="../bower_components/polymer/polymer.html">
 
-  <title>Inicio</title>
+<dom-module id="my-view404">
+  <template>
+    <style>
+      :host {
+        display: block;
 
-  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+        padding: 10px 20px;
+      }
+    </style>
 
-  <link rel="import" href="x-app.html">
+    Oops you hit a 404. <a href="[[rootPath]]">Head back to home.</a>
+  </template>
 
-  <style>
-
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background-color: #fff;
-    }
-
-  </style>
-
-</head>
-<body>
-
-  <x-app></x-app>
-
-</body>
-</html>
+  <script>
+    Polymer({
+      is: 'my-view404',
+    });
+  </script>
+</dom-module>

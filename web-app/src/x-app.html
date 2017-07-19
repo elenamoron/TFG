@@ -8,10 +8,15 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
+<link rel="import" href="bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+
 <link rel="import" href="bower_components/polymer/polymer.html">
 
 <link rel="import" href="bower_components/app-route/app-location.html">
 <link rel="import" href="bower_components/app-route/app-route.html">
+<link rel="import" href="bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 
 
 <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
@@ -31,7 +36,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 
 <link rel="import" href="x-login.html">
-<link rel="import" href="x-register.html">
+<link rel="import" href="x-register-original.html">
 <link rel="import" href="global-config.js">
 
 
@@ -123,26 +128,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
-    
-    <app-location
-            route="{{_route}}"
-            use-hash-as-path>
-
-    </app-location>
+    <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
     <app-route
-        route="{{_route}}"
-        pattern="/:page"
-        data="{{_pageData}}"
-        tail="{{_subRoute}}"></app-route>
-    <app-route
-        route="{{_subRoute}}"
-        pattern="/:id"
-        data="{{_idData}}"></app-route>
+        route="{{route}}"
+        pattern="[[rootPath]]:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
 
-    <app-header-layout>
-
-      <app-header reveals effects="waterfall" slot="header">
-
+    <app-drawer-layout fullbleed>
+      
+      <!-- Main content -->
+      <app-header-layout has-scrolling-region>
+        
         <app-toolbar class="toolbar">
           <div class="tabs">
             <a href="#about">About</a>
@@ -150,10 +147,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <a href="#contact">Contact</a>
           </div>
         </app-toolbar>
-
-      </app-header>
-
-      <header>
+        
+        <header>
           
               <form is="iron-form" id="form">
                   <p>Email:</p>
@@ -168,14 +163,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     required></paper-input>
                   <paper-button raised id="login" on-tap="login" >Entrar</paper-button>
                   
-                  <a name="register" href="/register">Registrar</a>
+                  <a name="register" href="[[rootPath]]register">Registrar</a>
                   
               </form>
           
           
-      </header>
-
-      <section id="about">
+        </header>
+          <section id="about">
         <div class="container">
           <div>
             <img src="//app-layout-assets.appspot.com/assets/landing-page/berries.jpg">
@@ -213,11 +207,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </div>
       </section>
-       
-    </app-header-layout>
-    <iron-pages selected="[[_pageData.view]]" attr-for-selected="name">
-        <x-register name="register" route="{{_subRoute}}"></x-register>
-    </iron-pages>
+        
+      </app-header-layout>
+      <app-scrollpos-control
+          selected="[[routeData.page]]"
+          reset="[[_isRegisterPage(routeData.page)]]"></app-scrollpos-control>
+      
+    </app-drawer-layout>
+    <iron-pages
+            selected="[[page]]"
+            attr-for-selected="name"
+            fallback-selection="view404"
+            role="main">
+          <my-view1 name="view1"></my-view1>
+          <x-register name="register"></x-register>
+          <my-view2 name="view2"></my-view2>
+          <my-view3 name="view3"></my-view3>
+          <my-view404 name="view404"></my-view404>
+        </iron-pages>
+  </template>
+
   </template>
 
   
@@ -235,12 +244,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
           user: String ,
           password: String ,
-         _route: Object,
-         _subRoute: Object,
-         _pageData: Object,
-         _idData: Object,
+          route: Object,
+         page: {
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pageChanged',
+        },
       },
-      
+      observers: [
+        '_routePageChanged(routeData.page)',
+      ],
+      _routePageChanged: function(page) {
+        this.page = page || 'view1';
+        if (!this.$.drawer.persistent) {
+          this.$.drawer.close();
+        }
+      },
+      _pageChanged: function(page) {
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
+        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+      },
+      _showPage404: function() {
+        this.page = 'view404';
+      },
     attached: function() {
       this.async(function() {
         if (!this._route.path) {
