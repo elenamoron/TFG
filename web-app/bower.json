@@ -28,5 +28,8 @@
         "polymer": "^1.9"
       }
     }
+  },
+  "resolutions": {
+    "webcomponentsjs": "^v1.0.0"
   }
 }

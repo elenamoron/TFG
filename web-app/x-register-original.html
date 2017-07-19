@@ -16,8 +16,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="bower_components/iron-form/iron-form.html">
 
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="bower_components/paper-button/paper-button.html">
@@ -28,14 +26,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
 
 <link rel="import" href="bower_components/app-layout/demo/sample-content.html">
-<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 
-<link rel="import" href="x-login.html">
-<link rel="import" href="x-register.html">
-<link rel="import" href="global-config.js">
-
-
-<dom-module id="x-app">
+<dom-module id="x-register">
 
   <template>
 
@@ -123,17 +115,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
-    
-    <app-location route="{{_route}}" use-hash-as-path></app-location>
-    <app-route
-        route="{{_route}}"
-        pattern="/:page"
-        data="{{_pageData}}"
-        tail="{{_subRoute}}"></app-route>
-    <app-route
-        route="{{_subRoute}}"
-        pattern="/:id"
-        data="{{_idData}}"></app-route>
 
     <app-header-layout>
 
@@ -151,22 +132,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <header>
           
-              <form is="iron-form" id="form">
-                  <p>Email:</p>
-                  <paper-input id="email"
-                    type="email"
-                    label="email"
-                    required></paper-input>
-                  <p>Contraseña:</p>
-                  <paper-input id="password"
-                    type="password"
-                    label="password"
-                    required></paper-input>
-                  <paper-button raised id="login" on-tap="login" >Entrar</paper-button>
+              <div>
+                  <p>Registro</p>
                   
-                  <a name="register" href="/register">Registrar</a>
-                  
-              </form>
+              </div>
           
           
       </header>
@@ -187,7 +156,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <section id="services">
         <div class="container">
           <div>
-            <img src="media/services.jpg">
+            <img src="//app-layout-assets.appspot.com/assets/landing-page/tomato.jpg">
           </div>
           <div>
             <h3>Services</h3>
@@ -200,7 +169,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <section id="contact">
         <div class="container">
           <div>
-            <img src="media/contacta-con-nosotros.png">
+            <img src="//app-layout-assets.appspot.com/assets/landing-page/red-onion.jpg">
           </div>
           <div>
             <h3>Contact</h3>
@@ -209,35 +178,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </div>
       </section>
-       
+        
+        <x-login name="home"  user="{{user}}">
+          <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
+        </x-login>
+        <x-register name="register">
+          <paper-icon-button icon="app:menu" drawer-toggle></paper-icon-button>
+        </x-register>
     </app-header-layout>
-    <iron-pages selected="[[_pageData.view]]" attr-for-selected="name">
-        <x-register name="register" route="{{_subRoute}}"></x-register>
-    </iron-pages>
+
   </template>
 
-  
   <script>
-      var global_config = {
-        access_token: 'Bearer a98988f7bdece40715673967ffa874cd11fee1f2c1b67d1a07983983effbd442',
-        api_host: 'https://prueba.com',
-        api_url_base: '/TFG/elena'
-    };
+
     Polymer({
 
-      is: 'x-app',
-      
-      
+      is: 'x-register',
+
       properties: {
-          user: String ,
-          password: String ,
-         _route: Object,
-         _subRoute: Object,
-         _pageData: Object,
-         _idData: Object,
+         user: Object
       },
-      
-    attached: function() {
+
+      attached: function() {
       this.async(function() {
         if (!this._route.path) {
           this.set('_route.path', '/index');
@@ -245,94 +207,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       });
     },
 
-      
-    _pageChanged: function(page) {
-        // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
-        this.importHref(resolvedPageUrl, null, this._showPage404, true);
-    },
-    ajax_setup : function () {
-      jQuery.ajaxSetup({
-        url: global_config.api_host + global_config.api_url_base,
-        global: false,
-        error: function (jqXHR, textStatus, errorThrown) {
-              console.error("ajax call failed: ", textStatus, errorThrown);
-            },
-            contentType: "application/json",
-            type: "GET"
-      });
-    },
 
-    ajax_get : function (endpoint, event_to_publish, callback, opts) {
-      ajax_setup();
-
-    if (!opts) opts={};
-
-     var config = Object.assign({
-       url: jQuery.ajaxSettings.url + endpoint,
-         method: 'get',
-         success: function (data) {
-            if (callback) callback(data);
-         }
-        },opts);
-
-       jQuery.ajax(config);
-    },
-
-    ajax_post: function (endpoint, data, callback, failback) {
-      this.ajax_setup();
-        if (data) {
-          data = JSON.stringify(data);
-        }
-        jQuery.ajax({
-           url: jQuery.ajaxSettings.url + endpoint,
-             method: 'post',
-            data: data,
-            success: function (data) {
-               if (callback) callback(data);
-            },
-            error: function (data) {
-               if (failback) failback(data);
-            }
-        });
-    },
-    
-    ajax_put : function (endpoint, data, event_to_publish, callback, failback) {
-      ajax_setup();
-        if (data) {
-              data = JSON.stringify(data);
-        }
-        jQuery.ajax({
-              url: jQuery.ajaxSettings.url + endpoint,
-            method: 'put',
-            data: data,
-            success: function (data) {
-              if (callback) callback(data);
-            },
-            error: function (data) {
-               if (failback) failback(data);
-            }
-        });
-    },
+      _isHomePage: function(page) {
+            return page === 'home';
+        },
       login: function(){
           this.user = this.$.email.value;
-          this.password = this.$.password.value;
-          this.ajax_post(
-            '/login'.post_login,
-            {
-                username: this.user,
-                password: this.password
-            },
-            function (data) {
-                //Success
-                if (callback) callback(data);
-            },
-            function (data) {
-                //Failure
-                //if (failback) failback(data);
-                console.log("failback");
-            }
-        );
+          this.user['password'] = this.$.password.value;
+          console.log(this.user);
         }
 
     }
