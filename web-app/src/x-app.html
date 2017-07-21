@@ -256,7 +256,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       attached: function() {
       this.async(function() {
         if (!this.route.path) {
-          this.set('route.path', '/index');
+          this.set('route.path', '/home');
         }
       });
     },
@@ -265,6 +265,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.page = page ;
       },
       _pageChanged: function(page) {
+          console.log("register");
         // Load page import on demand. Show 404 page if fails
         var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
         this.importHref(resolvedPageUrl, null, this._showPage404, true);
