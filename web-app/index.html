@@ -70,18 +70,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           onload();
         }
       })();
-
-      // Load pre-caching Service Worker
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('service-worker.js', {
-            scope: Polymer.rootPath,
-          });
-        });
-      }
     </script>
 
-  <link rel="import" href="src/x-app.html">
+  <link rel="import" href="src/x-landing.html">
 
   <style>
 
@@ -98,7 +89,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </head>
 <body>
 
-  <x-app></x-app>
+  <x-landing></x-landing>
 
 </body>
 </html>

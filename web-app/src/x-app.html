@@ -265,7 +265,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.page = page ;
       },
       _pageChanged: function(page) {
-          console.log("register");
+          if(!page){return;}
         // Load page import on demand. Show 404 page if fails
         var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
         this.importHref(resolvedPageUrl, null, this._showPage404, true);

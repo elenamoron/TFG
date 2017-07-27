@@ -1,0 +1,197 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+
+
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+
+<link rel="import" href="../bower_components/app-layout/demo/sample-content.html">
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+<link rel="import" href="x-app.html">
+<link rel="import" href="x-register.html">
+<link rel="import" href="global-config.js">
+
+
+<dom-module id="x-landing">
+
+  <template>
+
+    <style>
+
+      a {
+        text-decoration: none;
+        font-size: inherit;
+        color: inherit;
+      }
+
+      .toolbar {
+        @apply --layout-horizontal;
+        @apply --layout-end-justified;
+        background-color: rgba(255, 255, 255, 0.95);
+      }
+
+      .tabs {
+        height: 100%;
+        @apply --layout-horizontal;
+      }
+
+      .tabs > a {
+        @apply --layout-vertical;
+        @apply --layout-center-center;
+        margin: 12px 16px 12px;
+        border-bottom: 1px solid #222;
+      }
+
+      header {
+        @apply --layout-vertical;
+        @apply --layout-center-center;
+        height: calc(100vh - 64px);
+        padding: 0 16px;
+        background-image: url('../media/Puzzle.jpg');
+        backgrond-repeat: no-repeat;
+        background-size: cover;
+        color: black;
+        text-align: center;
+      }
+
+      header > h2 {
+        font-size: 56px;
+        font-weight: 300;
+        margin: 0;
+      }
+
+      header > p {
+        font-size: 32px;
+      }
+
+      section {
+        padding: 88px 16px;
+      }
+
+      .container {
+        @apply --layout-horizontal;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .container > * {
+        @apply --layout-flex;
+      }
+
+      .container img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      .container h3 {
+        font-size: 32px;
+        font-weight: 300;
+        margin: 24px 0;
+      }
+
+      .container p {
+        line-height: 1.5;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          @apply --layout-vertical;
+        }
+      }
+
+    </style>
+    <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="[[rootPath]]:page"
+        data="{{routeData}}"
+        tail="{{subroute}}">
+    </app-route>
+    
+    <iron-pages
+            selected="[[page]]"
+            attr-for-selected="name"
+            role="main">
+        <x-app name=""></x-app>
+        <x-register name="register"></x-register>
+        
+    </iron-pages>
+  </template>
+
+
+  
+  <script>
+      
+    Polymer({
+
+      is: 'x-landing',
+      
+      
+      properties: {
+          route: Object,
+          routeData: Object,
+         page: {
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pageChanged',
+        },
+      },
+      observers: [
+        '_routePageChanged(routeData.page)',
+      ],
+      attached: function() {
+      this.async(function() {
+        if (!this.route.path) {
+          this.set('route.path', '/home');
+        }
+      });
+    },
+
+      _routePageChanged: function(page) {
+        this.page = page ;
+      },
+      _pageChanged: function(page) {
+          if(!page){
+              return;
+          }
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
+        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+      },
+      _showPage404: function() {
+        this.page = 'view404';
+      },  
+    
+    });
+
+  </script>
+
+</dom-module>
