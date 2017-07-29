@@ -19,6 +19,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
@@ -104,6 +105,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .container p {
         line-height: 1.5;
       }
+      
+      .form {
+         margin: 12px 16px 12px;
+      }
 
       @media (max-width: 600px) {
         .container {
@@ -121,25 +126,103 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <app-toolbar class="toolbar">
           <div class="tabs">
-            <a href="#about">About</a>
-            <a href="#services">Services</a>
-            <a href="#contact">Contact</a>
+            <a href="[[rootPath]]#about" on-tap="_onTapAnchor">Cómo funciona</a>
+            <a href="[[rootPath]]#services" on-tap="_onTapAnchor">Servicios</a>
+            <a href="[[rootPath]]#contact"on-tap="_onTapAnchor">Contacto</a>
           </div>
         </app-toolbar>
 
       </app-header>
 
-      <header>
-
-              <h1>Holaaaaaaa</h1>
-
+     
+        <body>
+            <center><img src="../media/bienvenido.jpg"></center>
               <div>
-                  <p>Registro</p>
-
+                <form is="iron-form" id="form" class="form">
+                    <p>Email:</p>
+                    <paper-input id="email"
+                      type="email"
+                      label="email"
+                      required></paper-input>
+                    <p>Contraseña:</p>
+                    <paper-input id="password"
+                      type="password"
+                      label="password"
+                      required></paper-input>
+                    <p>Nombre de la empresa:</p>
+                    <paper-input id="name"
+                      type="text"
+                      label="nombre empresa"
+                      required></paper-input>
+                    <p>CIF:</p>
+                    <paper-input id="cif"
+                      type="text"
+                      label="CIF"
+                      required></paper-input>
+                    <p>Ciudad:</p>
+                    <paper-input id="ciudad"
+                      type="text"
+                      label="Ciudad"
+                      required></paper-input>
+                    <p>Fecha de constitución:</p>
+                    <paper-input id="fecha"
+                      type="date"
+                      label="fecha constitución"
+                      required></paper-input>
+                    <p>Sector:</p>
+                    <paper-input id="sector"
+                      type="text"
+                      label="sector"
+                      required></paper-input>
+                    <p>Forma Jurídica:</p>
+                    <paper-radio-button>Sociedad anónima</paper-radio-button>
+                    <paper-radio-button>Sociedad limitada</paper-radio-button>
+                    <paper-radio-button>Otros</paper-radio-button>
+                    <p>INscrita/ Registrada en :</p>
+                    <paper-radio-button>Registro Mercantil</paper-radio-button><br>
+                    <paper-radio-button>Registro de Asociaciones y Partidos Políticos</paper-radio-button><br>
+                    <paper-radio-button>Registro Asociaciones Deportivas</paper-radio-button><br>
+                    <paper-radio-button>Registro General de Cooperativas</paper-radio-button><br>
+                    <paper-radio-button>Registro de Entidades Religiosas</paper-radio-button><br>
+                    <paper-radio-button>Registro de Fundaciones de Mº de Justicia e interior</paper-radio-button><br>
+                    <paper-radio-button>Otros registros públicos</paper-radio-button>
+                    <p>Número de inscripción:</p>
+                    <paper-input id="inscrip"
+                      type="text"
+                      label="numero de inscripcion"
+                      required></paper-input>
+                    <p>Domicilio fiscal:</p>
+                    <p>Población:</p>
+                    <paper-input id="poblacion"
+                      type="text"
+                      label="poblacion"
+                      required></paper-input>
+                    <p>Provincia:</p>
+                    <paper-input id="provincia"
+                      type="text"
+                      label="provincia"
+                      required></paper-input>
+                    <p>CP:</p>
+                    <paper-input id="cp"
+                      type="text"
+                      label="código postal"
+                      required></paper-input>
+                    <p>Pais:</p>
+                    <paper-input id="pais"
+                      type="text"
+                      label="pais"
+                      required></paper-input>
+                    <p>Teléfono de contacto/email:</p>
+                    <paper-input id="contacto"
+                      type="text"
+                      label="tlf/email"
+                      required></paper-input>
+                    <paper-button raised id="login" on-tap="new_empresa" >Registar</paper-button>
+                </form>
               </div>
 
 
-      </header>
+      </body>
 
 
 
@@ -160,11 +243,93 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _isHomePage: function(page) {
             return page === 'home';
         },
-      login: function(){
-          this.user = this.$.email.value;
-          this.user['password'] = this.$.password.value;
-          console.log(this.user);
+      ajax_setup : function () {
+      jQuery.ajaxSetup({
+        url: global_config.api_host + global_config.api_url_base,
+        global: false,
+        error: function (jqXHR, textStatus, errorThrown) {
+              console.error("ajax call failed: ", textStatus, errorThrown);
+            },
+            contentType: "application/json",
+            type: "GET"
+      });
+    },
+
+    ajax_get : function (endpoint, event_to_publish, callback, opts) {
+      ajax_setup();
+
+    if (!opts) opts={};
+
+     var config = Object.assign({
+       url: jQuery.ajaxSettings.url + endpoint,
+         method: 'get',
+         success: function (data) {
+            if (callback) callback(data);
+         }
+        },opts);
+
+       jQuery.ajax(config);
+    },
+
+    ajax_post: function (endpoint, data, callback, failback) {
+      this.ajax_setup();
+        if (data) {
+          data = JSON.stringify(data);
         }
+        jQuery.ajax({
+           url: jQuery.ajaxSettings.url + endpoint,
+             method: 'post',
+            data: data,
+            success: function (data) {
+               if (callback) callback(data);
+            },
+            error: function (data) {
+               if (failback) failback(data);
+            }
+        });
+    },
+    
+    ajax_put : function (endpoint, data, event_to_publish, callback, failback) {
+      ajax_setup();
+        if (data) {
+              data = JSON.stringify(data);
+        }
+        jQuery.ajax({
+              url: jQuery.ajaxSettings.url + endpoint,
+            method: 'put',
+            data: data,
+            success: function (data) {
+              if (callback) callback(data);
+            },
+            error: function (data) {
+               if (failback) failback(data);
+            }
+        });
+    },
+      new_empresa: function(){
+          this.user = this.$.email.value;
+          this.password = this.$.password.value;
+          if(!this.user || !this.password){
+              alert("Todos los campos son necesarios");
+          }
+          this.ajax_post(
+            '/new_empresa'.post_login,
+            {
+                username: this.user,
+                password: this.password
+            },
+            function (data) {
+                //Success
+                if (callback) callback(data);
+            },
+            function (data) {
+                //Failure
+                //if (failback) failback(data);
+                console.log("failback");
+            }
+        );
+        
+    },
 
     }
     );

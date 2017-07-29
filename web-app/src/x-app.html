@@ -73,11 +73,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       header {
         @apply --layout-vertical;
         @apply --layout-center-center;
-        height: calc(100vh - 64px);
+        height:  500px;
+        witdh: 100%;
         padding: 0 16px;
         background-image: url('../media/Puzzle.jpg');
         backgrond-repeat: no-repeat;
-        background-size: cover;
+        background-size: 100% 100%;
         color: black;
         text-align: center;
       }
@@ -142,42 +143,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         
         <app-toolbar class="toolbar">
           <div class="tabs">
-            <a href="#about">About</a>
-            <a href="#services">Services</a>
-            <a href="#contact">Contact</a>
+            <a href="#about" on-tap="_onTapAnchor">Cómo funciona</a>
+            <a href="#services" on-tap="_onTapAnchor">Servicios</a>
+            <a href="#contact"on-tap="_onTapAnchor">Contacto</a>
+            <a href="[[rootPath]]register">Registrate</a>
+            <a href="[[rootPath]]login">Iniciar sesión</a>
           </div>
         </app-toolbar>
         
         <header>
           
-              <form is="iron-form" id="form">
-                  <p>Email:</p>
-                  <paper-input id="email"
-                    type="email"
-                    label="email"
-                    required></paper-input>
-                  <p>Contraseña:</p>
-                  <paper-input id="password"
-                    type="password"
-                    label="password"
-                    required></paper-input>
-                  <paper-button raised id="login" on-tap="login" >Entrar</paper-button>
-                  
-                  <a name="register" href="[[rootPath]]register">Registrar</a>
-                  
-              </form>
           
           
         </header>
-          <section id="about">
+        <section id="about">
         <div class="container">
           <div>
-            <img src="//app-layout-assets.appspot.com/assets/landing-page/berries.jpg">
+            <img src="../media/como.jpg">
           </div>
           <div>
-            <h3>About</h3>
-            <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
-            <p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no.</p>
+            <h3>Cómo funciona</h3>
+            <p>Ofrecemos un servicio donde poder registrar tu empresa y organizar 
+                tus proyectos. Nuestro panel permitira que tengas diferentes 
+                usuarios para vuestros trabajadores y estos puedan llevar 
+                organizados sus clientes y proyectos comunes</p>
           </div>
         </div>
       </section>
@@ -188,9 +177,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <img src="../media/services.jpg">
           </div>
           <div>
-            <h3>Services</h3>
-            <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
-            <p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no.</p>
+            <h3>Servicios</h3>
+            <p>En esta plataforma podrás detectar el blanqueo de capital o cualquier financiación al terrorismo</p>
           </div>
         </div>
       </section>
@@ -201,9 +189,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <img src="../media/contacta-con-nosotros.png">
           </div>
           <div>
-            <h3>Contact</h3>
-            <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
-            <p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no.</p>
+            <h3>Contacto</h3>
+            <p>Si tienes dudas, te ayudamos en soporte@gmail.com</p>
           </div>
         </div>
       </section>
@@ -214,16 +201,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           reset="[[_isRegisterPage(routeData.page)]]"></app-scrollpos-control>
       
     </app-drawer-layout>
-    <iron-pages
-            selected="[[page]]"
-            attr-for-selected="name"
-            fallback-selection="view404"
-            role="main">
-          <x-register name="register"></x-register>
-          <my-view2 name="view2"></my-view2>
-          <my-view3 name="view3"></my-view3>
-          <my-view404 name="view404"></my-view404>
-        </iron-pages>
+    
   </template>
 
 
@@ -273,91 +251,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _showPage404: function() {
         this.page = 'view404';
       },  
+      _onTapAnchor: function(e) {
+        e.preventDefault();
+        var anchor = e.target.attributes.href.value;
+        this.$$(anchor).scrollIntoView();
+      },
     
-    ajax_setup : function () {
-      jQuery.ajaxSetup({
-        url: global_config.api_host + global_config.api_url_base,
-        global: false,
-        error: function (jqXHR, textStatus, errorThrown) {
-              console.error("ajax call failed: ", textStatus, errorThrown);
-            },
-            contentType: "application/json",
-            type: "GET"
-      });
-    },
-
-    ajax_get : function (endpoint, event_to_publish, callback, opts) {
-      ajax_setup();
-
-    if (!opts) opts={};
-
-     var config = Object.assign({
-       url: jQuery.ajaxSettings.url + endpoint,
-         method: 'get',
-         success: function (data) {
-            if (callback) callback(data);
-         }
-        },opts);
-
-       jQuery.ajax(config);
-    },
-
-    ajax_post: function (endpoint, data, callback, failback) {
-      this.ajax_setup();
-        if (data) {
-          data = JSON.stringify(data);
-        }
-        jQuery.ajax({
-           url: jQuery.ajaxSettings.url + endpoint,
-             method: 'post',
-            data: data,
-            success: function (data) {
-               if (callback) callback(data);
-            },
-            error: function (data) {
-               if (failback) failback(data);
-            }
-        });
-    },
     
-    ajax_put : function (endpoint, data, event_to_publish, callback, failback) {
-      ajax_setup();
-        if (data) {
-              data = JSON.stringify(data);
-        }
-        jQuery.ajax({
-              url: jQuery.ajaxSettings.url + endpoint,
-            method: 'put',
-            data: data,
-            success: function (data) {
-              if (callback) callback(data);
-            },
-            error: function (data) {
-               if (failback) failback(data);
-            }
-        });
-    },
-      login: function(){
-          this.user = this.$.email.value;
-          this.password = this.$.password.value;
-          this.ajax_post(
-            '/login'.post_login,
-            {
-                username: this.user,
-                password: this.password
-            },
-            function (data) {
-                //Success
-                if (callback) callback(data);
-            },
-            function (data) {
-                //Failure
-                //if (failback) failback(data);
-                console.log("failback");
-            }
-        );
-        
-    },
     _isRegisterPage: function(page) {
         return page === 'register';
     }});
