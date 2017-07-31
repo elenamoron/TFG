@@ -38,12 +38,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="x-login.html">
 <link rel="import" href="x-register.html">
-<link rel="import" href="x-clientes.html">
-<link rel="import" href="x-proyectos.html">
 <link rel="import" href="global-config.js">
 
 
-<dom-module id="x-home">
+<dom-module id="x-proyectos">
 
   <template>
 
@@ -232,10 +230,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         attr-for-selected="name"
                         on-iron-activate="_drawerSelected">
                         <paper-item name="proyectos">
-                            <a href="[[roothPath]]proyectos" name="name">Proyectos</a>
+                            <a href="#/proyectos" name="name">Proyectos</a>
                         </paper-item>
                         <paper-item name="clientes">
-                            <a href="[[roothPath]]clientes" name="name">Clientes</a>
+                            <a href="#/clientes" name="name">Clientes</a>
                         </paper-item>
                     </paper-listbox>
                 </app-header-layout>
@@ -270,7 +268,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     };
     Polymer({
 
-      is: 'x-home',
+      is: 'x-proyectos',
       
       
       properties: {
