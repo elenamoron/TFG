@@ -39,13 +39,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="x-login.html">
 <link rel="import" href="x-register.html">
 <link rel="import" href="global-config.js">
+<link rel="import" href="styles.html">
 
 
 <dom-module id="x-proyectos">
 
   <template>
 
-    <style>
+    <style include="styles">
 
       a {
         text-decoration: none;
@@ -229,30 +230,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <paper-listbox 
                         attr-for-selected="name"
                         on-iron-activate="_drawerSelected">
+                        <paper-item name="home">
+                            <a href="[[rootPath]]home" name="name">Home</a>
+                        </paper-item>
                         <paper-item name="proyectos">
-                            <a href="#/proyectos" name="name">Proyectos</a>
+                            <a href="#" name="name">Proyectos</a>
                         </paper-item>
                         <paper-item name="clientes">
-                            <a href="#/clientes" name="name">Clientes</a>
+                            <a href="[[rootPath]]clientes" name="name">Clientes</a>
                         </paper-item>
                     </paper-listbox>
                 </app-header-layout>
                 
             </app-drawer>
-            <iron-pages
-                    selected="[[page]]"
-                    attr-for-selected="name"
-                    role="main">
-                <x-proyectos name="proyectos"></x-proyectos>
-                <x-clientes name="clientes"></x-clientes>
-
-            </iron-pages>
+                <div class="card">
+                    <div class="circle">1</div>
+                    <h1>Proyectos</h1>
+                    <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
+                    <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+                </div>
         </app-drawer-layout>
         
       </app-header-layout>
-      <app-scrollpos-control
-          selected="[[routeData.page]]"
-          reset="[[_isRegisterPage(routeData.page)]]"></app-scrollpos-control>
+      
       
     </app-drawer-layout>
     
