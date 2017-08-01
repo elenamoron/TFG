@@ -150,6 +150,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <x-home name="home"></x-home>
         <x-proyectos name="proyectos"></x-proyectos>
         <x-clientes name="clientes"></x-clientes>
+        <iron-ajax url="data/proyectos.json" auto last-response="{{proyectos}}"></iron-ajax>
+        <recipe-app name="recipe-app" recipe="[[proyectos]]"></recipe-app>
         
     </iron-pages>
   </template>

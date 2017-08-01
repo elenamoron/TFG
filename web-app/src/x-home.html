@@ -232,11 +232,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <paper-listbox 
                         attr-for-selected="name"
                         on-iron-activate="_drawerSelected">
+                        <paper-item name="home">
+                            <a href="[[rootPath]]home" name="name">Home</a>
+                          </paper-item>
                         <paper-item name="proyectos">
-                            <a href="[[roothPath]]proyectos" name="name">Proyectos</a>
+                            <a href="[[rootPath]]proyectos" name="name">Proyectos</a>
                         </paper-item>
                         <paper-item name="clientes">
-                            <a href="[[roothPath]]clientes" name="name">Clientes</a>
+                            <a href="[[rootPath]]clientes" name="name">Clientes</a>
                         </paper-item>
                     </paper-listbox>
                 </app-header-layout>
@@ -251,7 +254,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     selected="[[page]]"
                     attr-for-selected="name"
                     role="main">
-          <x-proyectos name="proyectos">
+          <iron-ajax url="data/proyectos.json" auto last-response="{{proyectos}}"></iron-ajax>
+          <x-proyectos name="proyectos" proyectos="[[proyectos]]">
               <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
           </x-proyectos>
           <x-clientes name="clientes">
