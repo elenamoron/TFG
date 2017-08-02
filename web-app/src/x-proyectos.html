@@ -130,10 +130,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       };
     }
 
-    app-drawer-layout:not([narrow]) [drawer-toggle] {
-      display: none;
-    }
-
     .avatar-container {
       position: relative;
       border: 2px solid #00AA8D;
@@ -182,10 +178,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       color: black;
       margin: 20px ;
     }
-
+    .content {
+      display: block;
+      position: relative;
+      max-width: 1000px;
+      margin: 5px auto;
+    }
     paper-icon-button {
       --paper-icon-button-ink-color: white;
     }
+    
+    
 
       @media (max-width: 600px) {
         .container {
@@ -194,48 +197,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
-    <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
-    <app-route
-        route="{{route}}"
-        pattern="[[rootPath]]:page"
-        data="{{routeData}}"
-        tail="{{subroute}}"></app-route>
 
     
       
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
-        
-        <app-toolbar class="toolbar">
-          <div class="tabs">
-            <a href="[[rootPath]]#about" on-tap="_onTapAnchor">Cómo funciona</a>
-            <a href="[[rootPath]]#services" on-tap="_onTapAnchor">Servicios</a>
-            <a href="[[rootPath]]#contact"on-tap="_onTapAnchor">Contacto</a>
-            <a href="[[rootPath]]">Desconectar</a>
-          </div>
-        </app-toolbar>
-         <app-header id="header" effects="waterfall fade-background" reveals>
+        <app-header id="header" effects="waterfall fade-background" reveals>
+            <app-toolbar class="toolbar">
+              <div class="tabs">
+                <a href="[[rootPath]]#about" on-tap="_onTapAnchor">Cómo funciona</a>
+                <a href="[[rootPath]]#services" on-tap="_onTapAnchor">Servicios</a>
+                <a href="[[rootPath]]#contact"on-tap="_onTapAnchor">Contacto</a>
+                <a href="[[rootPath]]">Desconectar</a>
+              </div>
+            </app-toolbar>
 
-        <!-- top toolbar -->
-        <app-toolbar>
-          <!-- back button -->
-          <a href="[[rootPath]]home" tabindex="-1">
-            <paper-icon-button icon="app:arrow-back"></paper-icon-button>
-          </a>
+            
+            <!-- top toolbar -->
+            <app-toolbar>
+              <!-- back button -->
+              <a href="[[rootPath]]home" tabindex="-1">
+                <paper-icon-button icon="app:arrow-back"></paper-icon-button>
+              </a>
 
-          <div main-title></div>
+              <div main-title></div>
 
-          
-        </app-toolbar>
+
+            </app-toolbar>
 
       </app-header>
-        
+            <div class="content">
                 <div class="card">
                     <div class="circle">1</div>
                     <h1>Proyectos</h1>
                     <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
                     <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
                 </div>
+            </div>
         
         
       </app-header-layout>

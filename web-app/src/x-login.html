@@ -27,7 +27,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/app-layout/demo/sample-content.html">
 <link rel="import" href="x-home.html">
-<link rel="import" href="x-recipe-app.html">
 <dom-module id="x-login">
     <style>
 
@@ -116,9 +115,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <template>
 
-    <app-header-layout>
+    <app-header-layout has-scrolling-region>
 
-      <app-header reveals effects="waterfall" slot="header">
+      
 
         <app-toolbar class="toolbar">
           <div class="tabs">
@@ -128,7 +127,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </app-toolbar>
 
-      </app-header>
+      
         <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
         <app-route
             route="{{route}}"
@@ -162,7 +161,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       required></paper-input>
                     <paper-button raised id="login" on-tap="login" >Entrar</paper-button>
                     <a href="[[rootPath]]home">Ir a home</a>
-                    <a href="[[rootPath]]recipe-app">Ir a recipes</a>
                 </form>
               </div>
 
