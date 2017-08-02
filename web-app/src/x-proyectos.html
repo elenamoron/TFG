@@ -201,7 +201,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
-    <app-drawer-layout fullbleed>
+    
       
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
@@ -214,47 +214,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <a href="[[rootPath]]">Desconectar</a>
           </div>
         </app-toolbar>
+         <app-header id="header" effects="waterfall fade-background" reveals>
+
+        <!-- top toolbar -->
+        <app-toolbar>
+          <!-- back button -->
+          <a href="[[rootPath]]home" tabindex="-1">
+            <paper-icon-button icon="app:arrow-back"></paper-icon-button>
+          </a>
+
+          <div main-title></div>
+
+          
+        </app-toolbar>
+
+      </app-header>
         
-        <app-drawer-layout responsive-width="1280px">
-            <app-drawer id="drawer" swipe-open slot="drawer">
-                <app-header-layout has-scrolling-region>
-                    <app-header fixed slot="header">
-                        <div class="avatar-container">
-                            <div class="image"></div>
-                        </div>
-                        <div class="contact-info">
-                            <div class="name">Nombre usuario</div>
-                            <div class="email">email@gmail.com</div>
-                        </div>
-                    </app-header>
-                    <paper-listbox 
-                        attr-for-selected="name"
-                        on-iron-activate="_drawerSelected">
-                        <paper-item name="home">
-                            <a href="[[rootPath]]home" name="name">Home</a>
-                        </paper-item>
-                        <paper-item name="proyectos">
-                            <a href="#" name="name">Proyectos</a>
-                        </paper-item>
-                        <paper-item name="clientes">
-                            <a href="[[rootPath]]clientes" name="name">Clientes</a>
-                        </paper-item>
-                    </paper-listbox>
-                </app-header-layout>
-                
-            </app-drawer>
                 <div class="card">
                     <div class="circle">1</div>
                     <h1>Proyectos</h1>
                     <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
                     <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
                 </div>
-        </app-drawer-layout>
+        
         
       </app-header-layout>
       
       
-    </app-drawer-layout>
+    
     
   </template>
 
