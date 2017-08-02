@@ -16,6 +16,7 @@
 ## Descripción general
 
 Pues eso, una descripción general de la aplicación y una explicación de los puntos que vienen a continuación``
+Es una aplicación que utiliza webcomponents que permite personalizar HTML y extenderlo creando tus propias etiquetas.
 
 ## Proceso de instalación
 - Descarga desde el repositorio de GIT
@@ -28,6 +29,7 @@ bower install (instalara todo lo de bower JSON)
 polymer serve  
 ```
 ![nota] Tendrías que hacer una breve descripción de qué es bower y qué es polymer-cli.
+
 Bower es un complemento que nos permite indicar las dependencias que tiene nuestra aplicación 
  
 # Backend Application
