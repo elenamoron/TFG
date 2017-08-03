@@ -270,13 +270,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       observers: [
         '_routePageChanged(routeData.page)',
       ],
-      attached: function() {
-      this.async(function() {
-        if (!this.route.path) {
-          this.set('route.path', '/');
-        }
-      });
-    },
+      
 
       _routePageChanged: function(page) {
         this.page = page ;
