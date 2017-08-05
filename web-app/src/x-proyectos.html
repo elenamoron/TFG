@@ -226,13 +226,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </app-toolbar>
 
       </app-header>
+          
             <div class="content">
-                <div class="card">
-                    <div class="circle">1</div>
-                    <h1>Proyectos</h1>
-                    <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-                    <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-                </div>
+               <!-- <template is="dom-repeat" items="{{proyectos}}">-->
+                    <a href="#/proyecto/{{item.$key}}" class="card-container"><div class="card">
+                        <div class="circle">1</div>
+                        <h1>Proyectos</h1>
+                        <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
+                        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+                    </div></a>
+                <!--/template>-->
             </div>
         
         
@@ -266,6 +269,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           reflectToAttribute: true,
           observer: '_pageChanged',
         },
+        proyectos: Object
       },
       observers: [
         '_routePageChanged(routeData.page)',

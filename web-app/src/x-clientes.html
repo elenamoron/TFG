@@ -39,13 +39,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="x-login.html">
 <link rel="import" href="x-register.html">
 <link rel="import" href="global-config.js">
-
+<link rel="import" href="styles.html">
 
 <dom-module id="x-clientes">
 
   <template>
 
-    <style>
+    <style include="styles">
 
       a {
         text-decoration: none;
@@ -193,61 +193,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
-    <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
-    <app-route
-        route="{{route}}"
-        pattern="[[rootPath]]:page"
-        data="{{routeData}}"
-        tail="{{subroute}}"></app-route>
-
-    <app-drawer-layout fullbleed>
-      
-      <!-- Main content -->
+    <!-- Main content -->
       <app-header-layout has-scrolling-region>
+        <app-header id="header" effects="waterfall fade-background" reveals>
+            <app-toolbar class="toolbar">
+              <div class="tabs">
+                <a href="[[rootPath]]#about" on-tap="_onTapAnchor">Cómo funciona</a>
+                <a href="[[rootPath]]#services" on-tap="_onTapAnchor">Servicios</a>
+                <a href="[[rootPath]]#contact"on-tap="_onTapAnchor">Contacto</a>
+                <a href="[[rootPath]]">Desconectar</a>
+              </div>
+            </app-toolbar>
+
+            
+            <!-- top toolbar -->
+            <app-toolbar>
+              <!-- back button -->
+              <a href="[[rootPath]]home" tabindex="-1">
+                <paper-icon-button icon="app:arrow-back"></paper-icon-button>
+              </a>
+
+              <div main-title></div>
+
+
+            </app-toolbar>
+
+      </app-header>
+            <div class="content">
+                <div class="card">
+                    <div class="circle">1</div>
+                    <h1>Clientes</h1>
+                    <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
+                    <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+                </div>
+            </div>
         
-        <app-toolbar class="toolbar">
-          <div class="tabs">
-            <a href="[[rootPath]]#about" on-tap="_onTapAnchor">Cómo funciona</a>
-            <a href="[[rootPath]]#services" on-tap="_onTapAnchor">Servicios</a>
-            <a href="[[rootPath]]#contact"on-tap="_onTapAnchor">Contacto</a>
-            <a href="[[rootPath]]">Desconectar</a>
-          </div>
-        </app-toolbar>
-        
-        <app-drawer-layout responsive-width="1280px">
-            <app-drawer id="drawer" swipe-open slot="drawer">
-                <app-header-layout has-scrolling-region>
-                    <app-header fixed slot="header">
-                        <div class="avatar-container">
-                            <div class="image"></div>
-                        </div>
-                        <div class="contact-info">
-                            <div class="name">Nombre usuario</div>
-                            <div class="email">email@gmail.com</div>
-                        </div>
-                    </app-header>
-                    <paper-listbox 
-                        attr-for-selected="name"
-                        on-iron-activate="_drawerSelected">
-                        <paper-item name="home">
-                            <a href="[[rootPath]]home" name="name">Home</a>
-                        </paper-item>
-                        <paper-item name="proyectos">
-                            <a href="[[rootPath]]proyectos" name="name">Proyectos</a>
-                        </paper-item>
-                        <paper-item name="clientes">
-                            <a href="#" name="name">Clientes</a>
-                        </paper-item>
-                    </paper-listbox>
-                </app-header-layout>
-                
-            </app-drawer>
-            <p>Solo clientes</p>
-        </app-drawer-layout>
         
       </app-header-layout>
       
-    </app-drawer-layout>
     
   </template>
 

@@ -21,7 +21,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-form/iron-form.html">
 
@@ -33,25 +32,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+
 <link rel="import" href="../bower_components/app-layout/demo/sample-content.html">
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 
 <link rel="import" href="x-login.html">
 <link rel="import" href="x-register.html">
-<link rel="import" href="x-proyectos.html">
-<link rel="import" href="x-clientes.html">
-<link rel="import" href="x-cuenta.html">
-<link rel="import" href="x-verProyecto.html">
 <link rel="import" href="global-config.js">
-<link rel="import" href="app-icons.html">
+<link rel="import" href="styles.html">
 
-
-<dom-module id="x-home">
+<dom-module id="x-cuenta">
 
   <template>
 
-    <style>
+    <style include="styles">
 
       a {
         text-decoration: none;
@@ -178,13 +173,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       height: 54px;
     }
 
-     paper-item {
-      @apply(--layout-center-center);
-      height: 54px;
+    paper-item > a {
+      width: 100%;
+      height: 100%;
+      line-height: 54px;
+      text-align: center;
+      text-decoration: none;
+      color: black;
+      margin: 20px ;
     }
 
     paper-icon-button {
       --paper-icon-button-ink-color: white;
+    }
+    
+    paper-fab {
+      left:1200px;
     }
 
       @media (max-width: 600px) {
@@ -194,89 +198,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
-    <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
-    <app-route
-        route="{{route}}"
-        pattern="[[rootPath]]:page"
-        data="{{routeData}}"
-        tail="{{subroute}}"></app-route>
-
-    
-      
-      <!-- Main content -->
+    <!-- Main content -->
       <app-header-layout has-scrolling-region>
-        
-        <app-toolbar class="toolbar">
-          <div class="tabs">
-            <a href="[[rootPath]]#about" on-tap="_onTapAnchor">Cómo funciona</a>
-            <a href="[[rootPath]]#services" on-tap="_onTapAnchor">Servicios</a>
-            <a href="[[rootPath]]#contact"on-tap="_onTapAnchor">Contacto</a>
-            <a href="[[rootPath]]">Desconectar</a>
-          </div>
-        </app-toolbar>
-        
-        <app-drawer-layout responsive-width="1280px">
-            <app-drawer id="drawer" swipe-open slot="drawer">
-                <app-header-layout has-scrolling-region>
-                    <app-header fixed slot="header">
-                        <div class="avatar-container">
-                            <div class="image"></div>
-                        </div>
-                        <div class="contact-info">
-                            <div class="name">Nombre usuario</div>
-                            <div class="email">email@gmail.com</div>
-                        </div>
-                    </app-header>
-                    <paper-listbox 
-                        selected="{{routeData.page}}"
-                        attr-for-selected="name"
-                        on-iron-activate="_drawerSelected">
-                        <paper-item name="home">
-                            Home
-                          </paper-item>
-                        <paper-item name="proyectos">
-                            Proyectos
-                        </paper-item>
-                        <paper-item name="clientes">
-                            Clientes
-                        </paper-item>
-                        <paper-item name="cuenta">
-                            Cuenta
-                        </paper-item>
-                    </paper-listbox>
-                </app-header-layout>
-                
-            </app-drawer>
-        <iron-pages
-                    selected="[[routeData.page]]"
-                    attr-for-selected="name"
-                    >
-          <iron-ajax url="../data/proyectos.json" auto last-response="{{proyectos}}"></iron-ajax>
-          <x-proyectos name="proyectos" proyectos="[[proyectos]]">
-              <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-          </x-proyectos>
-          <x-clientes name="clientes">
-              <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-          </x-clientes->
-          
-          <x-cuenta0 name="cuenta">
-              <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-          </x-cuenta->
-          <x-verProyecto
-            name="proyecto"
-            proyectoid="{{_idData.id}}"
-            user="{{user}}">
-        </x-verProyecto>
-        </iron-pages>  
-        </app-drawer-layout>
+        <app-header id="header" effects="waterfall fade-background" reveals>
+            <app-toolbar class="toolbar">
+              <div class="tabs">
+                <a href="[[rootPath]]#about" on-tap="_onTapAnchor">Cómo funciona</a>
+                <a href="[[rootPath]]#services" on-tap="_onTapAnchor">Servicios</a>
+                <a href="[[rootPath]]#contact"on-tap="_onTapAnchor">Contacto</a>
+                <a href="[[rootPath]]">Desconectar</a>
+              </div>
+            </app-toolbar>
+
             
+            <!-- top toolbar -->
+            <app-toolbar>
+              <!-- back button -->
+              <a href="[[rootPath]]home" tabindex="-1">
+                <paper-icon-button icon="app:arrow-back"></paper-icon-button>
+              </a>
+
+              <div main-title></div>
+
+
+            </app-toolbar>
+
+      </app-header>
+            <div class="content">
+                <center><img src="../media/cuenta.jpg" /></center>
+                <div class="card">
+                    
+                    <h1>Datos personales</h1>
+                    <p>Nombre y Apellidos: <paper-input value="Elena Morón Muela"></paper-input></p>
+                    
+                    <p>DNI:<paper-input value="09065705w"></paper-input></p>
+                    <p>Fecha Nacimiento:<paper-input value="20/02/1993"></paper-input></p>
+                    <p>Nacionalidad:<paper-input value="Española"></paper-input></p>
+                    <p>Domicilio:<paper-input value="C/Rio Orbigo"></paper-input></p>
+                    <p>Telefóno/email:<paper-input value="606567360  / 93elena@hotmail.es"></paper-input></p>
+                    <paper-fab icon="app:create"></paper-fab>
+                    <paper-fab icon="app:add"></paper-fab>
+                </div>
+            </div>
         
         
       </app-header-layout>
       
-      
-      
-    
     
   </template>
 
@@ -290,7 +257,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     };
     Polymer({
 
-      is: 'x-home',
+      is: 'x-cuenta',
       
       
       properties: {
