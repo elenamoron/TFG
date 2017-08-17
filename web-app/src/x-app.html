@@ -129,16 +129,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
-    <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+    <app-location route="{{route}}" use-hash-as-path></app-location>
     <app-route
         route="{{route}}"
-        pattern="lolo"
+        pattern="/:page"
         data="{{routeData}}"
         tail="{{subroute}}"
-        active="{{active}}" >
-            
+        active="{{active}}">
     </app-route>
-
+    <app-route
+        route="{{subRoute}}"
+        pattern="/:id"
+        data="{{_idData}}"
+        active="{{activeSubroute}}"></app-route>
+    
+    
     <app-drawer-layout fullbleed>
       
       <!-- Main content -->
@@ -157,12 +162,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           
           
         <header>
-            <p>Hola [[subroute.path]]</p>
+            <div>hola {{page}}</div>
             <div>Route is <span hidden$="{{active}}">not</span> active.</div>
             <iron-pages
-                selected="[[page]]"
+                selected="[[routeData.page]]"
                 attr-for-selected="name"
-                role="main">
+                selected-attribute="visible"
+                >
  
                 <x-register name="register"></x-register>
                 <x-login name="login"></x-login>
@@ -225,8 +231,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         api_host: 'https://prueba.com',
         api_url_base: '/TFG/elena'
     };
+    
     Polymer({
-
+        
       is: 'x-app',
       
       
@@ -245,7 +252,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         '_routePageChanged(routeData.page)',
       ],
       attached: function() {
-      this.async(function() {
+        this.async(function() {
         if (!this.route.path) {
           this.set('route.path', '/');
         }

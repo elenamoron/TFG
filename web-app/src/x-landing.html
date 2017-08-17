@@ -131,27 +131,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
-    <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+    <app-location route="{{route}}" use-hash-as-path></app-location>
     <app-route
         route="{{route}}"
-        pattern="[[rootPath]]:page"
+        pattern="/:page"
         data="{{routeData}}"
         tail="{{subroute}}"
         active="{{active}}">
     </app-route>
+    <app-route
+        route="{{subRoute}}"
+        pattern="/:id"
+        data="{{_idData}}"
+        active="{{activeSubroute}}"></app-route>
     
     
     <iron-pages
-            selected="[[page]]"
+            selected="[[routeData.page]]"
             attr-for-selected="name"
-            role="main">
+            selected-attribute="visible">
         <x-app name=""></x-app>     
         <x-home name="home"></x-home>
         <x-proyectos name="proyectos"></x-proyectos>
         <x-clientes name="clientes"></x-clientes>
         <x-cuenta name="cuenta"></x-cuenta>
     </iron-pages>
-        <div>hola</div>
+        <div>hola {{routeData.page}}</div>
     <div>Route is <span hidden$="{{active}}">not</span> active.</div>
   </template>
 
@@ -186,7 +191,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _routePageChanged: function(page) {
         this.page = page ;
-        console.log("asd");
       },
       _pageChanged: function(page) {
           if(!page){
