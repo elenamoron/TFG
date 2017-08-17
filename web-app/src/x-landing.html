@@ -36,8 +36,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 
 <link rel="import" href="x-app.html">
-<link rel="import" href="x-register.html">
-<link rel="import" href="x-login.html">
 <link rel="import" href="x-home.html">
 <link rel="import" href="x-proyectos.html">
 <link rel="import" href="x-clientes.html">
@@ -138,21 +136,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         route="{{route}}"
         pattern="[[rootPath]]:page"
         data="{{routeData}}"
-        tail="{{subroute}}">
+        tail="{{subroute}}"
+        active="{{active}}">
     </app-route>
+    
     
     <iron-pages
             selected="[[page]]"
             attr-for-selected="name"
             role="main">
-        <x-app name=""></x-app>
-        <x-register name="register"></x-register>
-        <x-login name="login"></x-login>
+        <x-app name=""></x-app>     
         <x-home name="home"></x-home>
         <x-proyectos name="proyectos"></x-proyectos>
         <x-clientes name="clientes"></x-clientes>
         <x-cuenta name="cuenta"></x-cuenta>
     </iron-pages>
+        <div>hola</div>
+    <div>Route is <span hidden$="{{active}}">not</span> active.</div>
   </template>
 
 
@@ -186,14 +186,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _routePageChanged: function(page) {
         this.page = page ;
+        console.log("asd");
       },
       _pageChanged: function(page) {
           if(!page){
               return;
           }
         // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
-        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+        //var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
+        //this.importHref(resolvedPageUrl, null, this._showPage404, true);
       },
       _showPage404: function() {
         this.page = 'view404';

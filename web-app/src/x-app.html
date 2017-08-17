@@ -132,9 +132,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
     <app-route
         route="{{route}}"
-        pattern="[[rootPath]]:page"
+        pattern="lolo"
         data="{{routeData}}"
-        tail="{{subroute}}"></app-route>
+        tail="{{subroute}}"
+        active="{{active}}" >
+            
+    </app-route>
 
     <app-drawer-layout fullbleed>
       
@@ -151,11 +154,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </app-toolbar>
         
+          
+          
         <header>
-          
-          
-          
+            <p>Hola [[subroute.path]]</p>
+            <div>Route is <span hidden$="{{active}}">not</span> active.</div>
+            <iron-pages
+                selected="[[page]]"
+                attr-for-selected="name"
+                role="main">
+ 
+                <x-register name="register"></x-register>
+                <x-login name="login"></x-login>
+            </iron-pages>
         </header>
+          
         <section id="about">
         <div class="container">
           <div>
@@ -222,10 +235,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           password: String ,
           route: Object,
           routeData: Object,
-         page: {
-          type: String,
-          reflectToAttribute: true,
-          observer: '_pageChanged',
+          page: {
+            type: String,
+            reflectToAttribute: true,
+            observer: '_pageChanged',
         },
       },
       observers: [
@@ -234,7 +247,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       attached: function() {
       this.async(function() {
         if (!this.route.path) {
-          this.set('route.path', '/home');
+          this.set('route.path', '/');
         }
       });
     },
@@ -245,8 +258,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _pageChanged: function(page) {
           if(!page){return;}
         // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
-        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+        //var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
+        //this.importHref(resolvedPageUrl, null, this._showPage404, true);
       },
       _showPage404: function() {
         this.page = 'view404';
