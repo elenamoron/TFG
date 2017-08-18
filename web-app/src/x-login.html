@@ -118,16 +118,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-header-layout has-scrolling-region>
 
       
-
-        <app-toolbar class="toolbar">
-          <div class="tabs">
-            <a href="[[rootPath]]#about" on-tap="_onTapAnchor">Cómo funciona</a>
-            <a href="[[rootPath]]#services" on-tap="_onTapAnchor">Servicios</a>
-            <a href="[[rootPath]]#contact"on-tap="_onTapAnchor">Contacto</a>
-          </div>
-        </app-toolbar>
-
-      
         <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
         <app-route
             route="{{route}}"
@@ -145,16 +135,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </iron-pages>
       <header>
 
-              <img src="../media/bienvenido.jpg">
+          <h1>Iniciando sesión</h1>
 
               <div>
                 <form is="iron-form" id="form">
-                    <p>Email:</p>
                     <paper-input id="email"
                       type="email"
                       label="email"
                       required></paper-input>
-                    <p>Contraseña:</p>
                     <paper-input id="password"
                       type="password"
                       label="password"

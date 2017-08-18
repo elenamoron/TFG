@@ -129,7 +129,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
-    <app-location route="{{route}}" use-hash-as-path></app-location>
+    
     <app-route
         route="{{route}}"
         pattern="/:page"
@@ -137,12 +137,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         tail="{{subroute}}"
         active="{{active}}">
     </app-route>
-    <app-route
-        route="{{subRoute}}"
-        pattern="/:id"
-        data="{{_idData}}"
-        active="{{activeSubroute}}"></app-route>
-    
     
     <app-drawer-layout fullbleed>
       
@@ -154,16 +148,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <a href="#about" on-tap="_onTapAnchor">Cómo funciona</a>
             <a href="#services" on-tap="_onTapAnchor">Servicios</a>
             <a href="#contact"on-tap="_onTapAnchor">Contacto</a>
-            <a href="[[rootPath]]register">Registrate</a>
-            <a href="[[rootPath]]login">Iniciar sesión</a>
+            <a href="#/[[basepath]]/register">Registrate</a>
+            <a href="#/[[basepath]]/login">Iniciar sesión</a>
           </div>
         </app-toolbar>
         
           
           
         <header>
-            <div>hola {{page}}</div>
-            <div>Route is <span hidden$="{{active}}">not</span> active.</div>
             <iron-pages
                 selected="[[routeData.page]]"
                 attr-for-selected="name"
@@ -246,7 +238,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             type: String,
             reflectToAttribute: true,
             observer: '_pageChanged',
-        },
+          },
+          basepath: String
       },
       observers: [
         '_routePageChanged(routeData.page)',

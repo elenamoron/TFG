@@ -139,25 +139,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         tail="{{subroute}}"
         active="{{active}}">
     </app-route>
-    <app-route
-        route="{{subRoute}}"
-        pattern="/:id"
-        data="{{_idData}}"
-        active="{{activeSubroute}}"></app-route>
-    
     
     <iron-pages
             selected="[[routeData.page]]"
             attr-for-selected="name"
             selected-attribute="visible">
-        <x-app name=""></x-app>     
+        <x-app name="app" route="{{subroute}}" basepath="{{routeData.page}}"></x-app>     
         <x-home name="home"></x-home>
         <x-proyectos name="proyectos"></x-proyectos>
         <x-clientes name="clientes"></x-clientes>
         <x-cuenta name="cuenta"></x-cuenta>
     </iron-pages>
-        <div>hola {{routeData.page}}</div>
-    <div>Route is <span hidden$="{{active}}">not</span> active.</div>
   </template>
 
 
@@ -176,7 +168,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: String,
           reflectToAttribute: true,
           observer: '_pageChanged',
-        },
+        }
       },
       observers: [
         '_routePageChanged(routeData.page)',
@@ -190,6 +182,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     },
 
       _routePageChanged: function(page) {
+                    console.log(this.routeData);
+
         this.page = page ;
       },
       _pageChanged: function(page) {
