@@ -37,7 +37,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 
 <link rel="import" href="x-login.html">
-<link rel="import" href="x-register.html">
+<link rel="import" href="x-new.html">
 <link rel="import" href="global-config.js">
 <link rel="import" href="styles.html">
 
@@ -198,19 +198,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </style>
 
-    
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
       
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
         <app-header id="header" effects="waterfall fade-background" reveals>
-            <app-toolbar class="toolbar">
-              <div class="tabs">
-                <a href="[[rootPath]]#about" on-tap="_onTapAnchor">Cómo funciona</a>
-                <a href="[[rootPath]]#services" on-tap="_onTapAnchor">Servicios</a>
-                <a href="[[rootPath]]#contact"on-tap="_onTapAnchor">Contacto</a>
-                <a href="[[rootPath]]">Desconectar</a>
-              </div>
-            </app-toolbar>
+            
 
             
             <!-- top toolbar -->

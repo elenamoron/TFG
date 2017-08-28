@@ -8,32 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-
-<link rel="import" href="../bower_components/polymer/polymer.html">
-
-<link rel="import" href="../bower_components/app-route/app-location.html">
-<link rel="import" href="../bower_components/app-route/app-route.html">
-<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
-<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
-
-
-<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/iron-form/iron-form.html">
-
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
-<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
-<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
-<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../bower_components/app-layout/demo/sample-content.html">
+<link rel="import" href="elements.html">
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 
 <link rel="import" href="x-login.html">
@@ -205,69 +180,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
         
-        <app-toolbar class="toolbar">
-          <div class="tabs">
-            <a href="[[rootPath]]#about" on-tap="_onTapAnchor">Cómo funciona</a>
-            <a href="[[rootPath]]#services" on-tap="_onTapAnchor">Servicios</a>
-            <a href="[[rootPath]]#contact"on-tap="_onTapAnchor">Contacto</a>
-            <a href="[[rootPath]]">Desconectar</a>
-          </div>
-        </app-toolbar>
         
-        <app-drawer-layout responsive-width="1280px">
-            <app-drawer id="drawer" swipe-open slot="drawer">
-                <app-header-layout has-scrolling-region>
-                    <app-header fixed slot="header">
-                        <div class="avatar-container">
-                            <div class="image"></div>
-                        </div>
-                        <div class="contact-info">
-                            <div class="name">Nombre usuario</div>
-                            <div class="email">email@gmail.com</div>
-                        </div>
-                    </app-header>
-                    <paper-listbox 
-                        selected="{{routeData.page}}"
-                        attr-for-selected="name"
-                        on-iron-activate="_drawerSelected">
-                        <paper-item name="home">
-                            Home
-                          </paper-item>
-                        <paper-item name="proyectos">
-                            Proyectos
-                        </paper-item>
-                        <paper-item name="clientes">
-                            Clientes
-                        </paper-item>
-                        <paper-item name="cuenta">
-                            Cuenta
-                        </paper-item>
-                    </paper-listbox>
-                </app-header-layout>
-                
-            </app-drawer>
-        <iron-pages
-                    selected="[[routeData.page]]"
-                    attr-for-selected="name"
-                    >
-          <iron-ajax url="../data/proyectos.json" auto last-response="{{proyectos}}"></iron-ajax>
-          <x-proyectos name="proyectos" proyectos="[[proyectos]]">
-              <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-          </x-proyectos>
-          <x-clientes name="clientes">
-              <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-          </x-clientes->
-          
-          <x-cuenta0 name="cuenta">
-              <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-          </x-cuenta->
-          <x-verProyecto
-            name="proyecto"
-            proyectoid="{{_idData.id}}"
-            user="{{user}}">
-        </x-verProyecto>
-        </iron-pages>  
-        </app-drawer-layout>
+        
+        <paper-drawer-panel>
+            <paper-header-panel drawer>
+                <paper-toolbar></paper-toolbar>
+                <div> Drawer contet ...</div>
+            </paper-header-panel>
+            <paper-header-panel main>
+                <app-toolbar class="toolbar">
+                    <div class="tabs">
+                      <a href="[[rootPath]]#about" on-tap="_onTapAnchor">Cómo funciona</a>
+                      <a href="[[rootPath]]#services" on-tap="_onTapAnchor">Servicios</a>
+                      <a href="[[rootPath]]#contact"on-tap="_onTapAnchor">Contacto</a>
+                      <a href="[[rootPath]]">Desconectar</a>
+                    </div>
+                </app-toolbar>
+                <div>Main content...</div>
+            </paper-header-panel>
+        </paper-drawer-panel>
             
         
         

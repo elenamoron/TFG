@@ -19,7 +19,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
@@ -27,7 +26,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 
 <link rel="import" href="../bower_components/app-layout/demo/sample-content.html">
-
+<link rel="import" href="x-home.html">
 <dom-module id="x-register">
     <style>
 
@@ -105,10 +104,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .container p {
         line-height: 1.5;
       }
-      
-      .form {
-         margin: 12px 16px 12px;
-      }
 
       @media (max-width: 600px) {
         .container {
@@ -120,110 +115,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <template>
 
-    <app-header-layout>
+    <app-header-layout has-scrolling-region>
 
-      <app-header reveals effects="waterfall" slot="header">
+      
+        <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
+        <app-route
+            route="{{route}}"
+            pattern="[[rootPath]]:page"
+            data="{{routeData}}"
+            tail="{{subroute}}">
+        </app-route>
 
-        <app-toolbar class="toolbar">
-          <div class="tabs">
-            <a href="[[rootPath]]#about" on-tap="_onTapAnchor">Cómo funciona</a>
-            <a href="[[rootPath]]#services" on-tap="_onTapAnchor">Servicios</a>
-            <a href="[[rootPath]]#contact"on-tap="_onTapAnchor">Contacto</a>
-          </div>
-        </app-toolbar>
+        <iron-pages
+                selected="[[page]]"
+                attr-for-selected="name"
+                role="main">
+            <x-home name="home"></x-home>
 
-      </app-header>
+        </iron-pages>
+      <header>
 
-     
-        <body>
-            <center><img src="../media/bienvenido.jpg"></center>
+          <h1>Registro</h1>
+
               <div>
-                <form is="iron-form" id="form" class="form">
-                    <p>Email:</p>
+                <form is="iron-form" id="form">
+                    <paper-input id="nombre"
+                      type="text"
+                      label="nombre"
+                      required></paper-input>
+                    
                     <paper-input id="email"
                       type="email"
                       label="email"
                       required></paper-input>
-                    <p>Contraseña:</p>
                     <paper-input id="password"
                       type="password"
                       label="password"
                       required></paper-input>
-                    <p>Nombre de la empresa:</p>
-                    <paper-input id="name"
-                      type="text"
-                      label="nombre empresa"
-                      required></paper-input>
-                    <p>CIF:</p>
-                    <paper-input id="cif"
-                      type="text"
-                      label="CIF"
-                      required></paper-input>
-                    <p>Ciudad:</p>
-                    <paper-input id="ciudad"
-                      type="text"
-                      label="Ciudad"
-                      required></paper-input>
-                    <p>Fecha de constitución:</p>
-                    <paper-input id="fecha"
-                      type="date"
-                      label="fecha constitución"
-                      required></paper-input>
-                    <p>Sector:</p>
-                    <paper-input id="sector"
-                      type="text"
-                      label="sector"
-                      required></paper-input>
-                    <p>Forma Jurídica:</p>
-                    <paper-radio-button>Sociedad anónima</paper-radio-button>
-                    <paper-radio-button>Sociedad limitada</paper-radio-button>
-                    <paper-radio-button>Otros</paper-radio-button>
-                    <p>Inscrita/ Registrada en :</p>
-                    <paper-radio-button>Registro Mercantil</paper-radio-button><br>
-                    <paper-radio-button>Registro de Asociaciones y Partidos Políticos</paper-radio-button><br>
-                    <paper-radio-button>Registro Asociaciones Deportivas</paper-radio-button><br>
-                    <paper-radio-button>Registro General de Cooperativas</paper-radio-button><br>
-                    <paper-radio-button>Registro de Entidades Religiosas</paper-radio-button><br>
-                    <paper-radio-button>Registro de Fundaciones de Mº de Justicia e interior</paper-radio-button><br>
-                    <paper-radio-button>Otros registros públicos</paper-radio-button>
-                    <p>Número de inscripción:</p>
-                    <paper-input id="inscrip"
-                      type="text"
-                      label="numero de inscripcion"
-                      required></paper-input>
-                    <p>Domicilio fiscal:</p>
-                    <p>Población:</p>
-                    <paper-input id="poblacion"
-                      type="text"
-                      label="poblacion"
-                      required></paper-input>
-                    <p>Provincia:</p>
-                    <paper-input id="provincia"
-                      type="text"
-                      label="provincia"
-                      required></paper-input>
-                    <p>CP:</p>
-                    <paper-input id="cp"
-                      type="text"
-                      label="código postal"
-                      required></paper-input>
-                    <p>Pais:</p>
-                    <paper-input id="pais"
-                      type="text"
-                      label="pais"
-                      required></paper-input>
-                    <p>Teléfono de contacto/email:</p>
-                    <paper-input id="contacto"
-                      type="text"
-                      label="tlf/email"
-                      required></paper-input>
-                    <paper-button raised id="login" on-tap="new_empresa" >Registar</paper-button>
+                    <paper-button raised id="login" on-tap="login" >Registrar</paper-button>
+                    <a href="[[rootPath]]home">Ir a home</a>
                 </form>
               </div>
 
 
-      </body>
-
+      </header>
+    
+    
 
 
     </app-header-layout>
@@ -237,9 +174,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'x-register',
 
       properties: {
-         user: Object
+         user: Object,
+         route: Object,
+         routeData: Object,
+         page: {
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pageChanged',
+        },
       },
-      
+      observers: [
+        '_routePageChanged(routeData.page)',
+      ],
+      attached: function() {
+      this.async(function() {
+        if (!this.route.path) {
+          this.set('route.path', '/home');
+        }
+      });
+    },
+
+      _routePageChanged: function(page) {
+        this.page = page ;
+      },
+      _pageChanged: function(page) {
+          if(!page){
+              return;
+          }
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
+        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+      },
+      _showPage404: function() {
+        this.page = 'view404';
+      },  
+
       _isHomePage: function(page) {
             return page === 'home';
         },
@@ -306,14 +275,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
         });
     },
-      new_empresa: function(){
+      login: function(){
           this.user = this.$.email.value;
           this.password = this.$.password.value;
           if(!this.user || !this.password){
               alert("Todos los campos son necesarios");
           }
           this.ajax_post(
-            '/new_empresa'.post_login,
+            '/login'.post_login,
             {
                 username: this.user,
                 password: this.password
