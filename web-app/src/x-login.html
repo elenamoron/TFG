@@ -20,6 +20,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
@@ -132,7 +133,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       type="password"
                       label="password"
                       required></paper-input>
-                    <paper-button raised id="login" on-tap="login" >Entrar</paper-button>
+                    <paper-button on-tap="postData" >Entrar</paper-button>
+                    <iron-ajax 
+                        id="dataAjax" 
+                        method="post"
+                        url="data/url"
+                        on-response="postComplete">
+                            
+                    </iron-ajax>
                     <a href="#/[[route]]/home">Ir a home</a>
                 </form>
               </div>
@@ -146,6 +154,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </app-header-layout>
 
   </template>
+  <script src="script.js"></script>
 
   <script>
 
@@ -255,6 +264,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
         });
     },
+    postData: function () {
+
+      
+        this.$.dataAjax.generateRequest();
+  },
       login: function(){
           this.user = this.$.email.value;
           this.password = this.$.password.value;

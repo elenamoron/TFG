@@ -49,285 +49,284 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <dom-module id="x-home">
 
-  <template>
+    <template>
 
-    <style>
+        <style>
 
-      a {
-        text-decoration: none;
-        font-size: inherit;
-        color: inherit;
-      }
+            a {
+                text-decoration: none;
+                font-size: inherit;
+                color: inherit;
+            }
 
-      .toolbar {
-        @apply --layout-horizontal;
-        @apply --layout-end-justified;
-        background-color: rgba(255, 255, 255, 0.95);
-      }
+            .toolbar {
+                @apply --layout-horizontal;
+                @apply --layout-end-justified;
+                background-color: rgba(255, 255, 255, 0.95);
+            }
 
-      .tabs {
-        height: 100%;
-        @apply --layout-horizontal;
-      }
+            .tabs {
+                height: 100%;
+                @apply --layout-horizontal;
+            }
 
-      .tabs > a {
-        @apply --layout-vertical;
-        @apply --layout-center-center;
-        margin: 12px 16px 12px;
-        border-bottom: 1px solid #222;
-      }
+            .tabs > a {
+                @apply --layout-vertical;
+                @apply --layout-center-center;
+                margin: 12px 16px 12px;
+                border-bottom: 1px solid #222;
+            }
 
-      header {
-        @apply --layout-vertical;
-        @apply --layout-center-center;
-        height:  500px;
-        witdh: 100%;
-        padding: 0 16px;
-        background-image: url('../media/Puzzle.jpg');
-        backgrond-repeat: no-repeat;
-        background-size: 100% 100%;
-        color: black;
-        text-align: center;
-      }
+            header {
+                @apply --layout-vertical;
+                @apply --layout-center-center;
+                height:  500px;
+                witdh: 100%;
+                padding: 0 16px;
+                background-image: url('../media/Puzzle.jpg');
+                backgrond-repeat: no-repeat;
+                background-size: 100% 100%;
+                color: black;
+                text-align: center;
+            }
 
-      header > h2 {
-        font-size: 56px;
-        font-weight: 300;
-        margin: 0;
-      }
+            header > h2 {
+                font-size: 56px;
+                font-weight: 300;
+                margin: 0;
+            }
 
-      header > p {
-        font-size: 32px;
-      }
+            header > p {
+                font-size: 32px;
+            }
 
-      section {
-        padding: 88px 16px;
-      }
+            section {
+                padding: 88px 16px;
+            }
 
-      .container {
-        @apply --layout-horizontal;
-        max-width: 800px;
-        margin: 0 auto;
-      }
+            .container {
+                @apply --layout-horizontal;
+                max-width: 800px;
+                margin: 0 auto;
+            }
 
-      .container > * {
-        @apply --layout-flex;
-      }
+            .container > * {
+                @apply --layout-flex;
+            }
 
-      .container img {
-        max-width: 100%;
-        max-height: 100%;
-      }
+            .container img {
+                max-width: 100%;
+                max-height: 100%;
+            }
 
-      .container h3 {
-        font-size: 32px;
-        font-weight: 300;
-        margin: 24px 0;
-      }
+            .container h3 {
+                font-size: 32px;
+                font-weight: 300;
+                margin: 24px 0;
+            }
 
-      .container p {
-        line-height: 1.5;
-      }
-      
-      :host {
-      --paper-font-common-base: {
-        font-family: Raleway, sans-serif;
-      };
-    }
+            .container p {
+                line-height: 1.5;
+            }
 
-    app-drawer-layout:not([narrow]) [drawer-toggle] {
-      display: none;
-    }
+            :host {
+                --paper-font-common-base: {
+                    font-family: Raleway, sans-serif;
+                };
+            }
 
-    .avatar-container {
-      position: relative;
-      border: 2px solid #00AA8D;
-      border-radius: 50%;
-      height: 60px;
-      padding: 2px;
-      width: 60px;
-      margin: 20px auto;
-    }
+            app-drawer-layout:not([narrow]) [drawer-toggle] {
+                display: none;
+            }
 
-    .avatar-container .image {
-      background-image: url('//app-layout-assets.appspot.com/assets/pesto/avatar.jpg');
-      background-size: contain;
-      border-radius: 50%;
-      height: 100%;
-      width: 100%;
-    }
+            .avatar-container {
+                position: relative;
+                border: 2px solid #00AA8D;
+                border-radius: 50%;
+                height: 60px;
+                padding: 2px;
+                width: 60px;
+                margin: 20px auto;
+            }
 
-    .contact-info {
-      margin: 0 20px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #CCC;
-      text-align: center;
-    }
+            .avatar-container .image {
+                background-image: url('//app-layout-assets.appspot.com/assets/pesto/avatar.jpg');
+                background-size: contain;
+                border-radius: 50%;
+                height: 100%;
+                width: 100%;
+            }
 
-    .contact-info .name {
-      font-weight: bold;
-      font-size:15px
-    }
+            .contact-info {
+                margin: 0 20px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid #CCC;
+                text-align: center;
+            }
 
-    .contact-info .email {
-      color: #999;
-      font-size:15px
-    }
+            .contact-info .name {
+                font-weight: bold;
+                font-size:15px
+            }
 
-    paper-item {
-      height: 54px;
-    }
+            .contact-info .email {
+                color: #999;
+                font-size:15px
+            }
 
-     paper-item {
-      @apply(--layout-center-center);
-      height: 54px;
-    }
+            paper-item {
+                height: 54px;
+            }
 
-    paper-icon-button {
-      --paper-icon-button-ink-color: white;
-    }
+            paper-item {
+                @apply(--layout-center-center);
+                height: 54px;
+            }
 
-      @media (max-width: 600px) {
-        .container {
-          @apply --layout-vertical;
-        }
-      }
+            paper-icon-button {
+                --paper-icon-button-ink-color: white;
+            }
 
-    </style>
-    <app-route
-        route="{{route}}"
-        pattern="/:page"
-        data="{{routeData}}"
-        tail="{{subroute}}"></app-route>
+            @media (max-width: 600px) {
+                .container {
+                    @apply --layout-vertical;
+                }
+            }
 
-    
-      
-      <!-- Main content -->
-      <app-header-layout has-scrolling-region>
-        <app-toolbar class="toolbar">
-          <div class="tabs">
-            <a href="/#/app/">Desconectar</a>
-          </div>
-        </app-toolbar>
+        </style>
+        <app-route
+            route="{{route}}"
+            pattern="/:page"
+            data="{{routeData}}"
+            tail="{{subroute}}"></app-route>
         
+
         <app-drawer-layout responsive-width="1280px">
+            
+            <app-toolbar class="toolbar">
+                <div class="tabs">
+                    <a href="/#/app/">Desconectar</a>
+                </div>
+            </app-toolbar>
+
+            <!-- nav panel -->
             <app-drawer id="drawer" swipe-open slot="drawer">
                 <app-header-layout has-scrolling-region>
+
                     <app-header fixed slot="header">
-                        <div class="avatar-container">
-                            <div class="image"></div>
-                        </div>
-                        <div class="contact-info">
-                            <div class="name">Nombre usuario</div>
-                            <div class="email">email@gmail.com</div>
-                        </div>
+                      <div class="avatar-container">
+                        <div class="image"></div>
+                      </div>
+                      <div class="contact-info">
+                        <div class="name">Jonathan</div>
+                        <div class="email">heyfromjonathan@gmail.com</div>
+                      </div>
                     </app-header>
-                    <paper-listbox 
-                        selected="{{routeData.page}}"
-                        attr-for-selected="name">
-                        <paper-item name="home">
-                            Home
-                          </paper-item>
-                        <paper-item name="proyectos">
-                            Proyectos
-                        </paper-item>
-                        <paper-item name="clientes">
-                            Clientes
-                        </paper-item>
-                        <paper-item name="cuenta">
-                            Cuenta
-                        </paper-item>
-                    </paper-listbox>
+
+                  <!-- nav menu -->
+                  <!-- Two way binding to the selected property has been removed due to polymer/issues/4405 -->
+                  <paper-listbox
+                      selected="[[_pageData.page]]"
+                      attr-for-selected="name"
+                      on-iron-activate="_drawerSelected">
+                    <paper-item name="clientes">
+                      <a href="#/clientes" name="name">Clientes</a>
+                    </paper-item>
+                    <paper-item name="proyectos">
+                      <a href="#/proyectos" name="name">Proyectos</a>
+                    </paper-item>
+                    <paper-item name="cuenta">
+                      <a href="#/cuenta" name="name">Cuenta</a>
+                    </paper-item>
+                  </paper-listbox>
                 </app-header-layout>
-                
             </app-drawer>
-        <iron-pages
-                    selected="[[routeData.page]]"
-                    attr-for-selected="name"
-                    >
-          <iron-ajax url="../data/proyectos.json" auto last-response="{{proyectos}}"></iron-ajax>
-          <x-proyectos name="proyectos" proyectos="[[proyectos]]">
-              <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-          </x-proyectos>
-          <x-clientes name="clientes">
-              <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-          </x-clientes->
-          
-          <x-cuenta name="cuenta">
-              <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-          </x-cuenta->
-          <x-verProyecto
-            name="proyecto"
-            proyectoid="{{_idData.id}}"
-            user="{{user}}">
-        </x-verProyecto>
-        </iron-pages>  
+
+            <!-- list/detail pages -->
+            <iron-pages selected="[[_selectedPage]]" attr-for-selected="name">
+
+        <recipe-list name="home" recipes="[[recipes]]">
+          <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
+        </recipe-list>
+
+        <recipe-list name="favorites">
+          <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
+        </recipe-list>
+
+        <recipe-list name="saved">
+          <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
+        </recipe-list>
+
+        <recipe-list name="trending">
+          <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
+        </recipe-list>
+
+        <recipe-detail
+            id="detailView"
+            name="detail"
+            recipe="[[_getRecipe(recipes, _idData.id)]]"></recipe-detail>
+
+      </iron-pages>
+
         </app-drawer-layout>
-            
-        
-        
-      </app-header-layout>
-      
-      
-      
-    
-    
-  </template>
+
+    </template>
 
 
-  
-  <script>
-      var global_config = {
-        access_token: 'Bearer a98988f7bdece40715673967ffa874cd11fee1f2c1b67d1a07983983effbd442',
-        api_host: 'https://prueba.com',
-        api_url_base: '/TFG/elena'
-    };
-    Polymer({
 
-      is: 'x-home',
-      
-      
-      properties: {
-          user: String ,
-          password: String ,
-          route: Object,
-          routeData: Object,
-         page: {
-          type: String,
-          reflectToAttribute: true,
-          observer: '_pageChanged',
-        },
-      },
-      observers: [
-        '_routePageChanged(routeData.page)',
-      ],
-      attached: function() {
-      this.async(function() {
-        if (!this.route.path) {
-          this.set('route.path', '/');
-        }
-      });
-    },
+    <script>
+                          var global_config = {
+                              access_token: 'Bearer a98988f7bdece40715673967ffa874cd11fee1f2c1b67d1a07983983effbd442',
+                              api_host: 'https://prueba.com',
+                              api_url_base: '/TFG/elena'
+                          };
+                          Polymer({
 
-      _routePageChanged: function(page) {
-        this.page = page ;
-      },
-      _pageChanged: function(page) {
-          if(!page){return;}
-        // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
-        this.importHref(resolvedPageUrl, null, this._showPage404, true);
-      },
-      _showPage404: function() {
-        this.page = 'view404';
-      },  
-    
-    
-    _drawerSelected: function() {
-      if (!this.$.drawer.persistent) this.$.drawer.close();
-    }
-});
+                              is: 'x-home',
 
-  </script>
+                              properties: {
+                                  user: String,
+                                  password: String,
+                                  route: Object,
+                                  routeData: Object,
+                                  page: {
+                                      type: String,
+                                      reflectToAttribute: true,
+                                      observer: '_pageChanged',
+                                  },
+                              },
+                              observers: [
+                                  '_routePageChanged(routeData.page)',
+                              ],
+                              attached: function () {
+                                  this.async(function () {
+                                      if (!this.route.path) {
+                                          this.set('route.path', '/');
+                                      }
+                                  });
+                              },
 
-</dom-module>
+                              _routePageChanged: function (page) {
+                                  this.page = page;
+                              },
+                              _pageChanged: function (page) {
+                                  if (!page) {
+                                      return;
+                                  }
+                                  // Load page import on demand. Show 404 page if fails
+                                  var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
+                                  this.importHref(resolvedPageUrl, null, this._showPage404, true);
+                              },
+                              _showPage404: function () {
+                                  this.page = 'view404';
+                              },
+
+                              _drawerSelected: function () {
+                                  if (!this.$.drawer.persistent)
+                                      this.$.drawer.close();
+                              }
+                          });
+
+                            </script>
+
+    </dom-module>
