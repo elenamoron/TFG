@@ -9,7 +9,7 @@ document.addEventListener('WebComponentsReady', function() {
     // make the iron-ajax call
     t.postData = function() {
       ajaxRequest.body = {
-        'text': t.dataToPost;
+        'text': t.dataToPost
       } 
       ajaxRequest.generateRequest();
     }
@@ -19,4 +19,4 @@ document.addEventListener('WebComponentsReady', function() {
       alert('whoa! request complete');
     }
 });
-})(document);
+});(document);

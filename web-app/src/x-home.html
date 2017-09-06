@@ -45,6 +45,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="x-verProyecto.html">
 <link rel="import" href="global-config.js">
 <link rel="import" href="app-icons.html">
+<link rel="import" href="x-backgroundhome.html">
 
 
 <dom-module id="x-home">
@@ -174,8 +175,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 font-size:15px
             }
 
-            paper-item {
-                height: 54px;
+            paper-item > a {
+                width: 100%;
+                height: 100%;
+                line-height: 54px;
+                text-align: center;
+                text-decoration: none;
+                color: black;
             }
 
             paper-item {
@@ -245,28 +251,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <!-- list/detail pages -->
             <iron-pages selected="[[_selectedPage]]" attr-for-selected="name">
 
-        <recipe-list name="home" recipes="[[recipes]]">
-          <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-        </recipe-list>
+                <x-backgroundhome name="backgroundhome">
+                  <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
+                </x-backgroundhome>
 
-        <recipe-list name="favorites">
-          <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-        </recipe-list>
+                <x-clientes name="clientes">
+                  <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
+                </x-clientes>
 
-        <recipe-list name="saved">
-          <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-        </recipe-list>
+                <x-proyectos name="proyectos">
+                  <paper-icon-button icon="appg:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
+                </x-proyectos>
 
-        <recipe-list name="trending">
-          <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-        </recipe-list>
+                <x-cuenta name="cuenta">
+                  <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
+                </x-cuenta>
 
-        <recipe-detail
-            id="detailView"
-            name="detail"
-            recipe="[[_getRecipe(recipes, _idData.id)]]"></recipe-detail>
-
-      </iron-pages>
+            </iron-pages>
 
         </app-drawer-layout>
 
@@ -275,58 +276,54 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
     <script>
-                          var global_config = {
-                              access_token: 'Bearer a98988f7bdece40715673967ffa874cd11fee1f2c1b67d1a07983983effbd442',
-                              api_host: 'https://prueba.com',
-                              api_url_base: '/TFG/elena'
-                          };
-                          Polymer({
+                          
+    Polymer({
 
-                              is: 'x-home',
+        is: 'x-home',
 
-                              properties: {
-                                  user: String,
-                                  password: String,
-                                  route: Object,
-                                  routeData: Object,
-                                  page: {
-                                      type: String,
-                                      reflectToAttribute: true,
-                                      observer: '_pageChanged',
-                                  },
-                              },
-                              observers: [
-                                  '_routePageChanged(routeData.page)',
-                              ],
-                              attached: function () {
-                                  this.async(function () {
-                                      if (!this.route.path) {
-                                          this.set('route.path', '/');
-                                      }
-                                  });
-                              },
+        properties: {
+            user: String,
+            password: String,
+            route: Object,
+            routeData: Object,
+            page: {
+                type: String,
+                reflectToAttribute: true,
+                observer: '_pageChanged',
+            },
+        },
+        observers: [
+            '_routePageChanged(routeData.page)',
+        ],
+        attached: function () {
+            this.async(function () {
+                if (!this.route.path) {
+                    this.set('route.path', '/');
+                }
+            });
+        },
 
-                              _routePageChanged: function (page) {
-                                  this.page = page;
-                              },
-                              _pageChanged: function (page) {
-                                  if (!page) {
-                                      return;
-                                  }
-                                  // Load page import on demand. Show 404 page if fails
-                                  var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
-                                  this.importHref(resolvedPageUrl, null, this._showPage404, true);
-                              },
-                              _showPage404: function () {
-                                  this.page = 'view404';
-                              },
+        _routePageChanged: function (page) {
+            this.page = page;
+        },
+        _pageChanged: function (page) {
+            if (!page) {
+                return;
+            }
+            // Load page import on demand. Show 404 page if fails
+            var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
+            this.importHref(resolvedPageUrl, null, this._showPage404, true);
+        },
+        _showPage404: function () {
+            this.page = 'view404';
+        },
 
-                              _drawerSelected: function () {
-                                  if (!this.$.drawer.persistent)
-                                      this.$.drawer.close();
-                              }
-                          });
+        _drawerSelected: function () {
+            if (!this.$.drawer.persistent)
+                this.$.drawer.close();
+        }
+    });
 
-                            </script>
+      </script>
 
     </dom-module>

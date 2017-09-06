@@ -18,7 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 
-<dom-module id="recipe-list">
+<dom-module id="backgroundhome">
   <template>
 
     <style>
@@ -157,16 +157,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </app-header>
 
       <div class="content">
-        <template is="dom-repeat" items="{{recipes}}"><!-- No empty text node
-        --><a href="#/detail/{{item.id}}" class="card-container">
-            <paper-card image="{{item.imageUrl}}">
-              <div class="card-content">
-                <h2>{{item.name}}</h2>
-                <p>By <span>{{item.author}}</span></p>
-              </div>
-            </paper-card>
-          </a><!-- No empty text node
-      --></template>
+        
       </div>
 
     </app-header-layout>
@@ -178,7 +169,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   Polymer({
 
-    is: 'recipe-list',
+    is: 'x-backgroundhome',
 
     properties: {
       recipes: Object
