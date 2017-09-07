@@ -192,7 +192,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             paper-icon-button {
                 --paper-icon-button-ink-color: white;
             }
-
+            .fondo{
+                background-size: 100%;
+            }
             @media (max-width: 600px) {
                 .container {
                     @apply --layout-vertical;
@@ -247,9 +249,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   </paper-listbox>
                 </app-header-layout>
             </app-drawer>
-
-            <!-- list/detail pages -->
-            <iron-pages selected="[[_selectedPage]]" attr-for-selected="name">
+            <div id="content">
+                <img id="fondo" src="../media/fondo_home.jpg" />
+                <iron-pages selected="[[_selectedPage]]" attr-for-selected="name">
 
                 <x-backgroundhome name="backgroundhome">
                   <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
@@ -268,6 +270,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </x-cuenta>
 
             </iron-pages>
+            </div>
+            <!-- list/detail pages -->
+            
 
         </app-drawer-layout>
 
