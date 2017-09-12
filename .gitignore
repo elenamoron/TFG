@@ -11,3 +11,5 @@
 
 /TFG/web-app/nbproject/private/
 /TFG/web-app/bower_components
+/web-app/bower_components/
+.idea
