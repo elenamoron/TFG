@@ -8,9 +8,6 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../bower_components/app-route/app-location.html">
@@ -18,27 +15,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 
-
-<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/iron-form/iron-form.html">
 
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 
-<link rel="import" href="../bower_components/app-layout/demo/sample-content.html">
-<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
 
 <link rel="import" href="x-login.html">
 <link rel="import" href="x-register.html">
 <link rel="import" href="x-home.html">
-<link rel="import" href="global-config.js">
+
 
 
 <dom-module id="x-app">
@@ -139,10 +127,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         active="{{active}}">
     </app-route>
     
-    
-        <iron-pages selected="[[usuarioLogado]]" attr-for-selected="name" fallback-selection="login">
+      
+
       <!-- Main content -->
-      <app-header-layout has-scrolling-region name="login">
+    <app-header-layout has-scrolling-region name="login">
         
         <app-toolbar class="toolbar">
           <div class="tabs">
@@ -207,20 +195,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         
       </app-header-layout>
       
-      <iron-pages
-                selected="[[routeData.page]]"
-                attr-for-selected="name"
-                selected-attribute="visible"
-                 name="logado">
- 
-                <x-home name="home"></x-home>
-            </iron-pages>
-      <app-scrollpos-control
-          selected="[[routeData.page]]"
-          reset="[[_isRegisterPage(routeData.page)]]"></app-scrollpos-control>
+    <iron-pages
+            selected="[[routeData.page]]"
+            attr-for-selected="name"
+            selected-attribute="visible"
+             name="logado">
+
+            <x-home name="home"></x-home>
+    </iron-pages>
+    <app-scrollpos-control
+      selected="[[routeData.page]]"
+      reset="[[_isRegisterPage(routeData.page)]]"></app-scrollpos-control>
+      
       
     
     
+  
+   
+  
   </template>
 
 
@@ -240,7 +232,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           page: {
             type: String,
             reflectToAttribute: true,
-            observer: '_pageChanged',
+            observer: '_pageChanged'
           },
           basepath: String,
           usuarioLogado: {
@@ -249,18 +241,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
       },
       observers: [
-        '_routePageChanged(routeData.page)',
+        '_routePageChanged(routeData.page)'
       ],
       
-      attached: function() {
-        this.async(function() {
-        if (!this.route.path) {
-          this.set('route.path', '/');
-        }
-      });
-    },
+      
     _calculaLogado: function(page){
-        return ((page!="home")?"login":"logado");
+        return ((page!=="home")?"login":"logado");
     },
 
       _routePageChanged: function(page) {
