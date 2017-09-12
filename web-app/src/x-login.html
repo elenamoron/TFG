@@ -18,186 +18,186 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 
 <dom-module id="x-login">
-   
-
-  <template>
-    <style>
-    </style>
-
-    <app-header-layout has-scrolling-region>
-
-      
-        
-      <header>
-
-          <h1>Inicio de sesión</h1>
-              <div>
-                <form is="iron-form" id="form">
-                    <paper-input id="email"
-                      type="email"
-                      label="email"
-                      required></paper-input>
-                    <paper-input id="password"
-                      type="password"
-                      label="password"
-                      required></paper-input>
-                    <paper-button on-tap="postData" >Entrar</paper-button>
-                    <iron-ajax 
-                        id="dataAjax" 
-                        method="post"
-                        url="data/url"
-                        on-response="postComplete">
-                            
-                    </iron-ajax>
-                    <a href="#/[[route]]/home">Ir a home</a>
-                </form>
-              </div>
 
 
-      </header>
-    
-    
+    <template>
+        <style>
+        </style>
+
+        <app-header-layout has-scrolling-region>
 
 
-    </app-header-layout>
 
-  </template>
-  <script src="script.js"></script>
+            <header>
 
-  <script>
+                <h1>Inicio de sesión</h1>
+                <div>
+                    <form is="iron-form" id="form">
+                        <paper-input id="email"
+                                     type="email"
+                                     label="email"
+                                     required></paper-input>
+                        <paper-input id="password"
+                                     type="password"
+                                     label="password"
+                                     required></paper-input>
+                        <paper-button on-tap="postData" >Entrar</paper-button>
+                        <iron-ajax
+                                id="dataAjax"
+                                method="post"
+                                url="data/url"
+                                on-response="postComplete">
 
-    Polymer({
+                        </iron-ajax>
+                        <a href="#/[[route]]/home">Ir a home</a>
+                    </form>
+                </div>
 
-      is: 'x-login',
 
-      properties: {
-         user: Object,
-         route: Object,
-         routeData: Object,
-         page: {
-          type: String,
-          reflectToAttribute: true,
-          observer: '_pageChanged'
-        }
-      },
-      observers: [
-        '_routePageChanged(routeData.page)'
-      ],
+            </header>
 
-      _routePageChanged: function(page) {
-        this.page = page ;
-      },
-      _pageChanged: function(page) {
-          if(!page){
-              return;
-          }
-        // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
-        this.importHref(resolvedPageUrl, null, this._showPage404, true);
-      },
-      _showPage404: function() {
-        this.page = 'view404';
-      },  
 
-      _isHomePage: function(page) {
-            return page === 'home';
-        },
-      ajax_setup : function () {
-      jQuery.ajaxSetup({
-        url: global_config.api_host + global_config.api_url_base,
-        global: false,
-        error: function (jqXHR, textStatus, errorThrown) {
-              console.error("ajax call failed: ", textStatus, errorThrown);
-            },
-            contentType: "application/json",
-            type: "GET"
-      });
-    },
 
-    ajax_get : function (endpoint, event_to_publish, callback, opts) {
-      ajax_setup();
 
-    if (!opts) opts={};
+        </app-header-layout>
 
-     var config = Object.assign({
-       url: jQuery.ajaxSettings.url + endpoint,
-         method: 'get',
-         success: function (data) {
-            if (callback) callback(data);
-         }
-        },opts);
+    </template>
+    <script src="script.js"></script>
 
-       jQuery.ajax(config);
-    },
+    <script>
 
-    ajax_post: function (endpoint, data, callback, failback) {
-      this.ajax_setup();
-        if (data) {
-          data = JSON.stringify(data);
-        }
-        jQuery.ajax({
-           url: jQuery.ajaxSettings.url + endpoint,
-             method: 'post',
-            data: data,
-            success: function (data) {
-               if (callback) callback(data);
-            },
-            error: function (data) {
-               if (failback) failback(data);
-            }
-        });
-    },
-    
-    ajax_put : function (endpoint, data, event_to_publish, callback, failback) {
-      ajax_setup();
-        if (data) {
-              data = JSON.stringify(data);
-        }
-        jQuery.ajax({
-              url: jQuery.ajaxSettings.url + endpoint,
-            method: 'put',
-            data: data,
-            success: function (data) {
-              if (callback) callback(data);
-            },
-            error: function (data) {
-               if (failback) failback(data);
-            }
-        });
-    },
-    postData: function () {
+        Polymer({
 
-      
-        this.$.dataAjax.generateRequest();
-  },
-      login: function(){
-          this.user = this.$.email.value;
-          this.password = this.$.password.value;
-          if(!this.user || !this.password){
-              alert("Todos los campos son necesarios");
-          }
-          this.ajax_post(
-            '/login'.post_login,
-            {
-                username: this.user,
-                password: this.password
-            },
-            function (data) {
-                //Success
-                if (callback) callback(data);
-            },
-            function (data) {
-                //Failure
-                //if (failback) failback(data);
-                console.log("failback");
-            }
+                    is: 'x-login',
+
+                    properties: {
+                        user: Object,
+                        route: Object,
+                        routeData: Object,
+                        page: {
+                            type: String,
+                            reflectToAttribute: true,
+                            observer: '_pageChanged'
+                        }
+                    },
+                    observers: [
+                        '_routePageChanged(routeData.page)'
+                    ],
+
+                    _routePageChanged: function(page) {
+                        this.page = page ;
+                    },
+                    _pageChanged: function(page) {
+                        if(!page){
+                            return;
+                        }
+                        // Load page import on demand. Show 404 page if fails
+                        var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
+                        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+                    },
+                    _showPage404: function() {
+                        this.page = 'view404';
+                    },
+
+                    _isHomePage: function(page) {
+                        return page === 'home';
+                    },
+                    ajax_setup : function () {
+                        jQuery.ajaxSetup({
+                            url: global_config.api_host + global_config.api_url_base,
+                            global: false,
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.error("ajax call failed: ", textStatus, errorThrown);
+                            },
+                            contentType: "application/json",
+                            type: "GET"
+                        });
+                    },
+
+                    ajax_get : function (endpoint, event_to_publish, callback, opts) {
+                        ajax_setup();
+
+                        if (!opts) opts={};
+
+                        var config = Object.assign({
+                            url: jQuery.ajaxSettings.url + endpoint,
+                            method: 'get',
+                            success: function (data) {
+                                if (callback) callback(data);
+                            }
+                        },opts);
+
+                        jQuery.ajax(config);
+                    },
+
+                    ajax_post: function (endpoint, data, callback, failback) {
+                        this.ajax_setup();
+                        if (data) {
+                            data = JSON.stringify(data);
+                        }
+                        jQuery.ajax({
+                            url: jQuery.ajaxSettings.url + endpoint,
+                            method: 'post',
+                            data: data,
+                            success: function (data) {
+                                if (callback) callback(data);
+                            },
+                            error: function (data) {
+                                if (failback) failback(data);
+                            }
+                        });
+                    },
+
+                    ajax_put : function (endpoint, data, event_to_publish, callback, failback) {
+                        ajax_setup();
+                        if (data) {
+                            data = JSON.stringify(data);
+                        }
+                        jQuery.ajax({
+                            url: jQuery.ajaxSettings.url + endpoint,
+                            method: 'put',
+                            data: data,
+                            success: function (data) {
+                                if (callback) callback(data);
+                            },
+                            error: function (data) {
+                                if (failback) failback(data);
+                            }
+                        });
+                    },
+                    postData: function () {
+
+
+                        this.$.dataAjax.generateRequest();
+                    },
+                    login: function(){
+                        this.user = this.$.email.value;
+                        this.password = this.$.password.value;
+                        if(!this.user || !this.password){
+                            alert("Todos los campos son necesarios");
+                        }
+                        this.ajax_post(
+                                '/login'.post_login,
+                                {
+                                    username: this.user,
+                                    password: this.password
+                                },
+                                function (data) {
+                                    //Success
+                                    if (callback) callback(data);
+                                },
+                                function (data) {
+                                    //Failure
+                                    //if (failback) failback(data);
+                                    console.log("failback");
+                                }
+                        );
+
+                    },
+
+                }
         );
-        
-    },
 
-    }
-    );
-
-  </script>
+    </script>
 
 </dom-module>

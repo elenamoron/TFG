@@ -25,66 +25,66 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <template>
 
-    
+
     <app-location route="{{route}}" use-hash-as-path></app-location>
     <app-route
-        route="{{route}}"
-        pattern="/:page"
-        data="{{routeData}}"
-        tail="{{subroute}}"
-        active="{{active}}">
+            route="{{route}}"
+            pattern="/:page"
+            data="{{routeData}}"
+            tail="{{subroute}}"
+            active="{{active}}">
     </app-route>
-    
+
     <iron-pages
             selected="[[routeData.page]]"
             attr-for-selected="name"
             selected-attribute="visible">
-        <x-app name="app" route="{{subroute}}" basepath="{{routeData.page}}"></x-app>     
-   <!--     <x-proyectos name="proyectos"></x-proyectos>
-        <x-clientes name="clientes"></x-clientes>
-        <x-cuenta name="cuenta"></x-cuenta>-->
+      <x-app name="app" route="{{subroute}}" basepath="{{routeData.page}}"></x-app>
+      <!--     <x-proyectos name="proyectos"></x-proyectos>
+           <x-clientes name="clientes"></x-clientes>
+           <x-cuenta name="cuenta"></x-cuenta>-->
     </iron-pages>
   </template>
 
 
-  
-  <script>
-      
-Polymer({
 
-    is: 'x-landing',
-      
-      
-    properties: {
+  <script>
+
+    Polymer({
+
+      is: 'x-landing',
+
+
+      properties: {
         route: Object,
         routeData: Object,
         page: {
-            type: String,
-            reflectToAttribute: true,
-            observer: '_pageChanged',
+          type: String,
+          reflectToAttribute: true,
+          observer: '_pageChanged',
         }
-    },
-    observers: [
+      },
+      observers: [
         '_routePageChanged(routeData.page)',
-    ],
-     
+      ],
 
-    _routePageChanged: function(page) {
+
+      _routePageChanged: function(page) {
         this.page = page ;
-    },
-    _pageChanged: function(page) {
+      },
+      _pageChanged: function(page) {
         if(!page){
-            return;
+          return;
         }
         // Load page import on demand. Show 404 page if fails
         //var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
         //this.importHref(resolvedPageUrl, null, this._showPage404, true);
-    },
-    _showPage404: function() {
+      },
+      _showPage404: function() {
         this.page = 'view404';
-    },  
-    
-});
+      },
+
+    });
 
   </script>
 

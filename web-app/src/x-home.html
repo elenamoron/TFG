@@ -45,19 +45,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             .toolbar {
-                @apply --layout-horizontal;
-                @apply --layout-end-justified;
+                @apply (--layout-horizontal);
+                @apply (--layout-end-justified);
                 background-color: rgba(255, 255, 255, 0.95);
             }
 
             .tabs {
                 height: 100%;
-                @apply --layout-horizontal;
+                @apply (--layout-horizontal);
             }
 
             .tabs > a {
-                @apply --layout-vertical;
-                @apply --layout-center-center;
+                @apply (--layout-vertical);
+                @apply (--layout-center-center);
                 margin: 12px 16px 12px;
                 border-bottom: 1px solid #222;
             }
@@ -71,13 +71,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             }
 
             .container {
-                @apply --layout-horizontal;
+                @apply (--layout-horizontal);
                 max-width: 800px;
                 margin: 0 auto;
             }
 
             .container > * {
-                @apply --layout-flex;
+                @apply (--layout-flex);
             }
 
             .container img {
@@ -160,20 +160,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             @media (max-width: 600px) {
                 .container {
-                    @apply --layout-vertical;
+                    @apply (--layout-vertical);
                 }
             }
 
         </style>
         <app-route
-            route="{{route}}"
-            pattern="/:page"
-            data="{{routeData}}"
-            tail="{{subroute}}"></app-route>
-        
+                route="{{route}}"
+                pattern="/:page"
+                data="{{routeData}}"
+                tail="{{subroute}}"></app-route>
+
 
         <app-drawer-layout responsive-width="1280px">
-            
+
             <app-toolbar class="toolbar">
                 <div class="tabs">
                     <a href="/#/app/">Desconectar</a>
@@ -185,57 +185,57 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <app-header-layout has-scrolling-region>
 
                     <app-header fixed slot="header">
-                      <div class="avatar-container">
-                        <div class="image"></div>
-                      </div>
-                      <div class="contact-info">
-                        <div class="name">Jonathan</div>
-                        <div class="email">heyfromjonathan@gmail.com</div>
-                      </div>
+                        <div class="avatar-container">
+                            <div class="image"></div>
+                        </div>
+                        <div class="contact-info">
+                            <div class="name">Jonathan</div>
+                            <div class="email">heyfromjonathan@gmail.com</div>
+                        </div>
                     </app-header>
 
-                  <!-- nav menu -->
-                  <!-- Two way binding to the selected property has been removed due to polymer/issues/4405 -->
-                  <paper-listbox
-                      selected="[[_pageData.page]]"
-                      attr-for-selected="name"
-                      on-iron-activate="_drawerSelected">
-                    <paper-item name="clientes">
-                      <a href="#/clientes" name="name">Clientes</a>
-                    </paper-item>
-                    <paper-item name="proyectos">
-                      <a href="#/proyectos" name="name">Proyectos</a>
-                    </paper-item>
-                    <paper-item name="cuenta">
-                      <a href="#/cuenta" name="name">Cuenta</a>
-                    </paper-item>
-                  </paper-listbox>
+                    <!-- nav menu -->
+                    <!-- Two way binding to the selected property has been removed due to polymer/issues/4405 -->
+                    <paper-listbox
+                            selected="[[_pageData.page]]"
+                            attr-for-selected="name"
+                            on-iron-activate="_drawerSelected">
+                        <paper-item name="clientes">
+                            <a href="#/clientes" name="name">Clientes</a>
+                        </paper-item>
+                        <paper-item name="proyectos">
+                            <a href="#/proyectos" name="name">Proyectos</a>
+                        </paper-item>
+                        <paper-item name="cuenta">
+                            <a href="#/cuenta" name="name">Cuenta</a>
+                        </paper-item>
+                    </paper-listbox>
                 </app-header-layout>
             </app-drawer>
             <div id="content">
                 <img id="" src="../media/fondo_home.jpg" />
                 <iron-pages selected="[[_selectedPage]]" attr-for-selected="name">
 
-                <x-backgroundhome name="backgroundhome">
-                  <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-                </x-backgroundhome>
+                    <x-backgroundhome name="backgroundhome">
+                        <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
+                    </x-backgroundhome>
 
-                <x-clientes name="clientes">
-                  <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-                </x-clientes>
+                    <x-clientes name="clientes">
+                        <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
+                    </x-clientes>
 
-                <x-proyectos name="proyectos">
-                  <paper-icon-button icon="appg:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-                </x-proyectos>
+                    <x-proyectos name="proyectos">
+                        <paper-icon-button icon="appg:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
+                    </x-proyectos>
 
-                <x-cuenta name="cuenta">
-                  <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-                </x-cuenta>
+                    <x-cuenta name="cuenta">
+                        <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
+                    </x-cuenta>
 
-            </iron-pages>
+                </iron-pages>
             </div>
             <!-- list/detail pages -->
-            
+
 
         </app-drawer-layout>
 
@@ -244,47 +244,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
     <script>
-                          
-    Polymer({
 
-        is: 'x-home',
+        Polymer({
 
-        properties: {
-            user: String,
-            password: String,
-            route: Object,
-            routeData: Object,
-            page: {
-                type: String,
-                reflectToAttribute: true,
-                observer: '_pageChanged'
+            is: 'x-home',
+
+            properties: {
+                user: String,
+                password: String,
+                route: Object,
+                routeData: Object,
+                page: {
+                    type: String,
+                    reflectToAttribute: true,
+                    observer: '_pageChanged'
+                }
+            },
+            observers: [
+                '_routePageChanged(routeData.page)'
+            ],
+
+            _routePageChanged: function (page) {
+                this.page = page;
+            },
+            _pageChanged: function (page) {
+                if (!page) {
+                    return;
+                }
+                // Load page import on demand. Show 404 page if fails
+                var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
+                this.importHref(resolvedPageUrl, null, this._showPage404, true);
+            },
+            _showPage404: function () {
+                this.page = 'view404';
+            },
+
+            _drawerSelected: function () {
+                if (!this.$.drawer.persistent)
+                    this.$.drawer.close();
             }
-        },
-        observers: [
-            '_routePageChanged(routeData.page)'
-        ],
+        });
 
-        _routePageChanged: function (page) {
-            this.page = page;
-        },
-        _pageChanged: function (page) {
-            if (!page) {
-                return;
-            }
-            // Load page import on demand. Show 404 page if fails
-            var resolvedPageUrl = this.resolveUrl('x-' + page + '.html');
-            this.importHref(resolvedPageUrl, null, this._showPage404, true);
-        },
-        _showPage404: function () {
-            this.page = 'view404';
-        },
+    </script>
 
-        _drawerSelected: function () {
-            if (!this.$.drawer.persistent)
-                this.$.drawer.close();
-        }
-    });
-
-      </script>
-
-    </dom-module>
+</dom-module>
