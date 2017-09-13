@@ -14,12 +14,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 
 <link rel="import" href="x-app.html">
-<!--
+
 <link rel="import" href="x-home.html">
 <link rel="import" href="x-proyectos.html">
 <link rel="import" href="x-clientes.html">
 <link rel="import" href="x-cuenta.html">
--->
 
 <dom-module id="x-landing">
 
@@ -40,9 +39,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             attr-for-selected="name"
             selected-attribute="visible">
       <x-app name="app" route="{{subroute}}" basepath="{{routeData.page}}"></x-app>
-      <!--     <x-proyectos name="proyectos"></x-proyectos>
+           <x-proyectos name="proyectos"></x-proyectos>
            <x-clientes name="clientes"></x-clientes>
-           <x-cuenta name="cuenta"></x-cuenta>-->
+           <x-cuenta name="cuenta"></x-cuenta>
     </iron-pages>
   </template>
 

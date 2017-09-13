@@ -29,7 +29,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="x-cuenta.html">
 
 <link rel="import" href="app-icons.html">
-<link rel="import" href="x-backgroundhome.html">
 
 
 <dom-module id="x-home">
@@ -197,7 +196,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <!-- nav menu -->
                     <!-- Two way binding to the selected property has been removed due to polymer/issues/4405 -->
                     <paper-listbox
-                            selected="[[_pageData.page]]"
+                            selected="[[routeData.page]]"
                             attr-for-selected="name"
                             on-iron-activate="_drawerSelected">
                         <paper-item name="clientes">
@@ -215,10 +214,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div id="content">
                 <img id="" src="../media/fondo_home.jpg" />
                 <iron-pages selected="[[_selectedPage]]" attr-for-selected="name">
-
-                    <x-backgroundhome name="backgroundhome">
-                        <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
-                    </x-backgroundhome>
 
                     <x-clientes name="clientes">
                         <paper-icon-button icon="app:menu" drawer-toggle slot="drawer-toggle"></paper-icon-button>
