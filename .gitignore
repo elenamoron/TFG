@@ -1,15 +1,15 @@
-#Archivos generados por pdflatex
-*.aux
-*.lof
-*.log
-*.lol
-*.lot
-*.out
-*.pyg
-*.toc
-*.synctex.gz
-
-/TFG/web-app/nbproject/private/
-/TFG/web-app/bower_components
-/web-app/bower_components/
-.idea
+-#Archivos generados por pdflatex
+-*.aux
+-*.lof
+-*.log
+-*.lol
+-*.lot
+-*.out
+-*.pyg
+-*.toc
+-*.synctex.gz
+-
+web-app/.idea/
+bower_components/
+build/
+node_modules/
