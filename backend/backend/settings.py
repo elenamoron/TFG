@@ -42,6 +42,14 @@ INSTALLED_APPS = [
     'lpbc.apps.LpbcConfig'
 ]
 
+
+SWAGGER_SETTINGS = {
+    'api_path': '/',
+    'is_authenticated': True,
+    'is_superuser': True,
+    'permission_denied_handler': 'django.contrib.auth.views.login',
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

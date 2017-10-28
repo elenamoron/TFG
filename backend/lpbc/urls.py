@@ -13,25 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
-from django.contrib import admin
-from rest_framework_swagger.views import get_swagger_view
-from rest_framework import routers, serializers, viewsets
-from rest_framework.renderers import CoreJSONRenderer
-
-from lpbc.views import OrganizationViewSet
+from rest_framework import routers
+from lpbc.views import OrganizationViewSet, PerfilViewSet
 
 router = routers.DefaultRouter()
 router.register(r'organization', OrganizationViewSet)
+router.register(r'perfil', PerfilViewSet)
 
 
-schema_view = get_swagger_view(
-    title='LPBC API')
-
-urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^swagger/', schema_view),
-    url(r'^api/lpbc/', include('lpbc.urls', namespace='lpbc')),
-
-]
-
+urlpatterns = router.urls
