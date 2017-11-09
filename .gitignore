@@ -10,6 +10,7 @@
 -*.synctex.gz
 -
 web-app/.idea/
+backend/.idea/
 bower_components/
 build/
 node_modules/
