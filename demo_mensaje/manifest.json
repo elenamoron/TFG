@@ -1,0 +1,6 @@
+{
+  "name": "demo_mensaje",
+  "short_name": "demo_mensaje",
+  "start_url": "/",
+  "display": "standalone"
+}

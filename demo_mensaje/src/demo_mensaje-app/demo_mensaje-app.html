@@ -1,0 +1,67 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="demo_mensaje-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <form>
+      <paper-input label="username">
+      </paper-input>
+      <paper-input label="nº oficina">
+      </paper-input>
+      <paper-button raised class="indigo" on-tap="postData">Enviar</paper-button>
+      <iron-ajax
+              id="dataAjax"
+              method="post"
+              url="data/url"
+              on-response="postComplete"></iron-ajax>
+    </form>
+  </template>
+
+  <script>
+    /**
+     * @customElement
+     * @polymer
+     */
+    class Demo_mensajeApp extends Polymer.Element {
+      static get is() { return 'demo_mensaje-app'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'demo_mensaje-app'
+          }
+        };
+      }
+    }
+
+    window.customElements.define(Demo_mensajeApp.is, Demo_mensajeApp);
+    (function (document) {
+        'use strict';
+        document.addEventListener('WebComponentsReady', function() {
+
+            // We have to bind the template with the model
+            var t = document.querySelector('#t');
+            var ajaxRequest = t.$.dataAjax;
+
+            // make the iron-ajax call
+            t.postData = function() {
+                ajaxRequest.body = {
+                    'text': t.dataToPost;
+            }
+                ajaxRequest.generateRequest();
+            }
+
+            //callback on request complete
+            t.postComplete = function(){
+                alert('whoa! request complete');
+            }
+        });
+    })(document);
+  </script>
+</dom-module>
