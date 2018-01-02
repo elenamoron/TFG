@@ -1,20 +1,20 @@
 {
-  "theme_color": "#fbbc05",
-  "background_color": "#fbbc05",
+  "theme_color": "#5f5733",
+  "background_color": "#ffffff",
   "icons": [
     {
-      "src": "icons/icon-192x192.jpeg",
+      "src": "icons/pichincha192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icons/icon-512x512.jpeg",
+      "src": "icons/pichincha512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "name": "demo_mensaje",
-  "short_name": "demo_mensaje",
+  "name": "Banco Pichincha",
+  "short_name": "Aplicación de uso interno del bancho pichincha",
   "start_url": "/",
   "display": "standalone"
 }
