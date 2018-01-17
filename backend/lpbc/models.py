@@ -26,6 +26,8 @@ class Perfil(models.Model):
 
 class Proyecto(models.Model):
     name = models.CharField(max_length=100, blank=True, default='')
+    description = models.CharField(max_length=255, blank=True, default='')
+    fecha_creacion = models.DateField(blank=True, null=True)
 
 class PersonaJuridica(models.Model):
     denominacion_social = models.CharField(max_length=100, blank=True, default='')
