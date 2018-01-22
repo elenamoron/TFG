@@ -1,0 +1,27 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<dom-module id="register-app">
+    <template>
+        <style>
+        </style>
+        <p>Registro</p>
+    </template>
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class RegisterApp extends Polymer.Element {
+            static get is() { return 'register-app'; }
+            static get properties() {
+                return {
+                    prop1: {
+                        type: String,
+                        value: 'register-app'
+                    },
+                    user: Object
+                };
+            }
+        }
+        window.customElements.define(RegisterApp.is, RegisterApp);
+        </script>
+</dom-module>
