@@ -1,9 +1,57 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <dom-module id="register-app">
     <template>
         <style>
+            paper-button.custom {
+                --paper-button-ink-color: var(--paper-pink-a200);
+                /* These could also be individually defined for each of the
+                  specific css classes, but we'll just do it once as an example */
+                --paper-button-flat-keyboard-focus: {
+                    background-color: var(--paper-pink-a200);
+                    color: white !important;
+                };
+                --paper-button-raised-keyboard-focus: {
+                    background-color: var(--paper-pink-a200) !important;
+                    color: white !important;
+                };
+            }
+            paper-button.custom {
+                background-color: darkgray;
+            }
+            paper-button.custom:hover {
+                background-color: burlywood;
+            }
+            paper-button.black {
+                color: black;
+
+            }
+            paper-button.indigo {
+                background-color: var(--paper-indigo-500);
+                color: white;
+                --paper-button-raised-keyboard-focus: {
+                    background-color: var(--paper-pink-a200) !important;
+                    color: white !important;
+                };
+            }
         </style>
-        <p>Registro</p>
+        <iron-form>
+            <form method="post" action="/home">
+                <paper-input type="text" name="name" placeholder="username" value="{{nombre}}" required></paper-input>
+                <paper-input type="password" name="password" placeholder="password" valeu="{{password}}" required> </paper-input>
+                <paper-button on-click="registar" class="custom black" name="registro">Soy nuevo</paper-button>
+                <paper-button on-click="identificar" class="custom black" name="registro">Iniciar</paper-button>
+            </form>
+        </iron-form>
+        <iron-ajax
+                id="dataAjax"
+                url="https://www.googleapis.com/youtube/v3/search"
+                params='{"part":"snippet", "q":"polymer", "key": "YOUTUBE_API_KEY", "type": "video"}'
+                handle-as="json"
+                on-response="handleResponse"
+                debounce-duration="300"></iron-ajax>
     </template>
     <script>
         /**
@@ -18,8 +66,14 @@
                         type: String,
                         value: 'register-app'
                     },
-                    user: Object
+                    user: Object,
+                    nombre:String,
+                    password: String
                 };
+            }
+            identificar() {
+                this.$.dataAjax.body = {'nombre': this.nombre, 'password': this.password};
+                this.$.dataAjax.generateRequest();
             }
         }
         window.customElements.define(RegisterApp.is, RegisterApp);

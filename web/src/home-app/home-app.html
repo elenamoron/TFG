@@ -1,0 +1,133 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/app-layout/app-drawer">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../web-app/web-app.html">
+<link rel="import" href="../proyectos-app/proyectos-app.html">
+
+<dom-module id="home-app">
+    <template>
+        <style>
+            .avatar-container {
+                position: relative;
+                border: 2px solid #00AA8D;
+                border-radius: 50%;
+                height: 90px;
+                padding: 2px;
+                width: 90px;
+                margin: 20px auto;
+            }
+            .avatar-container .image {
+                background-image: url('[[user.photoURL]]');
+                background-size: contain;
+                border-radius: 50%;
+                height: 100%;
+                width: 100%;
+            }
+            .contact-info {
+                margin: 0 20px;
+                padding-bottom: 20px;
+                border-bottom: 1px solid #CCC;
+                text-align: center;
+            }
+            .contact-info .name {
+                font-weight: bold;
+            }
+            .contact-info .email {
+                color: #999;
+            }
+            paper-item {
+                @apply(--layout-center-center);
+                height: 54px;
+            }
+        </style>
+        <firebase-auth id="auth" user="{{user}}" provider="google" >
+        </firebase-auth>
+        <app-route
+                route="{{_route}}"
+                pattern="/:page"
+                data="{{_pageData}}"
+                tail="{{_subRoute}}"></app-route>
+        <app-route
+                route="{{_subRoute}}"
+                pattern="/:id"
+                data="{{_idData}}"></app-route>
+        <iron-pages
+                selected="[[usuarioLogado]]"
+                attr-for-selected="name"
+                selected-attribute="visible"
+        >
+
+            <app-drawer-layout responsive-width="1280px" name="home">
+                <app-drawer id="drawer" swipe-open>
+                    <app-header-layout has-scrolling-region>
+
+                        <app-header fixed>
+                            <div class="avatar-container">
+                                <div class="image">
+
+                                </div>
+                            </div>
+                            <div class="contact-info">
+                                <div class="name">[[user.displayName]]</div>
+                                <div class="email">[[user.email]]</div>
+                                <div class="email"><paper-button raised on-click="desconectar">Desconectar</paper-button></div>
+                            </div>
+                        </app-header>
+
+                        <!-- nav menu -->
+                        <paper-listbox
+                                selected="{{_pageData.page}}"
+                                attr-for-selected="name"
+                                on-iron-activate="_drawerSelected">
+                            <paper-item name="proyectos">Mis Proyectos</paper-item>
+                        </paper-listbox>
+
+                    </app-header-layout>
+                </app-drawer>
+                <iron-pages selected="[[_pageData.page]]" attr-for-selected="name">
+                    <proyectos-app name="proyectos"></proyectos-app>
+
+                </iron-pages>
+
+            </app-drawer-layout>
+
+            <web-app name="login"></web-app>
+        </iron-pages>
+    </template>
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class HomeApp extends Polymer.Element {
+            static get is() { return 'home-app'; }
+            static get properties() {
+                return {
+                    prop1: {
+                        type: String,
+                        value: 'home-app'
+                    },
+                    usuarioLogado: {
+                        type: String,
+                        computed:'_calculaLogado(user)'
+                    },
+                    user:Object
+                };
+            }
+
+            desconectar(){
+                this.$.auth.signOut()
+            }
+            _calculaLogado(usuario){
+                return ((this.$.auth.user=="undefined" || this.$.auth.user == null)?"login":"home");
+            }
+
+        }
+        window.customElements.define(HomeApp.is, HomeApp);
+    </script>
+</dom-module>

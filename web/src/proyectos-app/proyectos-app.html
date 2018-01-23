@@ -1,0 +1,59 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout">
+<link rel="import" href="../../bower_components/app-layout/app-header">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+
+<dom-module id="proyectos-app">
+    <template>
+        <style>
+            .content {
+                display: block;
+                position: relative;
+                max-width: 1000px;
+                margin: 5px auto;
+            }
+        </style>
+
+        <app-header-layout>
+
+            <app-header effects="resize-title" condenses fixed shadow>
+                <app-toolbar class="top-toolbar">
+                    <content select="[drawer-toggle]"></content>
+                    <div condensed-title></div>
+                </app-toolbar>
+                <app-toolbar class="bottom-toolbar">
+                    <div main-title></div>
+                </app-toolbar>
+            </app-header>
+
+            <div class="content">
+                <p>proyectos</p>
+
+            </div>
+
+        </app-header-layout>
+    </template>
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class ProyectosApp extends Polymer.Element {
+            static get is() { return 'proyectos-app'; }
+            static get properties() {
+                return {
+                    prop1: {
+                        type: String,
+                        value: 'proyectos-app'
+                    },
+
+                };
+            }
+
+        }
+        window.customElements.define(ProyectosApp.is, ProyectosApp);
+    </script>
+</dom-module>

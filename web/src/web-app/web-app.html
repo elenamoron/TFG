@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../register-app/register-app.html">
+<link rel="import" href="../home-app/home-app.html">
 <dom-module id="web-app">
   <template>
     <style>
@@ -70,7 +71,7 @@
         }
       }
     </style>
-    <app-location route="{{route}}" use-hash-as-path></app-location>
+    <app-location route="{{route}}"></app-location>
     <app-route
             route="{{route}}"
             pattern="/:page"
@@ -80,62 +81,72 @@
     </app-route>
     <firebase-auth id="auth" user="{{user}}" provider="google" >
     </firebase-auth>
-    <app-toolbar class="toolbar">
-      <div class="tabs">
-        <a href="about" on-click="_onTapAnchor">Cómo funciona</a>
-        <a href="services" on-click="_onTapAnchor">Servicios</a>
-        <a href="contact" on-click="_onTapAnchor">Contacto</a>
-        <a href="register">Registrate</a>
-        <a href="" on-click="abrirVentanaLogin">Iniciar sesión</a>
-      </div>
-    </app-toolbar>
-    <p>{{subroute}}</p>
-    <header>
-      <iron-pages
-              selected="[[routeData.page]]"
-              attr-for-selected="name"
-              selected-attribute="visible"
-      >
-        <register-app name="register" route="{{subroute}}"></register-app>
-      </iron-pages>
-    </header>
-    <section id="about">
-      <div class="container">
-        <div>
-          <img src="../media/como.jpg">
-        </div>
-        <div>
-          <h3>Cómo funciona</h3>
-          <p>Ofrecemos un servicio donde poder registrar tu empresa y organizar
-            tus proyectos. Nuestro panel permitira que tengas diferentes
-            usuarios para vuestros trabajadores y estos puedan llevar
-            organizados sus clientes y proyectos comunes</p>
-        </div>
-      </div>
-    </section>
-    <section id="services">
-      <div class="container">
-        <div>
-          <img src="../media/services.jpg">
-        </div>
-        <div>
-          <h3>Servicios</h3>
-          <p>En esta plataforma podrás detectar el blanqueo de capital o cualquier financiación al terrorismo</p>
-        </div>
-      </div>
-    </section>
 
-    <section id="contact">
-      <div class="container">
-        <div>
-          <img src="../media/contacta-con-nosotros.png">
-        </div>
-        <div>
-          <h3>Contacto</h3>
-          <p>Si tienes dudas, te ayudamos en soporte@gmail.com</p>
-        </div>
+    <iron-pages
+            selected="[[usuarioLogado]]"
+            attr-for-selected="name"
+            selected-attribute="visible"
+    >
+      <home-app name="home" route="{{subroute}}" user="{{this.$.auth}}"></home-app>
+
+      <div name="login">
+        <app-toolbar class="toolbar">
+          <div class="tabs">
+            <a href="about" on-click="_onTapAnchor">Cómo funciona</a>
+            <a href="services" on-click="_onTapAnchor">Servicios</a>
+            <a href="contact" on-click="_onTapAnchor">Contacto</a>
+            <a href="register">Login</a>
+            <a href="" on-click="abrirVentanaLogin"><img src="../../media/Google_Logo.png" width="20px"></a>
+          </div>
+        </app-toolbar>
+        <header>
+          <iron-pages
+                  selected="[[routeData.page]]"
+                  attr-for-selected="name"
+                  selected-attribute="visible"
+          >
+            <register-app name="register" route="{{subroute}}"></register-app>
+          </iron-pages>
+        </header>
+        <section id="about">
+          <div class="container">
+            <div>
+              <img src="../../media/como.jpg">
+            </div>
+            <div>
+              <h3>Cómo funciona</h3>
+              <p>Ofrecemos un servicio donde poder registrar tu empresa y organizar
+                tus proyectos. Nuestro panel permitira que tengas diferentes
+                usuarios para vuestros trabajadores y estos puedan llevar
+                organizados sus clientes y proyectos comunes</p>
+            </div>
+          </div>
+        </section>
+        <section id="services">
+          <div class="container">
+            <div>
+              <img src="../../media/services.jpg">
+            </div>
+            <div>
+              <h3>Servicios</h3>
+              <p>En esta plataforma podrás detectar el blanqueo de capital o cualquier financiación al terrorismo</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="contact">
+          <div class="container">
+            <div>
+              <img src="../../media/contacta-con-nosotros.png">
+            </div>
+            <div>
+              <h3>Contacto</h3>
+              <p>Si tienes dudas, te ayudamos en soporte@gmail.com</p>
+            </div>
+          </div>
+        </section>
       </div>
-    </section>
+    </iron-pages>
   </template>
 
   <script>
@@ -155,13 +166,17 @@
           route: Object,
           routeData: Object,
           basepath: String,
-          page: String
+          page: String,
+          usuarioLogado: {
+            type: String,
+            computed:'_calculaLogado(user)'
+          }
 
         };
       }
       abrirVentanaLogin(){
          this.$.auth.signInWithPopup()
-            .then(function(response) { alert('logado')})
+            .then()
             .catch(function(error) {
                 console.log(error);
                 });
@@ -182,6 +197,9 @@
                 break;
         }
 
+      }
+      _calculaLogado(usuario){
+        return ((this.$.auth.user=="undefined" || this.$.auth.user == null)?"login":"home");
       }
     }
 

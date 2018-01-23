@@ -32,17 +32,17 @@ class PersonaFisicaAdmin(admin.ModelAdmin):
 admin.site.register(PersonaFisica,PersonaFisicaAdmin)
 
 class RelacionAdmin(admin.ModelAdmin):
-    list_display = ('relacion')
+    list_display = ('relacion',)
 
 admin.site.register(Relacion, RelacionAdmin)
 
 class DocumentoAdmin(admin.ModelAdmin):
-    list_display('meta_descripcion', 'blog')
+    list_display = ('meta_descripcion', 'blog')
 
 admin.site.register(Documento, DocumentoAdmin)
 
 class RelacionJuridicaFisicaAdmin(admin.ModelAdmin):
-    list_display('persona_juridica', 'persona_fisica', 'tipo_relacion', 'datos_particulares')
+    list_display = ('persona_juridica', 'persona_fisica', 'tipo_relacion', 'datos_particulares')
     #documentos = models.ManyToOneRel(Documento)
 
 admin.site.register(RelacionJuridicaFisica, RelacionJuridicaFisicaAdmin)
