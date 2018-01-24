@@ -13,4 +13,5 @@ web-app/.idea/
 backend/.idea/
 bower_components/
 build/
+web/.idea/
 node_modules/
