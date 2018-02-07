@@ -1,33 +1,37 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<!--link rel="import" href="../../bower_components/app-layout/app-drawer"-->
-<!--link rel="import" href="../../bower_components/app-layout/app-header-layout"-->
+<link rel="import" href="../../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../../bower_components/paper-avatar/paper-avatar.html">
 <!--link rel="import" href="../web-app/web-app.html"-->
 <link rel="import" href="../proyectos-app/proyectos-app.html">
 
 <dom-module id="home-app">
     <template>
         <style>
-            .avatar-container {
+            paper-avatar {
                 position: relative;
-                border: 2px solid #00AA8D;
-                border-radius: 50%;
                 height: 90px;
                 padding: 2px;
                 width: 90px;
                 margin: 20px auto;
+                margin-left: 80px;
             }
             .avatar-container .image {
-                /*background-image: url('[[user.photoURL]]');*/
                 background-size: contain;
                 border-radius: 50%;
                 height: 100%;
                 width: 100%;
             }
+
             .contact-info {
                 margin: 0 20px;
                 padding-bottom: 20px;
@@ -43,6 +47,9 @@
             paper-item {
                 @apply(--layout-center-center);
                 height: 54px;
+            }
+            app-drawer-layout:not([narrow]) [drawer-toggle] {
+                display: none;
             }
         </style>
         <firebase-auth id="auth" user="{{user}}" provider="google" >
@@ -63,28 +70,35 @@
         >
 
             <app-drawer-layout responsive-width="1280px" name="home">
-                <app-drawer id="drawer" swipe-open>
+                <app-header-layout>
+                    <app-header slot="header">
+                        <app-toolbar>
+                            <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+                            <div main-title>App name</div>
+                            <paper-icon-button icon="settings-power" raised on-click="desconectar"></paper-icon-button>
+                        </app-toolbar>
+                    </app-header>
+                </app-header-layout>
+                <app-drawer id="drawer" slot="drawer" swipe-open>
                     <app-header-layout has-scrolling-region>
 
                         <app-header fixed>
-                            <div class="avatar-container">
-                                <div class="image">
+                            <paper-avatar label="[[user.displayName]]" src="[[user.photoURL]]"></paper-avatar>
 
-                                </div>
-                            </div>
                             <div class="contact-info">
                                 <div class="name">[[user.displayName]]</div>
                                 <div class="email">[[user.email]]</div>
-                                <div class="email"><paper-button raised on-click="desconectar">Desconectar</paper-button></div>
+
                             </div>
                         </app-header>
 
-                        <!-- nav menu -->
+
                         <paper-listbox
                                 selected="{{_pageData.page}}"
                                 attr-for-selected="name"
                                 on-iron-activate="_drawerSelected">
-                            <paper-item name="proyectos">Mis Proyectos</paper-item>
+                            <paper-item name="proyectos">Proyectos activos</paper-item>
+                            <paper-item name="proyectos">Proyectos archivados</paper-item>
                         </paper-listbox>
 
                     </app-header-layout>
