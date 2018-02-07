@@ -5,6 +5,7 @@
 <!--link rel="import" href="../../bower_components/app-layout/app-header-layout"-->
 <!--link rel="import" href="../../bower_components/app-layout/app-header"-->
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
 
 <dom-module id="proyectos-app">
     <template>
@@ -15,24 +16,45 @@
                 max-width: 1000px;
                 margin: 5px auto;
             }
+            .rate-image {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: 100px;
+                background-size: cover !important;
+                max-width: 100%;
+                max-height: 100%;
+                height: auto !important;
+                display: block;
+                background: url('../../media/bienvenido.jpg');
+            }
+            .rate-header { @apply --paper-font-headline; }
+            .rate-name { color: var(--paper-grey-600); margin: 10px 0; }
+            paper-icon-button.rate-icon {
+                --iron-icon-fill-color: white;
+                --iron-icon-stroke-color: var(--paper-grey-600);
+            }
+            paper-card {
+                width: 700px;
+                margin-left: 30px;
+            }
         </style>
 
         <app-header-layout>
 
-            <app-header effects="resize-title" condenses fixed shadow>
-                <app-toolbar class="top-toolbar">
-                    <content select="[drawer-toggle]"></content>
-                    <div condensed-title></div>
-                </app-toolbar>
-                <app-toolbar class="bottom-toolbar">
-                    <div main-title></div>
-                </app-toolbar>
-            </app-header>
+            <paper-card class="rate">
+              <div class="card-content">
+                <div class="rate-header">Proyecto xxx</div>
+                <div class="rate-name">Cliente xxx</div>
+                <div>Descripción xxx</div>
+              </div>
+              <div class="card-actions">
+              </div>
+              <div class="rate-image"></div>
+            </paper-card>
 
-            <div class="content">
-                <p>proyectos</p>
 
-            </div>
 
         </app-header-layout>
     </template>

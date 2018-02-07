@@ -51,6 +51,12 @@
             app-drawer-layout:not([narrow]) [drawer-toggle] {
                 display: none;
             }
+            app-toolbar {
+                /* Toolbar is the main header, so give it some color */
+                background-color: #1E88E5;
+                font-family: 'Roboto', Helvetica, sans-serif;
+                color: white;
+            }
         </style>
         <firebase-auth id="auth" user="{{user}}" provider="google" >
         </firebase-auth>
@@ -74,7 +80,7 @@
                     <app-header slot="header">
                         <app-toolbar>
                             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-                            <div main-title>App name</div>
+                            <div main-title>Gestión interna de mis proyectos</div>
                             <paper-icon-button icon="settings-power" raised on-click="desconectar"></paper-icon-button>
                         </app-toolbar>
                     </app-header>
