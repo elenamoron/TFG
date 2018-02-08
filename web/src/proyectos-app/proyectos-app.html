@@ -25,7 +25,7 @@
                 top: 0;
                 right: 0;
                 bottom: 0;
-                width: 100px;
+                width: 200px;
                 background-size: cover !important;
                 max-width: 100%;
                 max-height: 100%;
@@ -60,7 +60,7 @@
                 };
             }
             paper-button.custom {
-                background-color: darkgray;
+                background-color: lightgray;
             }
             paper-button.custom:hover {
                 background-color: #ff4081;
@@ -80,6 +80,10 @@
             paper-button {
                 margin-left: 50px;
             }
+            a {
+                text-decoration: none;
+
+            }
         </style>
 
         <app-header-layout>
@@ -91,9 +95,14 @@
                 <div>Descripción xxx</div>
               </div>
               <div class="card-actions">
+                  <a href="proyecto/xxx">
+                  <paper-button  class="custom black" name="ver" dialog-confirm autofocus>Ver</paper-button>
+                  </a>
+                  <paper-button on-click="archivar" class="custom black" name="archivar" dialog-confirm autofocus>Archivar</paper-button>
               </div>
               <div class="rate-image"></div>
             </paper-card>
+
             <br>
 
             <paper-fab icon="add" raised on-tap="openDialog"></paper-fab>
