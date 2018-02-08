@@ -6,6 +6,7 @@
 <!--link rel="import" href="../../bower_components/app-layout/app-header"-->
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 
 <dom-module id="proyectos-app">
     <template>
@@ -39,6 +40,9 @@
                 width: 700px;
                 margin-left: 30px;
             }
+            paper-fab {
+                
+            }
         </style>
 
         <app-header-layout>
@@ -53,9 +57,9 @@
               </div>
               <div class="rate-image"></div>
             </paper-card>
+            <br>
 
-
-
+            <paper-fab icon="add" raised on-tap="insert"></paper-fab>
         </app-header-layout>
     </template>
     <script>
