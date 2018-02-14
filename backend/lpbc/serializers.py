@@ -4,7 +4,7 @@ from lpbc.models import Organization, Perfil
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
-        fields = ('id', 'name', 'code')
+        fields = ('id', 'name','description', 'code', 'cliente', 'logo')
 
 class PerfilSerializer(serializers.ModelSerializer):
     class Meta:

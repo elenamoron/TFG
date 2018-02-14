@@ -13,6 +13,7 @@
 <link rel="import" href="../../bower_components/paper-avatar/paper-avatar.html">
 <!--link rel="import" href="../web-app/web-app.html"-->
 <link rel="import" href="../proyectos-app/proyectos-app.html">
+<link rel="import" href="../proyectos-app/ver-proyecto.html">
 
 <dom-module id="home-app">
     <template>
@@ -111,6 +112,11 @@
                 </app-drawer>
                 <iron-pages selected="[[_pageData.page]]" attr-for-selected="name">
                     <proyectos-app name="proyectos"></proyectos-app>
+                    <ver-proyecto
+                            id="proyectoView"
+                            name="proyecto"
+                            proyectoid="{{_idData.name}}">
+                    </ver-proyecto>
 
                 </iron-pages>
 
@@ -136,7 +142,8 @@
                         type: String,
                         computed:'_calculaLogado(user)'
                     },
-                    user:Object
+                    user:Object,
+                    _idData: Object,
                 };
             }
 

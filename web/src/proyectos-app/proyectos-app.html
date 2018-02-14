@@ -32,7 +32,6 @@
                 max-height: 100%;
                 height: auto !important;
                 display: block;
-                background: url('../../media/bienvenido.jpg');
             }
             .rate-header { @apply --paper-font-headline; }
             .rate-name { color: var(--paper-grey-600); margin: 10px 0; }
@@ -101,16 +100,16 @@
                 <paper-card class="rate">
                     <div class="card-content">
                         <div class="rate-header">{{item.name}}</div>
-                        <div class="rate-name">Cliente xxx</div>
-                        <div>Descripción xxx</div>
+                        <div class="rate-name">{{item.cliente}}</div>
+                        <div>{{item.description}}</div>
                     </div>
                     <div class="card-actions">
-                        <a href="proyecto/{{item.name}}">
+                        <a href="#/proyecto/{{item.name}}">
                             <paper-button  class="custom black" name="ver" dialog-confirm autofocus>Ver</paper-button>
                         </a>
                         <paper-button on-click="archivar" class="custom black" name="archivar" dialog-confirm autofocus>Archivar</paper-button>
                     </div>
-                    <div class="rate-image"></div>
+                    <div class="rate-image" style="background: url('../../media/{{item.logo }}')"></div>
                 </paper-card>
 
             </template>
