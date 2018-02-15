@@ -87,6 +87,7 @@
             }
         </style>
         <iron-ajax auto
+                   id="getProject"
                    url="http://127.0.0.1:8000/api/lpbc/organization/"
                    params=''
                    handle-as="json"
@@ -95,6 +96,15 @@
                    content-type="application/json"
                    method="GET"
         ></iron-ajax>
+        <iron-ajax
+            id="addProject"
+            method="post"
+            url="http://127.0.0.1:8000/api/lpbc/organization/"
+            handle-as="json"
+            content-type="application/json"
+            on-response={{postResponse}}>
+
+        </iron-ajax>
         <app-header-layout>
             <template is="dom-repeat" items="{{proyectos}}">
                 <paper-card class="rate">
@@ -140,7 +150,9 @@
                         type: String,
                         value: 'proyectos-app'
                     },
-                    proyectos: Object
+                    proyectos: Object,
+                    nombre: String,
+                    descripcion: String
 
                 };
             }
@@ -149,6 +161,10 @@
             }
             handleResponse (data) {
                 this.proyectos = data.detail.response;
+            }
+            add(){
+                this.$.addProject.body={"name":this.nombre,"description":this.descripcion, "code":this.nombre.substr(0,2)};
+                this.$.addProject.generateRequest();
             }
 
 
