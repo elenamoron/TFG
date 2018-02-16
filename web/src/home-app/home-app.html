@@ -11,6 +11,7 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../../bower_components/paper-avatar/paper-avatar.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
 <!--link rel="import" href="../web-app/web-app.html"-->
 <link rel="import" href="../proyectos-app/proyectos-app.html">
 <link rel="import" href="../proyectos-app/ver-proyecto.html">
@@ -61,8 +62,9 @@
         </style>
         <firebase-auth id="auth" user="{{user}}" provider="google" >
         </firebase-auth>
+        <app-location route="{{route}}" use-hash-as-path></app-location>
         <app-route
-                route="{{_route}}"
+                route="{{route}}"
                 pattern="/:page"
                 data="{{_pageData}}"
                 tail="{{_subRoute}}"></app-route>
@@ -76,7 +78,7 @@
                 selected-attribute="visible"
         >
 
-            <app-drawer-layout responsive-width="1280px" name="home">
+            <app-drawer-layout name="home" responsive-width="1280px" >
                 <app-header-layout>
                     <app-header slot="header">
                         <app-toolbar>
