@@ -7,6 +7,8 @@
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../register-app/register-app.html">
 <link rel="import" href="../home-app/home-app.html">
+<link rel="import" href="../proyectos-app/ver-proyecto.html">
+<link rel="import" href="../landing-app/landing-app.html">
 <dom-module id="web-app">
   <template>
     <style>
@@ -71,81 +73,36 @@
         }
       }
     </style>
-    <app-location route="{{route}}"></app-location>
+    <app-location route="{{route}}" use-hash-as-path></app-location>
     <app-route
             route="{{route}}"
             pattern="/:page"
-            data="{{routeData}}"
+            data="{{_pageData}}"
             tail="{{subroute}}"
             active="{{active}}">
     </app-route>
-    <firebase-auth id="auth" user="{{user}}" provider="google" >
-    </firebase-auth>
+    <app-route
+            route="{{subRoute}}"
+            pattern="/:id"
+            data="{{_idData}}"></app-route>
+
 
     <iron-pages
-            selected="[[usuarioLogado]]"
+            selected="[[_pageData.page]]"
             attr-for-selected="name"
             selected-attribute="visible"
     >
+      <landing-app name="landing"></landing-app>
       <home-app name="home" route="{{subroute}}" user="{{this.$.auth}}"></home-app>
+      <ver-proyecto
+              id="proyectoView"
+              name="proyecto"
+              proyecto="{{_idData}}"
+              user="{{this.$.auth}}"
+      >
+      </ver-proyecto>
 
-      <div name="login">
-        <app-toolbar class="toolbar">
-          <div class="tabs">
-            <a href="about" on-click="_onTapAnchor">Cómo funciona</a>
-            <a href="services" on-click="_onTapAnchor">Servicios</a>
-            <a href="contact" on-click="_onTapAnchor">Contacto</a>
-            <a href="register">Login</a>
-            <a href="" on-click="abrirVentanaLogin"><img src="../../media/Google_Logo.png" width="20px"></a>
-          </div>
-        </app-toolbar>
-        <header>
-          <iron-pages
-                  selected="[[routeData.page]]"
-                  attr-for-selected="name"
-                  selected-attribute="visible"
-          >
-            <register-app name="register" route="{{subroute}}"></register-app>
-          </iron-pages>
-        </header>
-        <section id="about">
-          <div class="container">
-            <div>
-              <img src="../../media/como.jpg">
-            </div>
-            <div>
-              <h3>Cómo funciona</h3>
-              <p>Ofrecemos un servicio donde poder registrar tu empresa y organizar
-                tus proyectos. Nuestro panel permitira que tengas diferentes
-                usuarios para vuestros trabajadores y estos puedan llevar
-                organizados sus clientes y proyectos comunes</p>
-            </div>
-          </div>
-        </section>
-        <section id="services">
-          <div class="container">
-            <div>
-              <img src="../../media/services.jpg">
-            </div>
-            <div>
-              <h3>Servicios</h3>
-              <p>En esta plataforma podrás detectar el blanqueo de capital o cualquier financiación al terrorismo</p>
-            </div>
-          </div>
-        </section>
 
-        <section id="contact">
-          <div class="container">
-            <div>
-              <img src="../../media/contacta-con-nosotros.png">
-            </div>
-            <div>
-              <h3>Contacto</h3>
-              <p>Si tienes dudas, te ayudamos en soporte@gmail.com</p>
-            </div>
-          </div>
-        </section>
-      </div>
     </iron-pages>
   </template>
 
@@ -166,41 +123,19 @@
           route: Object,
           routeData: Object,
           basepath: String,
-          page: String,
-          usuarioLogado: {
-            type: String,
-            computed:'_calculaLogado(user)'
-          }
+          page: String
 
         };
-      }
-      abrirVentanaLogin(){
-         this.$.auth.signInWithPopup()
-            .then()
-            .catch(function(error) {
-                console.log(error);
-                });
 
       }
-      _onTapAnchor(e) {
-        e.preventDefault();
-        var anchor = e.target.attributes.href.value;
-        switch (anchor){
-            case 'about':
-                this.$.about.scrollIntoView();
-                break;
-            case 'services':
-                this.$.services.scrollIntoView();
-                break;
-            case 'contact':
-                this.$.contact.scrollIntoView();
-                break;
+
+      ready() {
+        super.ready();
+        if(this.route.path==0 || !this.route.path){
+          location='#/landing';
         }
+      }
 
-      }
-      _calculaLogado(usuario){
-        return ((this.$.auth.user=="undefined" || this.$.auth.user == null)?"login":"home");
-      }
     }
 
     window.customElements.define(WebApp.is, WebApp);

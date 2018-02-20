@@ -14,11 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from rest_framework import routers
-from lpbc.views import OrganizationViewSet, PerfilViewSet
-
-router = routers.DefaultRouter()
-router.register(r'organization', OrganizationViewSet)
-router.register(r'perfil', PerfilViewSet)
+from django.conf.urls import  url
+from lpbc.views import OrganizationViewSet, PerfilViewSet, ProyectoActive, ProyectoViewSet, ProyectoByName
 
 
-urlpatterns = router.urls
+urlpatterns = [
+    url(r'organization', OrganizationViewSet),
+    url(r'perfil', PerfilViewSet),
+    url(r'proyecto', ProyectoViewSet.as_view({'get': 'list',
+                                                      'post':'create'
+                                                      })),
+url(r'proyecto/(?P<activo>)/$', ProyectoActive.as_view({'get': 'list'})),
+url(r'proyecto/(?P<name>)/$', ProyectoByName.as_view({'get': 'list'}))
+]
+
+

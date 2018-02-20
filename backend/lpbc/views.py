@@ -3,8 +3,8 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from lpbc.models import Organization, Perfil
-from lpbc.serializers import OrganizationSerializer, PerfilSerializer
+from lpbc.models import Organization, Perfil, Proyecto
+from lpbc.serializers import OrganizationSerializer, PerfilSerializer, ProyectoSerializer
 
 
 class OrganizationViewSet(viewsets.ModelViewSet):
@@ -52,3 +52,42 @@ class PerfilViewSet(viewsets.ModelViewSet):
         """
     queryset = Perfil.objects.all()
     serializer_class = PerfilSerializer
+
+class ProyectoViewSet(viewsets.ModelViewSet):
+    """
+        retrieve:
+            Return a proyecto instance.
+
+        list:
+            Return all ptroyectos, ordered by most recently joined.
+
+        create:
+            Create a new proyecto.
+
+        delete:
+            Remove an existing proyecto.
+
+        partial_update:
+            Update one or more fields on an existing proyecto.
+
+        update:
+            Update a proyecto.
+        """
+    queryset = Proyecto.objects.all()
+    serializer_class = ProyectoSerializer
+
+class ProyectoActive(viewsets.ModelViewSet):
+    serializer_class = ProyectoSerializer
+
+    def get_queryset(self):
+
+        activo = self.kwargs['activo']
+        return Proyecto.objects.filter(proyecto__activo=activo)
+
+class ProyectoByName(viewsets.ModelViewSet):
+    serializer_class = ProyectoSerializer
+
+    def get_queryset(self):
+
+        name = self.kwargs['name']
+        return Proyecto.objects.filter(proyecto__name=name)

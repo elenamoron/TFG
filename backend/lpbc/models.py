@@ -7,8 +7,6 @@ class Organization(models.Model):
     name = models.CharField(max_length=100, blank=True, default='')
     description = models.CharField(max_length=255, blank=True, default='')
     code = models.TextField()
-    cliente = models.CharField(max_length=100, blank=True, default='')
-    logo = models.CharField(max_length=255, blank=True, default='')
 
     class Meta:
         ordering = ('created',)
@@ -31,6 +29,9 @@ class Proyecto(models.Model):
     name = models.CharField(max_length=100, blank=True, default='')
     description = models.CharField(max_length=255, blank=True, default='')
     fecha_creacion = models.DateField(blank=True, null=True)
+    cliente = models.CharField(max_length=100, blank=True, default='')
+    logo = models.CharField(max_length=255, blank=True, default='')
+    activo = models.BooleanField(default=True)
 
 class PersonaJuridica(models.Model):
     denominacion_social = models.CharField(max_length=100, blank=True, default='')

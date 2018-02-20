@@ -8,13 +8,14 @@
 <link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../../bower_components/paper-avatar/paper-avatar.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <!--link rel="import" href="../web-app/web-app.html"-->
 <link rel="import" href="../proyectos-app/proyectos-app.html">
-<link rel="import" href="../proyectos-app/ver-proyecto.html">
 
 <dom-module id="home-app">
     <template>
@@ -58,6 +59,11 @@
                 background-color: #1E88E5;
                 font-family: 'Roboto', Helvetica, sans-serif;
                 color: white;
+            }
+            .second {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: normal;
             }
         </style>
         <firebase-auth id="auth" user="{{user}}" provider="google" >
@@ -106,19 +112,24 @@
                                 selected="{{_pageData.page}}"
                                 attr-for-selected="name"
                                 on-iron-activate="_drawerSelected">
-                            <paper-item name="proyectos">Proyectos activos</paper-item>
+                            <paper-item name="home">Mis proyectos activos
+                            </paper-item>
+                            <paper-item name="mis-archivados">Mis proyectos archivados
+                            </paper-item>
+                            <paper-item name="activos">Proyectos activos
+                            </paper-item>
                             <paper-item name="archivados">Proyectos archivados</paper-item>
                         </paper-listbox>
 
                     </app-header-layout>
                 </app-drawer>
                 <iron-pages selected="[[_pageData.page]]" attr-for-selected="name">
-                    <proyectos-app name="proyectos"></proyectos-app>
-                    <ver-proyecto
-                            id="proyectoView"
-                            name="proyecto"
-                            proyectoid="{{_idData.name}}">
-                    </ver-proyecto>
+                    <proyectos-app
+                            name="home"
+                            route="{{_subRoute}}"
+                    >
+                    </proyectos-app>
+
 
                 </iron-pages>
 
@@ -151,6 +162,14 @@
 
             desconectar(){
                 this.$.auth.signOut()
+                        .then(function(response){
+                            location="#/landing";
+                        }
+
+                )
+                        .catch(function(error) {
+                            console.log(error);
+                        });
             }
             _calculaLogado(usuario){
                 return ((this.$.auth.user=="undefined" || this.$.auth.user == null)?"login":"home");
@@ -158,6 +177,7 @@
             _drawerSelected() {
                 if (!this.$.drawer.persistent) this.$.drawer.close();
             }
+
 
         }
         window.customElements.define(HomeApp.is, HomeApp);
