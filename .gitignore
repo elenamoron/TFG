@@ -88,4 +88,3 @@ db.*
 *.sql
 *.sqlite3
 data_redis/
-docker-compose.yml
