@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Organization, Proyecto, PersonaFisica, PersonaJuridica, Relacion, Documento, RelacionJuridicaFisica
+from .models import Profile, Organization, Project, PersonaFisica, PersonaJuridica, Relacion, Documento, RelacionJuridicaFisica
 # Register your models here.
 
 class OrganizationAdmin(admin.ModelAdmin):
@@ -17,7 +17,7 @@ admin.site.register(Profile, ProfileAdmin)
 class ProyectoAdmin(admin.ModelAdmin):
     list_display = ('name', 'description', 'fecha_creacion')
 
-admin.site.register(Proyecto, ProyectoAdmin)
+admin.site.register(Project, ProyectoAdmin)
 
 class PersonaJuridicaAdmin(admin.ModelAdmin):
     list_display = ('denominacion_social', 'CIF', 'ubicacion', 'fecha_constitucion', 'sector', 'forma_juridica', 'registro',
