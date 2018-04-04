@@ -24,11 +24,11 @@ import organization.urls
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Snippets API",
+      title="LPBC API",
       default_version='v1',
-      description="Test description",
+      description="Ley prevención de blanqueo de capitales y financiación del terrorismo",
       terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
+      contact=openapi.Contact(email="e.moron@i2tic.com"),
       license=openapi.License(name="BSD License"),
    ),
    validators=['flex', 'ssv'],

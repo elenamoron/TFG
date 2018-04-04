@@ -16,17 +16,15 @@ Including another URLconf
 from django.urls import path
 from django.urls import re_path
 from rest_framework import routers
-from django.conf.urls import  url
-from organization.views import OrganizationViewSet, ProfileViewSet, ProyectoActive, ProyectoViewSet, ProyectoByName
+from django.conf.urls import url
+from organization.views import OrganizationViewSet, ProfileViewSet, ProjectActive, ProjectViewSet, ProyectoByName
 
 
 urlpatterns = [
-    path('organization', OrganizationViewSet.as_view({'get': 'list','post':'create'})),
-    path('perfil', ProfileViewSet),
-    path('proyecto', ProyectoViewSet.as_view({'get': 'list',
-                                                      'post':'create'
-                                                      })),
-    path('proyecto/activo', ProyectoActive.as_view({'get': 'list'})),
+    path('organization', OrganizationViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('profile', ProfileViewSet),
+    path('project', ProjectViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('project/active', ProjectActive.as_view({'get': 'list'})),
     #url(r'proyecto/(?P<name>)/$', ProyectoByName.as_view({'get': 'list'}))
 ]
 

@@ -95,8 +95,7 @@
         </style>
         <iron-ajax auto
                    id="getProject"
-                   url="http://127.0.0.1:8000/api/lpbc/proyecto/{activo}"
-                   params='{activo:true}'
+                   url="http://0.0.0.0:8000/api/lpbc/project/active"
                    handle-as="json"
                    on-response="handleResponse"
                    debounce-duration="300"
@@ -106,7 +105,7 @@
         <iron-ajax
             id="addProject"
             method="post"
-            url="http://127.0.0.1:8000/api/lpbc/proyecto/"
+            url="http://0.0.0.0:8000/api/lpbc/project/"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>

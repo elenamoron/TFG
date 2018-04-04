@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from organization.models import Organization, Profile, Project
-from organization.serializers import OrganizationSerializer, ProfileSerializer, ProyectoSerializer
+from organization.serializers import OrganizationSerializer, ProfileSerializer, ProjectSerializer
 
 
 class OrganizationViewSet(viewsets.ModelViewSet):
@@ -53,7 +53,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
-class ProyectoViewSet(viewsets.ModelViewSet):
+class ProjectViewSet(viewsets.ModelViewSet):
     """
         retrieve:
             Return a proyecto instance.
@@ -74,16 +74,16 @@ class ProyectoViewSet(viewsets.ModelViewSet):
             Update a proyecto.
         """
     queryset = Project.objects.all()
-    serializer_class = ProyectoSerializer
+    serializer_class = ProjectSerializer
 
-class ProyectoActive(viewsets.ModelViewSet):
-    serializer_class = ProyectoSerializer
+class ProjectActive(viewsets.ModelViewSet):
+    serializer_class = ProjectSerializer
 
     def get_queryset(self):
-        return Project.objects.filter(proyecto__activo=True)
+        return Project.objects.filter(activo=True)
 
 class ProyectoByName(viewsets.ModelViewSet):
-    serializer_class = ProyectoSerializer
+    serializer_class = ProjectSerializer
 
     def get_queryset(self):
 
