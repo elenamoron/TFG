@@ -17,7 +17,7 @@ from django.urls import path
 from django.urls import re_path
 from rest_framework import routers
 from django.conf.urls import  url
-from organizacion.views import OrganizationViewSet, ProfileViewSet, ProyectoActive, ProyectoViewSet, ProyectoByName
+from organization.views import OrganizationViewSet, ProfileViewSet, ProyectoActive, ProyectoViewSet, ProyectoByName
 
 
 urlpatterns = [

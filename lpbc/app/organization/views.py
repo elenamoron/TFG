@@ -3,8 +3,8 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from organizacion.models import Organization, Profile, Proyecto
-from organizacion.serializers import OrganizationSerializer, ProfileSerializer, ProyectoSerializer
+from organization.models import Organization, Profile, Proyecto
+from organization.serializers import OrganizationSerializer, ProfileSerializer, ProyectoSerializer
 
 
 class OrganizationViewSet(viewsets.ModelViewSet):

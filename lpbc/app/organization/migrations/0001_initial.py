@@ -114,9 +114,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('datos_particulares', models.CharField(blank=True, max_length=255)),
-                ('persona_fisica', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='organizacion.PersonaFisica')),
-                ('persona_juridica', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='organizacion.PersonaJuridica')),
-                ('tipo_relacion', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='organizacion.Relacion')),
+                ('persona_fisica', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='organization.PersonaFisica')),
+                ('persona_juridica', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='organization.PersonaJuridica')),
+                ('tipo_relacion', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='organization.Relacion')),
             ],
         ),
     ]

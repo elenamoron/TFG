@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from organizacion.models import Organization, Profile, Proyecto
+from organization.models import Organization, Profile, Proyecto
 
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
