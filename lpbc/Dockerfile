@@ -1,5 +1,6 @@
 FROM python:3.5
 ENV PYTHONUNBUFFERED 1
+RUN pip install --upgrade pip
 RUN mkdir /local;
 ADD /app /local
 RUN mkdir /config

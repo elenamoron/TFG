@@ -4,8 +4,8 @@ services:
     image: mysql:latest
     env_file:
       - .env
-    expose:
-      - "3306"
+    ports:
+      - "3307:3306"
 
   redis:
     image: redis:latest
@@ -26,3 +26,6 @@ services:
       - ./:/local
     ports:
       - "8000:8000"
+    depends_on:
+      - db
+      - redis
