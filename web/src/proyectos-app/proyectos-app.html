@@ -105,7 +105,7 @@
         <iron-ajax
             id="addProject"
             method="post"
-            url="http://0.0.0.0:8000/api/lpbc/project/"
+            url="http://0.0.0.0:8000/api/lpbc/project"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>
@@ -166,7 +166,7 @@
                 this.$.animated.open();
             }
             handleResponse (data) {
-                this.proyectos = data.detail.response;
+                this.proyectos = data.detail.response.results;
             }
             add(){
                 var d = new Date();
@@ -176,6 +176,10 @@
                 this.$.addProject.body={"name":this.nombre,"description":this.descripcion, "fecha_creacion":yyyy+'-'+mm+'-'+dd};
                 this.$.addProject.generateRequest();
             }
+            archivar(){
+
+            }
+
 
 
 

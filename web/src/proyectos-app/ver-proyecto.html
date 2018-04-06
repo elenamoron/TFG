@@ -197,6 +197,17 @@
             _drawerSelected() {
                 if (!this.$.drawer.persistent) this.$.drawer.close();
             }
+            desconectar(){
+                this.$.auth.signOut()
+                        .then(function(response){
+                                    location="#/landing";
+                                }
+
+                        )
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+            }
 
 
 
