@@ -82,10 +82,10 @@ class ProjectActive(viewsets.ModelViewSet):
     def get_queryset(self):
         return Project.objects.filter(activo=True)
 
-class ProyectoByName(viewsets.ModelViewSet):
+class ProjectByName(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
 
     def get_queryset(self):
 
         name = self.kwargs['name']
-        return Project.objects.filter(proyecto__name=name)
+        return Project.objects.filter(name=name)
