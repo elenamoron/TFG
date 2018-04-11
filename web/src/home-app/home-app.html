@@ -16,6 +16,7 @@
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <!--link rel="import" href="../web-app/web-app.html"-->
 <link rel="import" href="../proyectos-app/proyectos-app.html">
+<link rel="import" href="../proyectos-app/proyectos-archivados.html">
 
 <dom-module id="home-app">
     <template>
@@ -129,7 +130,11 @@
                             route="{{_subRoute}}"
                     >
                     </proyectos-app>
-
+                    <proyectos-archivados
+                            name="archivados"
+                            route="{{_subRoute}}"
+                    >
+                    </proyectos-archivados>
 
                 </iron-pages>
 

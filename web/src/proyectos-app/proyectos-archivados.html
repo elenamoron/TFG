@@ -8,7 +8,7 @@
 <link rel="import" href="../register-app/register-app.html">
 <link rel="import" href="../home-app/home-app.html">
 <link rel="import" href="../proyectos-app/ver-proyecto.html">
-<dom-module id="resumen-app">
+<dom-module id="proyectos-archivados">
     <template>
         <style>
 
@@ -23,19 +23,8 @@
                 route="{{_subRoute}}"
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
-        <app-header-layout>
-            <template is="dom-repeat" items="{{proyecto}}">
-                    <div class="">
-                        <div class="">{{item.name}}</div>
-                        <div class="">{{item.cliente}}</div>
-                        <div>{{item.description}}</div>
-                    </div>
 
-                    <div class="" style="background: url('../../media/{{item.logo }}')"></div>
-
-
-            </template>
-        </app-header-layout>
+        <h1>Resumen</h1>
     </template>
 
     <script>
@@ -43,25 +32,20 @@
          * @customElement
          * @polymer
          */
-        class ResumenApp extends Polymer.Element {
-            static get is() { return 'resumen-app'; }
+        class ProyectosArchivadosApp extends Polymer.Element {
+            static get is() { return 'proyectos-archivados'; }
             static get properties() {
                 return {
                     prop1: {
                         type: String,
-                        value: 'resumen-app'
-                    },
-                    proyecto : Object
+                        value: 'proyectos-archivados'
+                    }
 
                 };
-            }
-            ready(){
-                super.ready();
-                console.log(this.proyecto);
             }
 
         }
 
-        window.customElements.define(ResumenApp.is, ResumenApp);
+        window.customElements.define(ProyectosArchivadosApp.is, ProyectosArchivadosApp);
     </script>
 </dom-module>
