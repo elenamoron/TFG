@@ -1,6 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/datetime-picker/date-picker.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
@@ -24,7 +26,11 @@
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
 
-        <h1>Juridicas</h1>
+        <h1>Datos Identificativos</h1>
+        <paper-input placeholder="Denominación social"></paper-input>
+        <paper-input placeholder="CIF"></paper-input>
+        <paper-input placeholder="Lugar de constitución"></paper-input>
+        <p>Fecha de constitución </p><date-picker value="{{value}}"></date-picker>
     </template>
 
     <script>
