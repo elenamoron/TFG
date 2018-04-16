@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/datetime-picker/date-picker.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
@@ -15,7 +16,45 @@
 <dom-module id="juridicas-app">
     <template>
         <style>
+            .content{
+                padding-left: 50px;
+                padding-right: 50px;
+                padding-top: 30px;
+                background-color: ghostwhite;
+                padding-bottom: 30px;
+            }
+            .column {
+                float: left;
+                width: 47%;
+                padding-left: 10px;
+            }
 
+            /* Clear floats after the columns */
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+            paper-fab {
+                position: fixed;
+                right: 24px;
+                bottom: 24px;
+                --paper-fab-background: #ff4081;
+                --paper-fab-keyboard-focus-background: #DF4448;
+            }
+            @media only screen and (max-width: 600px) {
+                .content {
+                    padding-left: 30px;
+                    padding-right: 10px;
+                    padding-top: 30px;
+                    background-color: ghostwhite;
+                    padding-bottom: 30px;
+                }
+                .column {
+                    float: left;
+                    width: 90%;
+                }
+            }
         </style>
         <app-location route="{{route}}" use-hash-as-path></app-location>
         <app-route
@@ -27,36 +66,47 @@
                 route="{{_subRoute}}"
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
+        <div class="content ">
+            <h1>Datos Identificativos</h1>
+            <form>
+                <div class="row">
+                    <div class="column">
+                        <paper-input name="denominacion-social" placeholder="Denominación social"></paper-input>
+                        <paper-input name="cif" placeholder="CIF"></paper-input>
+                        <paper-input name="lugar-constitucion" placeholder="Lugar de constitución"></paper-input>
+                        <p>Fecha de constitución </p><date-picker name="fecha-constitucion" value="{{value}}"></date-picker>
+                        <paper-input name="sector" placeholder="Sector"></paper-input>
+                        <p>Domicilio fiscal </p>
+                        <paper-input name="poblacion" placeholder="Población"></paper-input>
+                        <paper-input name="provincia" placeholder="Provincia"></paper-input>
+                        <paper-input name="cp" placeholder="Código postal"></paper-input>
+                        <paper-input name="pais" placeholder="Pais"></paper-input>
+                        <paper-input name="telefono" placeholder="Tlf"></paper-input>
+                    </div>
+                    <div class="column">
+                        <p>Forma Jurídica </p>
+                        <paper-radio-group name="forma-juridica" selected="" allow-empty-selection>
+                            <paper-radio-button name="s.a">Sociedad Anónima</paper-radio-button>
+                            <paper-radio-button name="s.l">Sociedad Limitada</paper-radio-button>
+                            <paper-radio-button name="otros">Otros</paper-radio-button>
+                        </paper-radio-group>
+                        <p>Inscrita/registrada </p>
+                        <paper-radio-group name="inscrita" selected="" allow-empty-selection>
+                            <paper-radio-button name="mercantil">Registro mercantil</paper-radio-button>
+                            <paper-radio-button name="politicos">Registro de asociaciones y partidos politicos</paper-radio-button>
+                            <paper-radio-button name="deportivas">Registro de asociaciones deportivas</paper-radio-button>
+                            <paper-radio-button name="cooperativas">Registro general de cooperativas</paper-radio-button>
+                            <paper-radio-button name="religiosas">Registro de entidades religiosas</paper-radio-button>
+                            <paper-radio-button name="justicia-interior">Registro de fundaciones del ministerio de Justicia e interior</paper-radio-button>
+                            <paper-radio-button name="otros">Otros registros públicos</paper-radio-button>
+                        </paper-radio-group>
+                        <paper-input placeholder="Nº de inscripción en el registro correspondiente"></paper-input>
 
-        <h1>Datos Identificativos</h1>
-        <paper-input placeholder="Denominación social"></paper-input>
-        <paper-input placeholder="CIF"></paper-input>
-        <paper-input placeholder="Lugar de constitución"></paper-input>
-        <p>Fecha de constitución </p><date-picker value="{{value}}"></date-picker>
-        <paper-input placeholder="Sector"></paper-input>
-        <p>Forma Jurídica </p>
-        <paper-radio-group selected="" allow-empty-selection>
-            <paper-radio-button name="s.a">Sociedad Anónima</paper-radio-button>
-            <paper-radio-button name="s.l">Sociedad Limitada</paper-radio-button>
-            <paper-radio-button name="otros">Otros</paper-radio-button>
-        </paper-radio-group>
-        <p>Inscrita/registrada </p>
-        <paper-radio-group selected="" allow-empty-selection>
-            <paper-radio-button name="mercantil">Registro mercantil</paper-radio-button>
-            <paper-radio-button name="politicos">Registro de asociaciones y partidos politicos</paper-radio-button>
-            <paper-radio-button name="deportivas">Registro de asociaciones deportivas</paper-radio-button>
-            <paper-radio-button name="cooperativas">Registro general de cooperativas</paper-radio-button>
-            <paper-radio-button name="religiosas">Registro de entidades religiosas</paper-radio-button>
-            <paper-radio-button name="justicia-interior">Registro de fundaciones del ministerio de Justicia e interior</paper-radio-button>
-            <paper-radio-button name="otros">Otros registros públicos</paper-radio-button>
-        </paper-radio-group>
-        <paper-input placeholder="Nº de inscripción en el registro correspondiente"></paper-input>
-        <p>Domicilio fiscal </p>
-        <paper-input placeholder="Población"></paper-input>
-        <paper-input placeholder="Provincia"></paper-input>
-        <paper-input placeholder="Código postal"></paper-input>
-        <paper-input placeholder="Pais"></paper-input>
-        <paper-input placeholder="Tlf"></paper-input>
+                    </div>
+                    <paper-fab icon="add" raised on-tap="add"></paper-fab>
+                </div>
+            </form>
+        </div>
     </template>
 
     <script>
@@ -74,6 +124,9 @@
                     }
 
                 };
+            }
+            add(){
+
             }
 
         }
