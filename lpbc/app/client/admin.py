@@ -21,7 +21,7 @@ admin.site.register(PhysicalPerson, PhysicalPersonAdmin)
 
 
 class RelationshipAdmin(admin.ModelAdmin):
-    list_display = ('relacion',)
+    list_display = ('relationship',)
 
 admin.site.register(Relationship, RelationshipAdmin)
 

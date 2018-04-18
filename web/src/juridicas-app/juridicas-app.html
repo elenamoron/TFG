@@ -66,41 +66,53 @@
                 route="{{_subRoute}}"
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
+        <iron-ajax
+            id="addLegalPerson"
+            method="post"
+            url="http://0.0.0.0:8000/api/lpbc/client/LegalPerson"
+            handle-as="json"
+            content-type="application/json"
+            on-response={{postResponse}}>
+
+        </iron-ajax>
         <div class="content ">
             <h1>Datos Identificativos</h1>
             <form>
                 <div class="row">
                     <div class="column">
-                        <paper-input name="denominacion-social" placeholder="Denominación social"></paper-input>
-                        <paper-input name="cif" placeholder="CIF"></paper-input>
-                        <paper-input name="lugar-constitucion" placeholder="Lugar de constitución"></paper-input>
-                        <p>Fecha de constitución </p><date-picker name="fecha-constitucion" value="{{value}}"></date-picker>
-                        <paper-input name="sector" placeholder="Sector"></paper-input>
+                        <paper-input value="{{denominacion_social}}" placeholder="Denominación social"></paper-input>
+                        <paper-input value="{{CIF}}" placeholder="CIF"></paper-input>
+                        <paper-input value="{{ubicacion}}" placeholder="Lugar de constitución"></paper-input>
+                        <p>Fecha de constitución </p><date-picker value="{{fecha_constitucion}}" value="{{value}}"></date-picker>
+                        <paper-input value="{{sector}}" placeholder="Sector"></paper-input>
                         <p>Domicilio fiscal </p>
-                        <paper-input name="poblacion" placeholder="Población"></paper-input>
-                        <paper-input name="provincia" placeholder="Provincia"></paper-input>
-                        <paper-input name="cp" placeholder="Código postal"></paper-input>
-                        <paper-input name="pais" placeholder="Pais"></paper-input>
-                        <paper-input name="telefono" placeholder="Tlf"></paper-input>
+                        <paper-input value="{{poblacion}}" placeholder="Población"></paper-input>
+                        <paper-input value="{{provincia}}" placeholder="Provincia"></paper-input>
+                        <paper-input value="{{cp}}" placeholder="Código postal"></paper-input>
+                        <paper-input value="{{pais}}" placeholder="Pais"></paper-input>
+                        <paper-input value="{{telefono}}" placeholder="Tlf"></paper-input>
+                        <paper-input value="{{email}}" placeholder="email"></paper-input>
                     </div>
                     <div class="column">
                         <p>Forma Jurídica </p>
-                        <paper-radio-group name="forma-juridica" selected="" allow-empty-selection>
-                            <paper-radio-button name="s.a">Sociedad Anónima</paper-radio-button>
-                            <paper-radio-button name="s.l">Sociedad Limitada</paper-radio-button>
-                            <paper-radio-button name="otros">Otros</paper-radio-button>
+                        <paper-radio-group value="{{forma_juridica}}" selected="" allow-empty-selection>
+                            <paper-radio-button name="s.a" value="{{forma_juridica}}">Sociedad Anónima</paper-radio-button>
+                            <paper-radio-button name="s.l" value="{{forma_juridica}}">Sociedad Limitada</paper-radio-button>
+                            <paper-radio-button name="otros" value="{{forma_juridica}}">Otros</paper-radio-button>
                         </paper-radio-group>
                         <p>Inscrita/registrada </p>
-                        <paper-radio-group name="inscrita" selected="" allow-empty-selection>
-                            <paper-radio-button name="mercantil">Registro mercantil</paper-radio-button>
-                            <paper-radio-button name="politicos">Registro de asociaciones y partidos politicos</paper-radio-button>
-                            <paper-radio-button name="deportivas">Registro de asociaciones deportivas</paper-radio-button>
-                            <paper-radio-button name="cooperativas">Registro general de cooperativas</paper-radio-button>
-                            <paper-radio-button name="religiosas">Registro de entidades religiosas</paper-radio-button>
-                            <paper-radio-button name="justicia-interior">Registro de fundaciones del ministerio de Justicia e interior</paper-radio-button>
-                            <paper-radio-button name="otros">Otros registros públicos</paper-radio-button>
+                        <paper-radio-group value="{{registro}}" selected="" allow-empty-selection>
+                            <paper-radio-button name="mercantil" value="{{registro}}">Registro mercantil</paper-radio-button>
+                            <paper-radio-button name="politicos" value="{{registro}}">
+                                Registro de asociaciones y partidos politicos</paper-radio-button>
+                            <paper-radio-button name="deportivas" value="{{registro}}">Registro de asociaciones deportivas</paper-radio-button>
+                            <paper-radio-button name="cooperativas" value="{{registro}}">Registro general de cooperativas</paper-radio-button>
+                            <paper-radio-button name="religiosas" value="{{registro}}">Registro de entidades religiosas</paper-radio-button>
+                            <paper-radio-button name="justicia-interior" value="{{registro}}">
+                                Registro de fundaciones del ministerio de Justicia e interior</paper-radio-button>
+                            <paper-radio-button name="otros" value="{{registro}}">Otros registros públicos</paper-radio-button>
                         </paper-radio-group>
-                        <paper-input placeholder="Nº de inscripción en el registro correspondiente"></paper-input>
+                        <paper-input placeholder="Nº de inscripción en el registro correspondiente" value="{{numero_inscripciones}}"></paper-input>
 
                     </div>
                     <paper-fab icon="add" raised on-tap="add"></paper-fab>
@@ -126,7 +138,12 @@
                 };
             }
             add(){
-
+                debugger;
+                this.$.addLegalPerson.body={"denominacion_social":this.denominacion_social, "CIF":this.CIF, "ubicacion":this.ubicacion,
+                    "fecha_constitucion": this.fecha_constitucion, "sector":this.sector, "forma_juridica": this.forma_juridica,
+                    "registro":this.registro, "numero_inscripciones":this.numero_inscripciones, "poblacion":this.poblacion,
+                    "provincia":this.provincia, "codigo_postal":this.cp, "pais":this.pais, "telefono":this.telefono, "email": this.email};
+                this.$.addLegalPerson.generateRequest();
             }
 
         }
