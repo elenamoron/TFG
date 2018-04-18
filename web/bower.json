@@ -22,7 +22,9 @@
     "paper-date-picker": "^0.1.5",
     "datetime-picker": "fooloomanzoo/datetime-picker#^2.8.9",
     "paper-radio-button": "PolymerElements/paper-radio-button#^2.1.0",
-    "paper-radio-group": "PolymerElements/paper-radio-group#^2.2.0"
+    "paper-radio-group": "PolymerElements/paper-radio-group#^2.2.0",
+    "app-datepicker": "motss/app-datepicker#^2.12.0",
+    "vaadin-date-picker": "vaadin/vaadin-date-picker#^2.0.7"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",
