@@ -67,12 +67,30 @@
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
         <iron-ajax
+            auto
+            method="get"
+            url="http://0.0.0.0:8000/api/lpbc/client/LegalPerson/{{id_project}}/"
+            handle-as="json"
+            content-type="application/json"
+            on-response="handleResponse">
+
+        </iron-ajax>
+        <iron-ajax
             id="addLegalPerson"
             method="post"
-            url="http://0.0.0.0:8000/api/lpbc/client/LegalPerson"
+            url="http://0.0.0.0:8000/api/lpbc/client/LegalPerson/{{id_project}}/"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>
+
+        </iron-ajax>
+        <iron-ajax
+            id="putLegalPerson"
+            method="put"
+            url="http://0.0.0.0:8000/api/lpbc/client/LegalPerson/{{id_project}}/"
+            handle-as="json"
+            content-type="application/json"
+            on-response={{putResponse}}>
 
         </iron-ajax>
         <div class="content ">
@@ -80,28 +98,28 @@
             <form>
                 <div class="row">
                     <div class="column">
-                        <paper-input value="{{denominacion_social}}" placeholder="Denominación social"></paper-input>
-                        <paper-input value="{{CIF}}" placeholder="CIF"></paper-input>
-                        <paper-input value="{{ubicacion}}" placeholder="Lugar de constitución"></paper-input>
-                        <vaadin-date-picker label="Fecha de constitución" value="{{fecha_constitucion}}"></vaadin-date-picker>
-                        <paper-input value="{{sector}}" placeholder="Sector"></paper-input>
+                        <paper-input value="{{legalPerson.denominacion_social}}" placeholder="Denominación social"></paper-input>
+                        <paper-input value="{{legalPerson.CIF}}" placeholder="CIF"></paper-input>
+                        <paper-input value="{{legalPerson.ubicacion}}" placeholder="Lugar de constitución"></paper-input>
+                        <vaadin-date-picker label="Fecha de constitución" value="{{legalPerson.fecha_constitucion}}"></vaadin-date-picker>
+                        <paper-input value="{{legalPerson.sector}}" placeholder="Sector"></paper-input>
                         <p>Domicilio fiscal </p>
-                        <paper-input value="{{poblacion}}" placeholder="Población"></paper-input>
-                        <paper-input value="{{provincia}}" placeholder="Provincia"></paper-input>
-                        <paper-input value="{{cp}}" placeholder="Código postal"></paper-input>
-                        <paper-input value="{{pais}}" placeholder="Pais"></paper-input>
-                        <paper-input value="{{telefono}}" placeholder="Tlf"></paper-input>
-                        <paper-input value="{{email}}" placeholder="email"></paper-input>
+                        <paper-input value="{{legalPerson.poblacion}}" placeholder="Población"></paper-input>
+                        <paper-input value="{{legalPerson.provincia}}" placeholder="Provincia"></paper-input>
+                        <paper-input value="{{legalPerson.codigo_postal}}" placeholder="Código postal"></paper-input>
+                        <paper-input value="{{legalPerson.pais}}" placeholder="Pais"></paper-input>
+                        <paper-input value="{{legalPerson.telefono}}" placeholder="Tlf"></paper-input>
+                        <paper-input value="{{legalPerson.email}}" placeholder="email"></paper-input>
                     </div>
                     <div class="column">
                         <p>Forma Jurídica </p>
-                        <paper-radio-group value="{{forma_juridica}}" selected="{{forma_juridica}}" allow-empty-selection>
+                        <paper-radio-group value="{{legalPerson.forma_juridica}}" selected="{{legalPerson.forma_juridica}}" allow-empty-selection>
                             <paper-radio-button name="s.a" >Sociedad Anónima</paper-radio-button>
                             <paper-radio-button name="s.l" >Sociedad Limitada</paper-radio-button>
                             <paper-radio-button name="otros" >Otros</paper-radio-button>
                         </paper-radio-group>
                         <p>Inscrita/registrada </p>
-                        <paper-radio-group value="{{registro}}" selected="{{registro}}" allow-empty-selection>
+                        <paper-radio-group value="{{legalPerson.registro}}" selected="{{legalPerson.registro}}" allow-empty-selection>
                             <paper-radio-button name="mercantil" >Registro mercantil</paper-radio-button>
                             <paper-radio-button name="politicos" >
                                 Registro de asociaciones y partidos politicos</paper-radio-button>
@@ -112,7 +130,7 @@
                                 Registro de fundaciones del ministerio de Justicia e interior</paper-radio-button>
                             <paper-radio-button name="otros" >Otros registros públicos</paper-radio-button>
                         </paper-radio-group>
-                        <paper-input placeholder="Nº de inscripción en el registro correspondiente" value="{{numero_inscripciones}}"></paper-input>
+                        <paper-input placeholder="Nº de inscripción en el registro correspondiente" value="{{legalPerson.numero_inscripciones}}"></paper-input>
 
                     </div>
                     <paper-fab icon="add" raised on-tap="add"></paper-fab>
@@ -133,16 +151,37 @@
                     prop1: {
                         type: String,
                         value: 'juridicas-app'
-                    }
+                    },
+                    legalPerson: Object,
+                    id_project: Number
 
                 };
             }
+            ready() {
+                super.ready();
+                if(localStorage.getItem('id_project')){
+                    this.id_project=localStorage.getItem('id_project');
+                }
+            }
+            handleResponse (data) {
+                this.legalPerson = data.detail.response.results;
+                if(this.legalPerson[0]){
+                    this.legalPerson = this.legalPerson[0];
+                }
+
+            }
             add(){
-                this.$.addLegalPerson.body={"denominacion_social":this.denominacion_social, "CIF":this.CIF, "ubicacion":this.ubicacion,
+                if(!this.legalPerson){
+                    this.$.addLegalPerson.body={"denominacion_social":this.denominacion_social, "CIF":this.CIF, "ubicacion":this.ubicacion,
                     "fecha_constitucion": this.fecha_constitucion, "sector":this.sector, "forma_juridica": this.forma_juridica,
                     "registro":this.registro, "numero_inscripciones":this.numero_inscripciones, "poblacion":this.poblacion,
                     "provincia":this.provincia, "codigo_postal":this.cp, "pais":this.pais, "telefono":this.telefono, "email": this.email};
-                this.$.addLegalPerson.generateRequest();
+                    this.$.addLegalPerson.generateRequest();
+                }else{
+                    this.$.putLegalPerson.body=this.legalPerson;
+                    this.$.putLegalPerson.generateRequest();
+                }
+
             }
 
         }

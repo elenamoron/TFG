@@ -17,11 +17,11 @@ from django.urls import path
 from django.urls import re_path
 from rest_framework import routers
 from django.conf.urls import url
-from client.views import LegalPersonViewSet
-
+from client.views import LegalPersonViewSet,PhysicalPersonViewSet
 
 urlpatterns = [
-    path('LegalPerson', LegalPersonViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('LegalPerson/<int:idProject>/', LegalPersonViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update'})),
+    path('PhysicalPerson/<int:idProject>/', PhysicalPersonViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update'})),
 
 ]
 

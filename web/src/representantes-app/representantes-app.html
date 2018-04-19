@@ -1,0 +1,175 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/vaadin-date-picker/vaadin-date-picker.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../register-app/register-app.html">
+<link rel="import" href="../home-app/home-app.html">
+<link rel="import" href="../proyectos-app/ver-proyecto.html">
+<dom-module id="representantes-app">
+    <template>
+        <style>
+            .content{
+                padding-left: 50px;
+                padding-right: 50px;
+                padding-top: 30px;
+                background-color: ghostwhite;
+                padding-bottom: 30px;
+            }
+            .column {
+                float: left;
+                width: 47%;
+                padding-left: 10px;
+            }
+
+            /* Clear floats after the columns */
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+            paper-fab {
+                position: fixed;
+                right: 24px;
+                bottom: 24px;
+                --paper-fab-background: #ff4081;
+                --paper-fab-keyboard-focus-background: #DF4448;
+            }
+            @media only screen and (max-width: 600px) {
+                .content {
+                    padding-left: 30px;
+                    padding-right: 10px;
+                    padding-top: 30px;
+                    background-color: ghostwhite;
+                    padding-bottom: 30px;
+                }
+                .column {
+                    float: left;
+                    width: 90%;
+                }
+            }
+        </style>
+        <app-location route="{{route}}" use-hash-as-path></app-location>
+        <app-route
+                route="{{route}}"
+                pattern="/:page"
+                data="{{_pageData}}"
+                tail="{{_subRoute}}"></app-route>
+        <app-route
+                route="{{_subRoute}}"
+                pattern="/:id"
+                data="{{_idData}}"></app-route>
+        <iron-ajax
+            auto
+            method="get"
+            url="http://0.0.0.0:8000/api/lpbc/client/PhysicalPerson/{{id_project}}/"
+            handle-as="json"
+            content-type="application/json"
+            on-response="handleResponse">
+
+        </iron-ajax>
+        <iron-ajax
+            id="addPhysicalPerson"
+            method="post"
+            url="http://0.0.0.0:8000/api/lpbc/client/PhysicalPerson/{{id_project}}/"
+            handle-as="json"
+            content-type="application/json"
+            on-response={{postResponse}}>
+
+        </iron-ajax>
+        <iron-ajax
+            id="putPhysicalPerson"
+            method="put"
+            url="http://0.0.0.0:8000/api/lpbc/client/PhysicalPerson/{{id_project}}/"
+            handle-as="json"
+            content-type="application/json"
+            on-response={{putResponse}}>
+
+        </iron-ajax>
+        <div class="content ">
+            <h1>Datos del representantes autorizados</h1>
+            <form>
+                <div class="row">
+
+                    <paper-input value="{{physicalPerson.nombre_completo}}" placeholder="Nombre y apellidos"></paper-input>
+                    <p>Tipo de Documento </p>
+                    <paper-radio-group value="{{physicalPerson.documento_identificativo}}" selected="{{physicalPerson.documento_identificativo}}" allow-empty-selection>
+                        <paper-radio-button name="nif" >NIF</paper-radio-button>
+                        <paper-radio-button name="pasaporte" >Pasaporte</paper-radio-button>
+                        <paper-radio-button name="t-residencia" >Tarjeta de residencia</paper-radio-button>
+                    </paper-radio-group>
+                    <vaadin-date-picker label="Fecha de caducidad" value="{{physicalPerson.fecha_caducidad}}"></vaadin-date-picker>
+                    <paper-input value="{{physicalPerson.lugar_nacimiento}}" placeholder="Lugar de nacimiento"></paper-input>
+                    <paper-input value="{{physicalPerson.nacionalidad}}" placeholder="Nacionalidad"></paper-input>
+                    <paper-input value="{{physicalPerson.pais_nacionalidad}}" placeholder="Pais nacionalidad"></paper-input>
+                    <paper-input value="{{physicalPerson.pais_residencia}}" placeholder="Pais de residencia"></paper-input>
+                    <paper-input value="{{physicalPerson.domicilio}}" placeholder="Domicilio"></paper-input>
+                    <paper-input value="{{physicalPerson.telefono}}" placeholder="Tlf"></paper-input>
+                    <paper-input value="{{physicalPerson.email}}" placeholder="email"></paper-input>
+                    <paper-input value="{{physicalPerson.acreditacion_poderes}}" placeholder="Acreditacion de poderes"></paper-input>
+
+
+                    <paper-fab icon="add" raised on-tap="add"></paper-fab>
+                </div>
+            </form>
+        </div>
+    </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class RepresentantesApp extends Polymer.Element {
+            static get is() { return 'representantes-app'; }
+            static get properties() {
+                return {
+                    prop1: {
+                        type: String,
+                        value: 'representantes-app'
+                    },
+                    physicalPerson: Object,
+                    id_project: Number
+
+                };
+            }
+            ready() {
+                super.ready();
+                if(localStorage.getItem('id_project')){
+                    this.id_project=localStorage.getItem('id_project');
+                }
+            }
+            handleResponse (data) {
+                this.physicalPerson = data.detail.response.results;
+                debugger;
+                if(this.physicalPerson[0]){
+                    this.physicalPerson = this.physicalPerson[0];
+                }
+
+            }
+            add(){
+                if(!this.physicalPerson){
+                    this.$.addPhysicalPerson.body={"nombre_completo": this.nombre_completo, "documento_identificativo": this.documento_identificativo,
+                        "fecha_caducidad":this.fecha_caducidad, "nacionalidad":this.nacionalidad, "pais_nacionalidad":this.pais_nacionalidad,
+                        "lugar_nacimiento":this.lugar_nacimiento, "pais_residencia":this.pais_residencia, "domicilio":this.domicilio,
+                        "telefono":this.telefono, "email":this.email, "acreditacion_poderes":this.acreditacion_poderes};
+                    this.$.addPhysicalPerson.generateRequest();
+                }else{
+                    this.$.putPhysicalPerson.body=this.physicalPerson;
+                    this.$.putPhysicalPerson.generateRequest();
+                }
+
+            }
+
+        }
+
+        window.customElements.define(RepresentantesApp.is, RepresentantesApp);
+    </script>
+</dom-module>

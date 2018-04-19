@@ -14,6 +14,7 @@
 <link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
 <link rel="import" href="../resumen-app/resumen-app.html">
 <link rel="import" href="../juridicas-app/juridicas-app.html">
+<link rel="import" href="../representantes-app/representantes-app.html">
 
 <dom-module id="ver-proyecto">
     <template>
@@ -134,35 +135,35 @@
                             selected="{{_pageData.page}}"
                             attr-for-selected="name"
                             on-iron-activate="_drawerSelected">
-                        <paper-item name="resumen">Resumen
+                        <paper-item name="[[_pageData.page]]/resumen">Resumen
                         </paper-item>
-                        <paper-item name="juridicas">Personas Jurídicas</paper-item>
-                        <paper-item name="autorizados">Representantes Autorizados</paper-item>
-                        <paper-icon-item name="socios25%">
+                        <paper-item name="[[_pageData.page]]/juridicas">Personas Jurídicas</paper-item>
+                        <paper-item name="[[_pageData.page]]/representantes">Representantes Autorizados</paper-item>
+                        <paper-icon-item name="[[_pageData.page]]/representantes/socios25%">
                             <div class="avatar blue" slot="item-icon"></div>
                             <paper-item-body >
                                 <div secondary class="second">Socios que obstentan más del 25% de capital</div>
                             </paper-item-body>
                         </paper-icon-item>
-                        <paper-icon-item name="personas-responsabilidad-publica">
+                        <paper-icon-item name="[[_pageData.page]]/representantes/personas-responsabilidad-publica">
                             <div class="avatar" slot="item-icon"></div>
                             <paper-item-body>
                                 <div secondary class="second">Personas con responsabilidad pública</div>
                             </paper-item-body>
                         </paper-icon-item>
-                        <paper-icon-item name="personas-controlan-sociedad">
+                        <paper-icon-item name="[[_pageData.page]]/representantes/personas-controlan-sociedad">
                             <div class="avatar red" slot="item-icon"></div>
                             <paper-item-body>
                                 <div secondary class="second">Personas que controlan la sociedad</div>
                             </paper-item-body>
                         </paper-icon-item>
-                        <paper-icon-item name="25%control">
+                        <paper-icon-item name="[[_pageData.page]]/representantes/25%control">
                             <div class="avatar red-google" slot="item-icon"></div>
                             <paper-item-body>
                                 <div secondary class="second">Personas con más del 25% de control</div>
                             </paper-item-body>
                         </paper-icon-item>
-                        <paper-icon-item name="negocios">
+                        <paper-icon-item name="[[_pageData.page]]/representantes/negocios">
                             <div class="avatar pink" slot="item-icon"></div>
                             <paper-item-body>
                                 <div secondary class="second">Relación de negocios</div>
@@ -172,21 +173,26 @@
                 </app-header-layout>
 
             </app-drawer>
-            <iron-pages selected="[[_pageData.page]]" attr-for-selected="name">
+            <iron-pages selected="[[_subRoute.path]]" attr-for-selected="name">
                 <resumen-app
-                        name="resumen"
+                        name="/resumen"
                         route="{{_subRoute}}"
                         proyecto="{{proyecto}}"
                         nombre="{{nombre}}"
                 >
                 </resumen-app>
                 <juridicas-app
-                    name="juridicas"
+                    name="/juridicas"
                     route="{{_subRoute}}"
                 >
 
                 </juridicas-app>
+                <representantes-app
+                    name="/representantes"
+                    route="{{_subRoute}}"
+                >
 
+                </representantes-app>
 
             </iron-pages>
 
@@ -227,11 +233,20 @@
                         });
             }
             handleResponse (data) {
-                this.proyecto = data.detail.response.results;
-                if(this.proyecto[0]){
-                    this.nombre = this.proyecto[0].name
+                if(!this.proyecto.length){
+                    this.proyecto = data.detail.response.results;
+                    if(this.proyecto[0]){
+                        this.nombre = this.proyecto[0].name;
+                        if(localStorage.getItem('id_project')){
+                            if(localStorage.getItem('id_project')!=this.proyecto[0].id){
+                                localStorage.setItem('id_project', this.proyecto[0].id)
+                            }
+                        }else{
+                            localStorage.setItem('id_project', this.proyecto[0].id)
+                        }
+
+                    }
                 }
-                console.log(this.nombre);
             }
 
 

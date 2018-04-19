@@ -1,8 +1,9 @@
 from django.db import models
-
+from organization.models import Project
 
 # Create your models here.
 class LegalPerson(models.Model):
+    project = models.ForeignKey(Project,on_delete=models.CASCADE)
     denominacion_social = models.CharField(max_length=100, blank=True, default='')
     CIF = models.CharField(max_length=100, blank=True, default='')
     ubicacion = models.CharField(max_length=100, blank=True, default='')
@@ -20,6 +21,7 @@ class LegalPerson(models.Model):
 
 
 class PhysicalPerson(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     nombre_completo = models.CharField(max_length=255, blank=True)
     documento_identificativo = models.CharField(max_length=255, blank=True)
     fecha_caducidad = models.DateField(blank=True, null=True)
