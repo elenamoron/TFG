@@ -153,6 +153,7 @@
                         value: 'juridicas-app'
                     },
                     legalPerson: Object,
+                    haslegalPerson: Boolean,
                     id_project: Number
 
                 };
@@ -167,16 +168,15 @@
                 this.legalPerson = data.detail.response.results;
                 if(this.legalPerson[0]){
                     this.legalPerson = this.legalPerson[0];
+                    this.haslegalPerson = true;
                 }
 
             }
             add(){
-                if(!this.legalPerson){
-                    this.$.addLegalPerson.body={"denominacion_social":this.denominacion_social, "CIF":this.CIF, "ubicacion":this.ubicacion,
-                    "fecha_constitucion": this.fecha_constitucion, "sector":this.sector, "forma_juridica": this.forma_juridica,
-                    "registro":this.registro, "numero_inscripciones":this.numero_inscripciones, "poblacion":this.poblacion,
-                    "provincia":this.provincia, "codigo_postal":this.cp, "pais":this.pais, "telefono":this.telefono, "email": this.email};
+                if(!this.haslegalPerson){
+                    this.$.addLegalPerson.body=Object.assign({}, this.legalPerson);
                     this.$.addLegalPerson.generateRequest();
+                    this.haslegalPerson = true;
                 }else{
                     this.$.putLegalPerson.body=this.legalPerson;
                     this.$.putLegalPerson.generateRequest();

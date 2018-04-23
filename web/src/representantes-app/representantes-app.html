@@ -136,6 +136,7 @@
                         value: 'representantes-app'
                     },
                     physicalPerson: Object,
+                    hasphysicaPerson: Boolean,
                     id_project: Number
 
                 };
@@ -148,19 +149,18 @@
             }
             handleResponse (data) {
                 this.physicalPerson = data.detail.response.results;
-                debugger;
                 if(this.physicalPerson[0]){
+                    debugger;
                     this.physicalPerson = this.physicalPerson[0];
+                    this.hasphysicaPerson = true;
                 }
 
             }
             add(){
-                if(!this.physicalPerson){
-                    this.$.addPhysicalPerson.body={"nombre_completo": this.nombre_completo, "documento_identificativo": this.documento_identificativo,
-                        "fecha_caducidad":this.fecha_caducidad, "nacionalidad":this.nacionalidad, "pais_nacionalidad":this.pais_nacionalidad,
-                        "lugar_nacimiento":this.lugar_nacimiento, "pais_residencia":this.pais_residencia, "domicilio":this.domicilio,
-                        "telefono":this.telefono, "email":this.email, "acreditacion_poderes":this.acreditacion_poderes};
+                if(!this.hasphysicaPerson){
+                    this.$.addPhysicalPerson.body=Object.assign({}, this.physicalPerson);
                     this.$.addPhysicalPerson.generateRequest();
+                    this.hasphysicaPerson = true;
                 }else{
                     this.$.putPhysicalPerson.body=this.physicalPerson;
                     this.$.putPhysicalPerson.generateRequest();
