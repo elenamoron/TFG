@@ -81,19 +81,6 @@ class PhysicalPersonViewSet(viewsets.ModelViewSet):
         """
     serializer_class = PhysicalPersonSerializer
 
-    def get_queryset(self):
-        id_project = self.kwargs['idProject']
-        return PhysicalPerson.objects.filter(project=id_project)
-
-    def create(self, request, *args, **kwargs):
-        project = get_object_or_404(Project, id=self.kwargs['idProject'])
-        serializer = PhysicalPersonSerializer(project, data=request.data)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        physical_person = serializer.save()
-        response_serializer = PhysicalPersonSerializer(physical_person)
-        return Response(response_serializer.data, status.HTTP_201_CREATED)
-
     def update(self, request, *args, **kwargs):
         physical_person = get_object_or_404(PhysicalPerson, project_id=kwargs['idProject'])
         serializer = PhysicalPersonSerializer(physical_person, data=request.data)
