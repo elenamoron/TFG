@@ -33,18 +33,6 @@ class LegalPersonViewSet(viewsets.ModelViewSet):
         """
     serializer_class = LegalPersonSerializer
 
-    def get_queryset(self):
-        id_project = self.kwargs['idProject']
-        return LegalPerson.objects.filter(project=id_project)
-
-    def create(self, request, *args, **kwargs):
-        project = get_object_or_404(Project, id=self.kwargs['idProject'])
-        serializer = LegalPersonSerializer(project, data=request.data)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        legal_person = serializer.save()
-        response_serializer = LegalPersonSerializer(legal_person)
-        return Response(response_serializer.data, status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
         legal_person = get_object_or_404(LegalPerson, project_id=kwargs['idProject'])

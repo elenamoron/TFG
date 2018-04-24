@@ -20,8 +20,8 @@ from django.conf.urls import url
 from client.views import LegalPersonViewSet,PhysicalPersonViewSet
 
 urlpatterns = [
-    path('LegalPerson/<int:idProject>/', LegalPersonViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update'})),
-    path('PhysicalPerson/<int:idProject>/', PhysicalPersonViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update'})),
+    path('LegalPerson/', LegalPersonViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update'})),
+    path('PhysicalPerson/', PhysicalPersonViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update'})),
 
 ]
 
