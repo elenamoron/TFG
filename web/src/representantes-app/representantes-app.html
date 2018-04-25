@@ -5,6 +5,7 @@
 <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-collapse-item/paper-collapse-item.html">
 <link rel="import" href="../../bower_components/vaadin-date-picker/vaadin-date-picker.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
@@ -93,32 +94,66 @@
             on-response={{putResponse}}>
 
         </iron-ajax>
+
         <div class="content ">
-            <h1>Datos del representantes autorizados</h1>
-            <form>
-                <div class="row">
+            <template is="dom-if" if="{{physicalPersons}}" restamp>
+                <template is="dom-repeat" items="{{physicalPersons}}">
+                    <paper-collapse-item icon="icons:face" header="{{item.nombre_completo}}">
+                        <form>
+                            <div class="row">
 
-                    <paper-input value="{{physicalPerson.nombre_completo}}" placeholder="Nombre y apellidos"></paper-input>
-                    <p>Tipo de Documento </p>
-                    <paper-radio-group value="{{physicalPerson.documento_identificativo}}" selected="{{physicalPerson.documento_identificativo}}" allow-empty-selection>
-                        <paper-radio-button name="nif" >NIF</paper-radio-button>
-                        <paper-radio-button name="pasaporte" >Pasaporte</paper-radio-button>
-                        <paper-radio-button name="t-residencia" >Tarjeta de residencia</paper-radio-button>
-                    </paper-radio-group>
-                    <vaadin-date-picker label="Fecha de caducidad" value="{{physicalPerson.fecha_caducidad}}"></vaadin-date-picker>
-                    <paper-input value="{{physicalPerson.lugar_nacimiento}}" placeholder="Lugar de nacimiento"></paper-input>
-                    <paper-input value="{{physicalPerson.nacionalidad}}" placeholder="Nacionalidad"></paper-input>
-                    <paper-input value="{{physicalPerson.pais_nacionalidad}}" placeholder="Pais nacionalidad"></paper-input>
-                    <paper-input value="{{physicalPerson.pais_residencia}}" placeholder="Pais de residencia"></paper-input>
-                    <paper-input value="{{physicalPerson.domicilio}}" placeholder="Domicilio"></paper-input>
-                    <paper-input value="{{physicalPerson.telefono}}" placeholder="Tlf"></paper-input>
-                    <paper-input value="{{physicalPerson.email}}" placeholder="email"></paper-input>
-                    <paper-input value="{{physicalPerson.acreditacion_poderes}}" placeholder="Acreditacion de poderes"></paper-input>
+                                <paper-input value="{{item.nombre_completo}}" placeholder="Nombre y apellidos"></paper-input>
+                                <p>Tipo de Documento </p>
+                                <paper-radio-group value="{{item.documento_identificativo}}" selected="{{physicalPerson.documento_identificativo}}" allow-empty-selection>
+                                    <paper-radio-button name="nif" >NIF</paper-radio-button>
+                                    <paper-radio-button name="pasaporte" >Pasaporte</paper-radio-button>
+                                    <paper-radio-button name="t-residencia" >Tarjeta de residencia</paper-radio-button>
+                                </paper-radio-group>
+                                <vaadin-date-picker label="Fecha de caducidad" value="{{item.fecha_caducidad}}"></vaadin-date-picker>
+                                <paper-input value="{{item.lugar_nacimiento}}" placeholder="Lugar de nacimiento"></paper-input>
+                                <paper-input value="{{item.nacionalidad}}" placeholder="Nacionalidad"></paper-input>
+                                <paper-input value="{{item.pais_nacionalidad}}" placeholder="Pais nacionalidad"></paper-input>
+                                <paper-input value="{{item.pais_residencia}}" placeholder="Pais de residencia"></paper-input>
+                                <paper-input value="{{item.domicilio}}" placeholder="Domicilio"></paper-input>
+                                <paper-input value="{{item.telefono}}" placeholder="Tlf"></paper-input>
+                                <paper-input value="{{item.email}}" placeholder="email"></paper-input>
+                                <paper-input value="{{item.acreditacion_poderes}}" placeholder="Acreditacion de poderes"></paper-input>
 
 
-                    <paper-fab icon="add" raised on-tap="add"></paper-fab>
-                </div>
-            </form>
+                                <paper-fab icon="add" raised on-tap="add"></paper-fab>
+                            </div>
+                        </form>
+                    </paper-collapse-item>
+
+                </template>
+            </template>
+            <paper-collapse-item icon="icons:add-box" header="Añadir representante">
+                <h1>Datos de representantes autorizados</h1>
+                <form>
+                    <div class="row">
+
+                        <paper-input value="{{physicalPerson.nombre_completo}}" placeholder="Nombre y apellidos"></paper-input>
+                        <p>Tipo de Documento </p>
+                        <paper-radio-group value="{{physicalPerson.documento_identificativo}}" selected="{{physicalPerson.documento_identificativo}}" allow-empty-selection>
+                            <paper-radio-button name="nif" >NIF</paper-radio-button>
+                            <paper-radio-button name="pasaporte" >Pasaporte</paper-radio-button>
+                            <paper-radio-button name="t-residencia" >Tarjeta de residencia</paper-radio-button>
+                        </paper-radio-group>
+                        <vaadin-date-picker label="Fecha de caducidad" value="{{physicalPerson.fecha_caducidad}}"></vaadin-date-picker>
+                        <paper-input value="{{physicalPerson.lugar_nacimiento}}" placeholder="Lugar de nacimiento"></paper-input>
+                        <paper-input value="{{physicalPerson.nacionalidad}}" placeholder="Nacionalidad"></paper-input>
+                        <paper-input value="{{physicalPerson.pais_nacionalidad}}" placeholder="Pais nacionalidad"></paper-input>
+                        <paper-input value="{{physicalPerson.pais_residencia}}" placeholder="Pais de residencia"></paper-input>
+                        <paper-input value="{{physicalPerson.domicilio}}" placeholder="Domicilio"></paper-input>
+                        <paper-input value="{{physicalPerson.telefono}}" placeholder="Tlf"></paper-input>
+                        <paper-input value="{{physicalPerson.email}}" placeholder="email"></paper-input>
+                        <paper-input value="{{physicalPerson.acreditacion_poderes}}" placeholder="Acreditacion de poderes"></paper-input>
+
+
+                        <paper-fab icon="add" raised on-tap="add"></paper-fab>
+                    </div>
+                </form>
+            </paper-collapse-item>
         </div>
     </template>
 
