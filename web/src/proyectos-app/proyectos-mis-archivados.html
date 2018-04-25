@@ -8,7 +8,7 @@
 <link rel="import" href="../register-app/register-app.html">
 <link rel="import" href="../home-app/home-app.html">
 <link rel="import" href="../proyectos-app/ver-proyecto.html">
-<dom-module id="proyectos-archivados">
+<dom-module id="proyectos-mis-archivados">
     <template>
         <style>
 
@@ -32,13 +32,13 @@
          * @customElement
          * @polymer
          */
-        class ProyectosArchivadosApp extends Polymer.Element {
-            static get is() { return 'proyectos-archivados'; }
+        class ProyectosMisArchivadosApp extends Polymer.Element {
+            static get is() { return 'proyectos-mis-archivados'; }
             static get properties() {
                 return {
                     prop1: {
                         type: String,
-                        value: 'proyectos-archivados'
+                        value: 'proyectos-mis-archivados'
                     }
 
                 };
@@ -46,6 +46,6 @@
 
         }
 
-        window.customElements.define(ProyectosArchivadosApp.is, ProyectosArchivadosApp);
+        window.customElements.define(ProyectosMisArchivadosApp.is, ProyectosMisArchivadosApp);
     </script>
 </dom-module>

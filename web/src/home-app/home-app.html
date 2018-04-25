@@ -114,30 +114,30 @@
                                 selected="{{_pageData.page}}"
                                 attr-for-selected="name"
                                 on-iron-activate="_drawerSelected">
-                            <paper-item name="home">Mis proyectos activos
+                            <paper-item name="[[_pageData.page]]/mis-proyectos">Mis proyectos activos
                             </paper-item>
-                            <paper-item name="mis-archivados">Mis proyectos archivados
+                            <paper-item name="[[_pageData.page]]/mis-archivados">Mis proyectos archivados
                             </paper-item>
-                            <paper-item name="activos">Proyectos activos
+                            <paper-item name="[[_pageData.page]]/activos">Proyectos activos
                             </paper-item>
-                            <paper-item name="archivados">Proyectos archivados</paper-item>
+                            <paper-item name="[[_pageData.page]]/archivados">Proyectos archivados</paper-item>
                         </paper-listbox>
 
                     </app-header-layout>
                 </app-drawer>
-                <iron-pages selected="[[_pageData.page]]" attr-for-selected="name">
+                <iron-pages selected="[[_subRoute.path]]" attr-for-selected="name">
                     <proyectos-app
-                            name="home"
+                            name="/mis-proyectos"
                             route="{{_subRoute}}"
                     >
                     </proyectos-app>
                     <proyectos-archivados
-                            name="archivados"
+                            name="/archivados"
                             route="{{_subRoute}}"
                     >
                     </proyectos-archivados>
                     <proyectos-mis-archivados
-                            name="mis-archivados"
+                            name="/mis-archivados"
                             route="{{_subRoute}}"
                     >
                     </proyectos-mis-archivados>
