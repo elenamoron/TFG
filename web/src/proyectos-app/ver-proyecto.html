@@ -15,6 +15,7 @@
 <link rel="import" href="../resumen-app/resumen-app.html">
 <link rel="import" href="../juridicas-app/juridicas-app.html">
 <link rel="import" href="../representantes-app/representantes-app.html">
+<link rel="import" href="../representantes-app/representantes-25capital.html">
 
 <dom-module id="ver-proyecto">
     <template>
@@ -112,7 +113,7 @@
                 <app-header slot="header">
                     <app-toolbar>
                         <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-                        <div main-title>[[_pageData.page]] </div>
+                        <div main-title>[[_pageData.page]]</div>
                         <paper-icon-button icon="settings-power" raised on-click="desconectar"></paper-icon-button>
                     </app-toolbar>
                 </app-header>
@@ -193,6 +194,12 @@
                 >
 
                 </representantes-app>
+                <representantes-25capital
+                    name="/representantes/socios25%"
+                    route="{{_subRoute}}"
+                >
+
+                </representantes-25capital>
 
             </iron-pages>
 
