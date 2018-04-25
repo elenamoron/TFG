@@ -78,7 +78,7 @@
         <iron-ajax
             id="addLegalPerson"
             method="post"
-            url="http://0.0.0.0:8000/api/lpbc/client/LegalPerson/{{id_project}}/"
+            url="http://0.0.0.0:8000/api/lpbc/client/LegalPerson/"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>
@@ -173,6 +173,7 @@
 
             }
             add(){
+                this.legalPerson.project=this.id_project;
                 if(!this.haslegalPerson){
                     this.$.addLegalPerson.body=Object.assign({}, this.legalPerson);
                     this.$.addLegalPerson.generateRequest();

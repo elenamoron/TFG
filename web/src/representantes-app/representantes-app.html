@@ -78,7 +78,7 @@
         <iron-ajax
             id="addPhysicalPerson"
             method="post"
-            url="http://0.0.0.0:8000/api/lpbc/client/PhysicalPerson/{{id_project}}/"
+            url="http://0.0.0.0:8000/api/lpbc/client/PhysicalPerson/"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>
@@ -136,6 +136,7 @@
                         value: 'representantes-app'
                     },
                     physicalPerson: Object,
+                    physicalPersons: Object,
                     hasphysicaPerson: Boolean,
                     id_project: Number
 
@@ -149,14 +150,16 @@
             }
             handleResponse (data) {
                 this.physicalPerson = data.detail.response.results;
-                if(this.physicalPerson[0]){
-                    debugger;
+                if(data.detail.response.count==1){
                     this.physicalPerson = this.physicalPerson[0];
                     this.hasphysicaPerson = true;
+                }else if(data.detail.response.count>1){
+                    this.physicalPersons=data.detail.response.results;
                 }
 
             }
             add(){
+                this.physicalPerson.project=this.id_project;
                 if(!this.hasphysicaPerson){
                     this.$.addPhysicalPerson.body=Object.assign({}, this.physicalPerson);
                     this.$.addPhysicalPerson.generateRequest();
