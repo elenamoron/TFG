@@ -17,6 +17,7 @@
 <!--link rel="import" href="../web-app/web-app.html"-->
 <link rel="import" href="../proyectos-app/proyectos-app.html">
 <link rel="import" href="../proyectos-app/proyectos-archivados.html">
+<link rel="import" href="../proyectos-app/proyectos-mis-archivados.html">
 
 <dom-module id="home-app">
     <template>
@@ -135,6 +136,11 @@
                             route="{{_subRoute}}"
                     >
                     </proyectos-archivados>
+                    <proyectos-mis-archivados
+                            name="mis-archivados"
+                            route="{{_subRoute}}"
+                    >
+                    </proyectos-mis-archivados>
 
                 </iron-pages>
 

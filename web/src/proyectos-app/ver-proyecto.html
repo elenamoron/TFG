@@ -16,6 +16,9 @@
 <link rel="import" href="../juridicas-app/juridicas-app.html">
 <link rel="import" href="../representantes-app/representantes-app.html">
 <link rel="import" href="../representantes-app/representantes-25capital.html">
+<link rel="import" href="../representantes-app/representantes-publica.html">
+<link rel="import" href="../representantes-app/representantes-sociedad.html">
+<link rel="import" href="../representantes-app/representantes-25control.html">
 
 <dom-module id="ver-proyecto">
     <template>
@@ -200,7 +203,24 @@
                 >
 
                 </representantes-25capital>
+                <representantes-publica
+                    name="/representantes/personas-responsabilidad-publica"
+                    route="{{_subRoute}}"
+                >
 
+                </representantes-publica>
+                <representantes-sociedad
+                    name="/representantes/personas-controlan-sociedad"
+                    route="{{_subRoute}}"
+                >
+
+                </representantes-sociedad>
+                <representantes-25control
+                    name="/representantes/25%control"
+                    route="{{_subRoute}}"
+                >
+
+                </representantes-25control>
             </iron-pages>
 
         </app-drawer-layout>

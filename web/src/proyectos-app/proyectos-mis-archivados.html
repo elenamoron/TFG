@@ -1,0 +1,51 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../register-app/register-app.html">
+<link rel="import" href="../home-app/home-app.html">
+<link rel="import" href="../proyectos-app/ver-proyecto.html">
+<dom-module id="proyectos-archivados">
+    <template>
+        <style>
+
+        </style>
+        <app-location route="{{route}}" use-hash-as-path></app-location>
+        <app-route
+                route="{{route}}"
+                pattern="/:page"
+                data="{{_pageData}}"
+                tail="{{_subRoute}}"></app-route>
+        <app-route
+                route="{{_subRoute}}"
+                pattern="/:id"
+                data="{{_idData}}"></app-route>
+
+        <h1>MIs archivados</h1>
+    </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class ProyectosArchivadosApp extends Polymer.Element {
+            static get is() { return 'proyectos-archivados'; }
+            static get properties() {
+                return {
+                    prop1: {
+                        type: String,
+                        value: 'proyectos-archivados'
+                    }
+
+                };
+            }
+
+        }
+
+        window.customElements.define(ProyectosArchivadosApp.is, ProyectosArchivadosApp);
+    </script>
+</dom-module>
