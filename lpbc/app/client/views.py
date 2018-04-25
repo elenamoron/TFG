@@ -141,3 +141,33 @@ class PhysicalPersonFromProjectViewSet(viewsets.ModelViewSet):
         response_serializer = PhysicalPersonSerializer(physical_person)
         return Response(response_serializer.data, status.HTTP_202_ACCEPTED)
 
+
+class PhysicalPersonByIdViewSet(viewsets.ModelViewSet):
+    """
+            retrieve:
+                Return a PhysicalPerson instance.
+
+            list:
+                Return all PhysicalPersons, ordered by most recently joined.
+
+            create:
+                Create a new PhysicalPerson.
+                parameters:
+                - name: id_project
+                  type: int
+
+            delete:
+                Remove an existing PhysicalPerson.
+
+            partial_update:
+                Update one or more fields on an existing PhysicalPerson.
+
+            update:
+                Update a LegalPerson.
+            """
+
+    serializer_class = PhysicalPersonSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return PhysicalPerson.objects.filter(id=id)
