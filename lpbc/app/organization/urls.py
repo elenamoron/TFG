@@ -17,7 +17,8 @@ from django.urls import path
 from django.urls import re_path
 from rest_framework import routers
 from django.conf.urls import url
-from organization.views import OrganizationViewSet, ProfileViewSet, ProjectActive, ProjectViewSet, ProjectByName
+from organization.views import OrganizationViewSet, ProfileViewSet, ProjectActive, ProjectViewSet, ProjectByName, \
+    DocumentUploadView
 
 
 urlpatterns = [
@@ -25,7 +26,8 @@ urlpatterns = [
     path('profile', ProfileViewSet),
     path('project', ProjectViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('project/active', ProjectActive.as_view({'get': 'list'})),
-    path('project/<str:name>/', ProjectByName.as_view({'get': 'list'}))
+    path('project/<str:name>/', ProjectByName.as_view({'get': 'list'})),
+    path('document/<str:filename>', DocumentUploadView.as_view())
 ]
 
 
