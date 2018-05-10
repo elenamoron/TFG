@@ -121,6 +121,15 @@
             on-response={{postResponse}}>
 
         </iron-ajax>
+        <iron-ajax
+            id="putProject"
+            method="put"
+            url="http://0.0.0.0:8000/api/lpbc/project/{{nombre}}/"
+            handle-as="json"
+            content-type="application/json"
+            on-response={{postResponse}}>
+
+        </iron-ajax>
         <app-header-layout>
             <template is="dom-repeat" items="{{proyectos}}">
                 <paper-card class="rate">
@@ -188,7 +197,9 @@
                 this.$.getProject.generateRequest();
             }
             archivar(){
-
+                this.$.putProject.body={"activo":false};
+                this.$.putProject.generateRequest();
+                this.$.getProject.generateRequest();
             }
 
 

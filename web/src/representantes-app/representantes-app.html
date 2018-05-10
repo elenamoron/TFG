@@ -43,6 +43,7 @@
                 --paper-fab-background: #ff4081;
                 --paper-fab-keyboard-focus-background: #DF4448;
             }
+            
             @media only screen and (max-width: 600px) {
                 .content {
                     padding-left: 30px;
@@ -55,6 +56,7 @@
                     float: left;
                     width: 90%;
                 }
+
             }
         </style>
         <app-location route="{{route}}" use-hash-as-path></app-location>
@@ -118,9 +120,8 @@
                                 <paper-input value="{{item.telefono}}" placeholder="Tlf"></paper-input>
                                 <paper-input value="{{item.email}}" placeholder="email"></paper-input>
                                 <paper-input value="{{item.acreditacion_poderes}}" placeholder="Acreditacion de poderes"></paper-input>
-
-
-                                <paper-fab icon="add" raised on-tap="add"></paper-fab>
+                                <h3>Características adicionales</h3>
+                                <paper-fab icon="create" raised on-tap="add"></paper-fab>
                             </div>
                         </form>
                     </paper-collapse-item>
@@ -150,7 +151,7 @@
                         <paper-input value="{{physicalPerson.acreditacion_poderes}}" placeholder="Acreditacion de poderes"></paper-input>
 
 
-                        <paper-fab icon="add" raised on-tap="add"></paper-fab>
+                        <paper-fab icon="save" raised on-tap="add"></paper-fab>
                     </div>
                 </form>
             </paper-collapse-item>
@@ -188,6 +189,7 @@
                 if(data.detail.response.count==1){
                     this.physicalPerson = this.physicalPerson[0];
                     this.hasphysicaPerson = true;
+                    this.physicalPersons=data.detail.response.results;
                 }else if(data.detail.response.count>1){
                     this.physicalPersons=data.detail.response.results;
                 }
