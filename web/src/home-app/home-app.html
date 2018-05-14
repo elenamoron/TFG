@@ -17,6 +17,7 @@
 <!--link rel="import" href="../web-app/web-app.html"-->
 <link rel="import" href="../proyectos-app/proyectos-app.html">
 <link rel="import" href="../proyectos-app/proyectos-archivados.html">
+<link rel="import" href="../proyectos-app/proyectos-activos.html">
 <link rel="import" href="../proyectos-app/proyectos-mis-archivados.html">
 
 <dom-module id="home-app">
@@ -136,6 +137,11 @@
                             route="{{_subRoute}}"
                     >
                     </proyectos-archivados>
+                    <proyectos-activos
+                            name="/activos"
+                            route="{{_subRoute}}"
+                    >
+                    </proyectos-activos>
                     <proyectos-mis-archivados
                             name="/mis-archivados"
                             route="{{_subRoute}}"
