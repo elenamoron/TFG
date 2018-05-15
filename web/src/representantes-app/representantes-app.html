@@ -105,7 +105,7 @@
 
         <div class="content ">
             <template is="dom-if" if="{{physicalPersons}}" restamp>
-                <template is="dom-repeat" items="{{physicalPersons}}">
+                <template is="dom-repeat" id="selectPerson" items="{{physicalPersons}}">
                     <paper-collapse-item icon="icons:face" header="{{item.nombre_completo}}">
                         <form>
                             <div class="row">
@@ -125,33 +125,33 @@
                                 <paper-input value="{{item.domicilio}}" placeholder="Domicilio"></paper-input>
                                 <paper-input value="{{item.telefono}}" placeholder="Tlf"></paper-input>
                                 <paper-input value="{{item.email}}" placeholder="email"></paper-input>
-                                <paper-input value="{{item.acreditacion_poderes}}" placeholder="Acreditacion de poderes"></paper-input>
+
                                 <h3>Características adicionales</h3>
                                 <div class="row">
                                     <div class="column">
                                         <p>Más del 25% de capital</p>
-                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                        <paper-toggle-button checked="{{item.capital}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Responsabilidad pública</p>
-                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                        <paper-toggle-button  id="publica" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Controla la sociedad</p>
-                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                        <paper-toggle-button id="sociedad" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Más del 25% de control</p>
-                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                        <paper-toggle-button  id="control" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Relación de negocios</p>
-                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                        <paper-toggle-button id="negocios" class="pink"></paper-toggle-button>
                                     </div>
                                 </div>
                                 <br>
 
-                                <paper-fab icon="create" raised on-tap="add"></paper-fab>
+                                <paper-fab icon="create" raised on-tap="add" data-item$="[[item]]"></paper-fab>
                             </div>
                         </form>
                     </paper-collapse-item>
@@ -178,33 +178,32 @@
                         <paper-input value="{{physicalPerson.domicilio}}" placeholder="Domicilio"></paper-input>
                         <paper-input value="{{physicalPerson.telefono}}" placeholder="Tlf"></paper-input>
                         <paper-input value="{{physicalPerson.email}}" placeholder="email"></paper-input>
-                        <paper-input value="{{physicalPerson.acreditacion_poderes}}" placeholder="Acreditacion de poderes"></paper-input>
 
                         <h3>Características adicionales</h3>
                                 <div class="row">
                                     <div class="column">
                                         <p>Más del 25% de capital</p>
-                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                        <paper-toggle-button id="capital" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Responsabilidad pública</p>
-                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                        <paper-toggle-button  id="publica" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Controla la sociedad</p>
-                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                        <paper-toggle-button id="sociedad" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Más del 25% de control</p>
-                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                        <paper-toggle-button  id="control" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Relación de negocios</p>
-                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                        <paper-toggle-button id="negocios" class="pink"></paper-toggle-button>
                                     </div>
                                 </div>
                                 <br>
-                        <paper-fab icon="save" raised on-tap="add"></paper-fab>
+                        <paper-fab icon="save" raised on-tap="add" data-item$="[[physicalPerson]]"></paper-fab>
                     </div>
                 </form>
             </paper-collapse-item>
@@ -243,18 +242,21 @@
                     this.hasphysicaPerson = true;
                     this.physicalPersons=data.detail.response.results;
                 }else if(data.detail.response.count>1){
+                    this.hasphysicaPerson = true;
                     this.physicalPersons=data.detail.response.results;
                 }
 
             }
-            add(){
-                this.physicalPerson.project=this.id_project;
+            add(event){
+                debugger;
+                const item = JSON.parse(event.target.dataset.item);
+                item.project=this.id_project;
                 if(!this.hasphysicaPerson){
-                    this.$.addPhysicalPerson.body=Object.assign({}, this.physicalPerson);
+                    this.$.addPhysicalPerson.body=Object.assign({}, item);
                     this.$.addPhysicalPerson.generateRequest();
                     this.hasphysicaPerson = true;
                 }else{
-                    this.$.putPhysicalPerson.body=this.physicalPerson;
+                    this.$.putPhysicalPerson.body=item;
                     this.$.putPhysicalPerson.generateRequest();
                 }
 

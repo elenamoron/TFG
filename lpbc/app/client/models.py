@@ -32,7 +32,6 @@ class PhysicalPerson(models.Model):
     domicilio = models.CharField(max_length=255, blank=True)
     telefono = models.CharField(max_length=20, blank=True)
     email = models.CharField(max_length=255, blank=True)
-    acreditacion_poderes = models.BooleanField()
     capital = models.BooleanField(default=False)
     responsabilidad_publica = models.BooleanField(default=False)
     controla_sociedad = models.BooleanField(default=False)
