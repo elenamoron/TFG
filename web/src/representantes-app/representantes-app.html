@@ -11,6 +11,7 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../register-app/register-app.html">
 <link rel="import" href="../home-app/home-app.html">
 <link rel="import" href="../proyectos-app/ver-proyecto.html">
@@ -26,7 +27,7 @@
             }
             .column {
                 float: left;
-                width: 47%;
+                width: 18%;
                 padding-left: 10px;
             }
 
@@ -42,6 +43,11 @@
                 bottom: 24px;
                 --paper-fab-background: #ff4081;
                 --paper-fab-keyboard-focus-background: #DF4448;
+            }
+            paper-toggle-button.pink {
+                --paper-toggle-button-checked-bar-color: var(--paper-pink-500);
+                --paper-toggle-button-checked-button-color: var(--paper-pink-500);
+                --paper-toggle-button-checked-ink-color: var(--paper-pink-500);
             }
             
             @media only screen and (max-width: 600px) {
@@ -121,6 +127,30 @@
                                 <paper-input value="{{item.email}}" placeholder="email"></paper-input>
                                 <paper-input value="{{item.acreditacion_poderes}}" placeholder="Acreditacion de poderes"></paper-input>
                                 <h3>Características adicionales</h3>
+                                <div class="row">
+                                    <div class="column">
+                                        <p>Más del 25% de capital</p>
+                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                    </div>
+                                    <div class="column">
+                                        <p>Responsabilidad pública</p>
+                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                    </div>
+                                    <div class="column">
+                                        <p>Controla la sociedad</p>
+                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                    </div>
+                                    <div class="column">
+                                        <p>Más del 25% de control</p>
+                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                    </div>
+                                    <div class="column">
+                                        <p>Relación de negocios</p>
+                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                    </div>
+                                </div>
+                                <br>
+
                                 <paper-fab icon="create" raised on-tap="add"></paper-fab>
                             </div>
                         </form>
@@ -150,7 +180,30 @@
                         <paper-input value="{{physicalPerson.email}}" placeholder="email"></paper-input>
                         <paper-input value="{{physicalPerson.acreditacion_poderes}}" placeholder="Acreditacion de poderes"></paper-input>
 
-
+                        <h3>Características adicionales</h3>
+                                <div class="row">
+                                    <div class="column">
+                                        <p>Más del 25% de capital</p>
+                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                    </div>
+                                    <div class="column">
+                                        <p>Responsabilidad pública</p>
+                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                    </div>
+                                    <div class="column">
+                                        <p>Controla la sociedad</p>
+                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                    </div>
+                                    <div class="column">
+                                        <p>Más del 25% de control</p>
+                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                    </div>
+                                    <div class="column">
+                                        <p>Relación de negocios</p>
+                                        <paper-toggle-button  class="pink"></paper-toggle-button>
+                                    </div>
+                                </div>
+                                <br>
                         <paper-fab icon="save" raised on-tap="add"></paper-fab>
                     </div>
                 </form>
@@ -187,7 +240,6 @@
             handleResponse (data) {
                 this.physicalPerson = data.detail.response.results;
                 if(data.detail.response.count==1){
-                    this.physicalPerson = this.physicalPerson[0];
                     this.hasphysicaPerson = true;
                     this.physicalPersons=data.detail.response.results;
                 }else if(data.detail.response.count>1){
