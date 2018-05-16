@@ -96,6 +96,13 @@ class ProjectActive(viewsets.ModelViewSet):
         return Project.objects.filter(activo=True)
 
 
+class ProjectArchive(viewsets.ModelViewSet):
+    serializer_class = ProjectSerializer
+
+    def get_queryset(self):
+        return Project.objects.filter(activo=False)
+
+
 class ProjectByName(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
 

@@ -12,7 +12,63 @@
 <dom-module id="proyectos-archivados">
     <template>
         <style>
+            paper-card {
+                width: 700px;
+                margin-left: 30px;
+                margin-bottom: 30px;
+            }
+            .rate-image {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: 200px;
+                background-size: cover !important;
+                max-width: 100%;
+                max-height: 100%;
+                height: auto !important;
+                display: block;
+            }
+            .rate-header { @apply --paper-font-headline; }
+            .rate-name { color: var(--paper-grey-600); margin: 10px 0; }
+            paper-button.custom {
+                --paper-button-ink-color: var(--paper-pink-a200);
+                /* These could also be individually defined for each of the
+                  specific css classes, but we'll just do it once as an example */
+                --paper-button-flat-keyboard-focus: {
+                    background-color: var(--paper-pink-a200);
+                    color: white !important;
+                };
+                --paper-button-raised-keyboard-focus: {
+                    background-color: var(--paper-pink-a200) !important;
+                    color: white !important;
+                };
+            }
+            paper-button.custom {
+                background-color: lightgray;
+            }
+            paper-button.custom:hover {
+                background-color: #ff4081;
+            }
+            paper-button.black {
+                color: black;
 
+            }
+            paper-button.indigo {
+                background-color: var(--paper-indigo-500);
+                color: white;
+                --paper-button-raised-keyboard-focus: {
+                    background-color: var(--paper-pink-a200) !important;
+                    color: white !important;
+                };
+            }
+            paper-button {
+                margin-left: 50px;
+            }
+            a {
+                text-decoration: none;
+
+            }
         </style>
         <app-location route="{{route}}" use-hash-as-path></app-location>
         <app-route
@@ -24,6 +80,15 @@
                 route="{{_subRoute}}"
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
+        <iron-ajax auto
+                   id="getProject"
+                   url="http://0.0.0.0:8000/api/lpbc/project/archive"
+                   handle-as="json"
+                   on-response="handleResponse"
+                   debounce-duration="300"
+                   content-type="application/json"
+                   method="GET"
+        ></iron-ajax>
         <form method="post" action="/document" enctype="multipart/form-data">
             <file-drop-zone multiple accept="*" files="{{files}}">
                 <div slot="drop-zone">
@@ -33,6 +98,25 @@
             </file-drop-zone>
             <button type="submit">SUBIR</button>
         </form>
+        <app-header-layout>
+            <template is="dom-repeat" items="{{proyectos}}">
+                <paper-card class="rate">
+                    <div class="card-content">
+                        <div class="rate-header">{{item.name}}</div>
+                        <div class="rate-name">{{item.cliente}}</div>
+                        <div>{{item.description}}</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="#/proyecto/{{item.name}}/resumen" name="ver">
+                            <paper-button  class="custom black" name="ver" dialog-confirm autofocus> Ver</paper-button>
+                        </a>
+                        <paper-button on-click="archivar" data-item$="[[item]]" class="custom black" name="archivar" dialog-confirm autofocus>Archivar</paper-button>
+                    </div>
+                    <div class="rate-image" style="background: url('../../media/{{item.logo }}')"></div>
+                </paper-card>
+
+            </template>
+        </app-header-layout>
     </template>
 
     <script>
@@ -47,9 +131,13 @@
                     prop1: {
                         type: String,
                         value: 'proyectos-archivados'
-                    }
+                    },
+                    proyectos: Object,
 
                 };
+            }
+            handleResponse (data) {
+                this.proyectos = data.detail.response.results;
             }
 
         }
