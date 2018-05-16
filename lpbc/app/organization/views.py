@@ -40,6 +40,7 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
 
+
 class ProfileViewSet(viewsets.ModelViewSet):
     """
         retrieve:
@@ -62,6 +63,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
         """
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
 
 class ProjectViewSet(viewsets.ModelViewSet):
     """
@@ -86,11 +88,13 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
+
 class ProjectActive(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
 
     def get_queryset(self):
         return Project.objects.filter(activo=True)
+
 
 class ProjectByName(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
@@ -99,3 +103,8 @@ class ProjectByName(viewsets.ModelViewSet):
 
         name = self.kwargs['name']
         return Project.objects.filter(name=name)
+
+
+class ProjectDetailView(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer

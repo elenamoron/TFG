@@ -115,7 +115,7 @@
         <iron-ajax
             id="addProject"
             method="post"
-            url="http://0.0.0.0:8000/api/lpbc/project"
+            url="http://0.0.0.0:8000/api/lpbc/project/"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>
@@ -142,7 +142,7 @@
                         <a href="#/proyecto/{{item.name}}/resumen" name="ver">
                             <paper-button  class="custom black" name="ver" dialog-confirm autofocus> Ver</paper-button>
                         </a>
-                        <paper-button on-click="archivar" class="custom black" name="archivar" dialog-confirm autofocus>Archivar</paper-button>
+                        <paper-button on-click="archivar" data-item$="[[item]]" class="custom black" name="archivar" dialog-confirm autofocus>Archivar</paper-button>
                     </div>
                     <div class="rate-image" style="background: url('../../media/{{item.logo }}')"></div>
                 </paper-card>
@@ -196,7 +196,9 @@
                 this.$.addProject.generateRequest();
                 this.$.getProject.generateRequest();
             }
-            archivar(){
+            archivar(event){
+                const item = JSON.parse(event.target.dataset.item);
+                this.$.putProject.url="http://0.0.0.0:8000/api/lpbc/project/"+item.id+"/";
                 this.$.putProject.body={"activo":false};
                 this.$.putProject.generateRequest();
                 this.$.getProject.generateRequest();

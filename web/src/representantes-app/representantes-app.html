@@ -96,7 +96,7 @@
         <iron-ajax
             id="putPhysicalPerson"
             method="put"
-            url="http://0.0.0.0:8000/api/lpbc/client/PhysicalPerson/{{id_project}}/"
+            url="http://0.0.0.0:8000/api/lpbc/client/PhysicalPersonbyId/{{id_project}}/"
             handle-as="json"
             content-type="application/json"
             on-response={{putResponse}}>
@@ -248,7 +248,6 @@
 
             }
             add(event){
-                debugger;
                 const item = JSON.parse(event.target.dataset.item);
                 item.project=this.id_project;
                 if(!this.hasphysicaPerson){
@@ -256,6 +255,7 @@
                     this.$.addPhysicalPerson.generateRequest();
                     this.hasphysicaPerson = true;
                 }else{
+                    this.$.putPhysicalPerson.url="http://0.0.0.0:8000/api/lpbc/client/PhysicalPersonbyId/"+item.id+"/";
                     this.$.putPhysicalPerson.body=item;
                     this.$.putPhysicalPerson.generateRequest();
                 }
