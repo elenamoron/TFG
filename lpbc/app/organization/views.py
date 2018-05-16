@@ -1,20 +1,10 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status, views
 from rest_framework import viewsets
-from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 
 from organization.models import Organization, Profile, Project
 from organization.serializers import OrganizationSerializer, ProfileSerializer, ProjectSerializer
-
-
-class DocumentUploadView(views.APIView):
-    parser_classes = (FileUploadParser,)
-
-    def put(self, request, filename, format=None):
-        file_obj = request.FILES['file']
-        # do some stuff with uploaded file
-        return Response(status=204)
 
 
 class OrganizationViewSet(viewsets.ModelViewSet):

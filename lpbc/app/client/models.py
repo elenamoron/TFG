@@ -2,8 +2,10 @@ from django.db import models
 from organization.models import Project
 
 # Create your models here.
+
+
 class LegalPerson(models.Model):
-    project = models.ForeignKey(Project,on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     denominacion_social = models.CharField(max_length=100, blank=True, default='')
     CIF = models.CharField(max_length=100, blank=True, default='')
     ubicacion = models.CharField(max_length=100, blank=True, default='')
@@ -39,21 +41,23 @@ class PhysicalPerson(models.Model):
     relacion_negocios = models.BooleanField(default=False)
 
 
-
 class Relationship(models.Model):
     relationship = models.CharField(max_length=255, blank=True)
 
 
 class Document(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
     meta_descripcion = models.CharField(max_length=255, blank=True)
-    blog = models.CharField(max_length=255, blank=True)
+    file = models.FileField(blank=True, null=True)
+    persona_juridica = models.ForeignKey(LegalPerson, null=True, on_delete=models.CASCADE)
+    persona_fisica = models.ForeignKey(PhysicalPerson, null=True, on_delete=models.CASCADE)
 
 
 class RelationshipLegalPhysical(models.Model):
     persona_juridica = models.ForeignKey(LegalPerson, on_delete=models.CASCADE)
     persona_fisica = models.ForeignKey(PhysicalPerson, on_delete=models.CASCADE)
     tipo_relacion = models.ForeignKey(Relationship, on_delete=models.CASCADE)
-    datos_particulares = models.CharField(max_length=255,blank=True)
+    datos_particulares = models.CharField(max_length=255, blank=True)
     #documentos = models.ManyToOneRel(Documento)
 
 

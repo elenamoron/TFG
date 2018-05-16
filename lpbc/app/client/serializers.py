@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from client.models import LegalPerson, PhysicalPerson
+from client.models import LegalPerson, PhysicalPerson, Document
 from organization.models import Project
 
 
@@ -21,3 +21,12 @@ class PhysicalPersonSerializer(serializers.ModelSerializer):
         fields = ('id', 'project', 'nombre_completo', 'documento_identificativo', 'fecha_caducidad', 'nacionalidad',
                   'pais_nacionalidad', 'lugar_nacimiento', 'pais_residencia', 'domicilio', 'telefono', 'email',
                   'capital')
+
+
+class FileSerializer(serializers.ModelSerializer):
+    project = serializers.PrimaryKeyRelatedField(many=False, queryset=Project.objects.all())
+    persona_juridica = serializers.PrimaryKeyRelatedField(many=False, queryset=LegalPerson.objects.all())
+
+    class Meta:
+        model = Document
+        fields = ('meta_descripcion', 'file', 'project', 'persona_juridica')

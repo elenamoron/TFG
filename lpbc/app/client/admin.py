@@ -26,7 +26,7 @@ admin.site.register(Relationship, RelationshipAdmin)
 
 
 class DocumentAdmin(admin.ModelAdmin):
-    list_display = ('meta_descripcion', 'blog')
+    list_display = ('meta_descripcion',)
 
 admin.site.register(Document, DocumentAdmin)
 

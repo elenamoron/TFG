@@ -89,15 +89,7 @@
                    content-type="application/json"
                    method="GET"
         ></iron-ajax>
-        <form method="post" action="/document" enctype="multipart/form-data">
-            <file-drop-zone multiple accept="*" files="{{files}}">
-                <div slot="drop-zone">
-                    <iron-icon icon="description"></iron-icon>
-                    <h3>Drop your file here</h3>
-                </div>
-            </file-drop-zone>
-            <button type="submit">SUBIR</button>
-        </form>
+
         <app-header-layout>
             <template is="dom-repeat" items="{{proyectos}}">
                 <paper-card class="rate">

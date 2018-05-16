@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
@@ -10,6 +11,7 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/file-drop-zone/file-drop-zone.html">
 <link rel="import" href="../register-app/register-app.html">
 <link rel="import" href="../home-app/home-app.html">
 <link rel="import" href="../proyectos-app/ver-proyecto.html">
@@ -41,6 +43,10 @@
                 bottom: 24px;
                 --paper-fab-background: #ff4081;
                 --paper-fab-keyboard-focus-background: #DF4448;
+            }
+            paper-button {
+                background-color: plum;
+                border-radius: 50%;
             }
             @media only screen and (max-width: 600px) {
                 .content {
@@ -93,6 +99,15 @@
             on-response={{putResponse}}>
 
         </iron-ajax>
+        <iron-ajax
+            id="uploadfile"
+            method="post"
+            url="http://0.0.0.0:8000/api/lpbc/client/document/"
+            handle-as="json"
+            accept="application/json"
+            on-response={{upfileResponse}}>
+
+        </iron-ajax>
         <div class="content ">
             <h1>Datos Identificativos</h1>
             <form>
@@ -132,7 +147,17 @@
                         </paper-radio-group>
                         <paper-input placeholder="Nº de inscripción en el registro correspondiente" value="{{legalPerson.numero_inscripciones}}"></paper-input>
 
+                        <file-drop-zone multiple accept="*" files="{{files}}">
+                            <div slot="drop-zone">
+                                <iron-icon icon="description"></iron-icon>
+                                <h3>Documentación de soporte</h3>
+                            </div>
+                        </file-drop-zone>
+                        <paper-button on-tap="upload">Adjuntar <iron-icon icon="icons:attachment"></iron-icon></paper-button>
+
                     </div>
+
+
                     <paper-fab icon="create" raised on-tap="add"></paper-fab>
                 </div>
             </form>
@@ -154,7 +179,8 @@
                     },
                     legalPerson: Object,
                     haslegalPerson: Boolean,
-                    id_project: Number
+                    id_project: Number,
+                    files: Object
 
                 };
             }
@@ -183,6 +209,10 @@
                     this.$.putLegalPerson.generateRequest();
                 }
 
+            }
+            upload(){
+                this.$.uploadfile.body={"project":this.id_project, "file":this.files, "persona_juridica":this.legalPerson.id};
+                this.$.uploadfile.generateRequest();
             }
 
         }
