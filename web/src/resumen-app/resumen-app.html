@@ -5,13 +5,43 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/paper-avatar/paper-avatar.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/s-circle-progress/s-circle-progress.html">
 <link rel="import" href="../register-app/register-app.html">
 <link rel="import" href="../home-app/home-app.html">
 <link rel="import" href="../proyectos-app/ver-proyecto.html">
 <dom-module id="resumen-app">
     <template>
         <style>
-
+            paper-avatar {
+                position: relative;
+                height: 90px;
+                padding: 2px;
+                width: 90px;
+                margin: 20px auto;
+                margin-left: 80px;
+                margin-right: 80px;
+                float:left;
+            }
+            .resumen{
+                margin-top: 20px;
+            }
+            .white{
+                margin-bottom:8px;
+                margin-top:50px;
+                display: block;
+                width: 20%;
+            }
+            --s-circle-progress-bg-stroke-color{
+                --paper-grey-100;
+            }
+            --s-circle-progress-stroke-color {
+                --accent-color;
+            }
+            --s-circle-progress-stroke-linecap{
+                round;
+            }
         </style>
         <app-location route="{{route}}" use-hash-as-path></app-location>
         <app-route
@@ -25,16 +55,24 @@
                 data="{{_idData}}"></app-route>
         <app-header-layout>
             <template is="dom-repeat" items="{{proyecto}}">
-                    <div class="">
-                        <div class="">{{item.name}}</div>
-                        <div class="">{{item.cliente}}</div>
-                        <div>{{item.description}}</div>
-                    </div>
 
-                    <div class="" style="background: url('../../media/{{item.logo }}')"></div>
-
+                <paper-avatar label="[[item.name]]" src="[[item.logo]]"></paper-avatar>
+                <div class="resumen">
+                        <div class=""><strong>Nombre del proyecto: </strong>{{item.name}}</div><br>
+                        <div class=""><strong>Nombre del cliente: </strong> {{item.cliente}}</div><br>
+                        <div><strong>Descripción: </strong> {{item.description}}</div>
+                </div>
 
             </template>
+            <br>
+            <paper-card class="white" >
+                <s-circle-progress value="6" max="10">
+                  60%
+                </s-circle-progress>
+                <div class="card-actions">
+                    <paper-icon-button icon="icons:euro-symbol"></paper-icon-button>Socios con 25% de capital
+                </div>
+            </paper-card>
         </app-header-layout>
     </template>
 

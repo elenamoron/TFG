@@ -28,7 +28,8 @@
     "paper-collapse-item": "Collaborne/paper-collapse-item#^2.3.0",
     "file-drop-zone": "PolymerVis/file-drop-zone#^2.0.3",
     "paper-toggle-button": "PolymerElements/paper-toggle-button#^2.1.1",
-    "file-dropzone": "woutervroege/file-dropzone#^1.1.1"
+    "file-dropzone": "woutervroege/file-dropzone#^1.1.1",
+    "s-circle-progress": "StartPolymer/s-circle-progress#^1.0.0"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",
