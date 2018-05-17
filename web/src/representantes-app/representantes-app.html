@@ -15,6 +15,9 @@
 <link rel="import" href="../register-app/register-app.html">
 <link rel="import" href="../home-app/home-app.html">
 <link rel="import" href="../proyectos-app/ver-proyecto.html">
+<link rel="import" href="../representantes-app/representantes-publica.html">
+<link rel="import" href="../representantes-app/representantes-sociedad.html">
+<link rel="import" href="../representantes-app/representantes-25control.html">
 <dom-module id="representantes-app">
     <template>
         <style>
@@ -135,23 +138,31 @@
                                     </div>
                                     <div class="column">
                                         <p>Responsabilidad pública</p>
-                                        <paper-toggle-button  id="publica" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button  checked="{{item.responsabilidad_publica}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Controla la sociedad</p>
-                                        <paper-toggle-button id="sociedad" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button checked="{{item.controla_sociedad}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Más del 25% de control</p>
-                                        <paper-toggle-button  id="control" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button  checked="{{item.control}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Relación de negocios</p>
-                                        <paper-toggle-button id="negocios" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button checked="{{item.relacion_negocios}}" class="pink"></paper-toggle-button>
                                     </div>
                                 </div>
                                 <br>
-
+                                <template is="dom-if" if="{{item.responsabilidad_publica}}" restamp>
+                                    <representantes-publica></representantes-publica>
+                                </template>
+                                <template is="dom-if" if="{{item.controla_sociedad}}" restamp>
+                                    <representantes-sociedad></representantes-sociedad>
+                                </template>
+                                <template is="dom-if" if="{{item.control}}" restamp>
+                                    <representantes-25control></representantes-25control>
+                                </template>
                                 <paper-fab icon="create" raised on-tap="add" data-item$="[[item]]"></paper-fab>
                             </div>
                         </form>
@@ -184,26 +195,35 @@
                                 <div class="row">
                                     <div class="column">
                                         <p>Más del 25% de capital</p>
-                                        <paper-toggle-button id="capital" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button checked="{{physicalPerson.capital}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Responsabilidad pública</p>
-                                        <paper-toggle-button  id="publica" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button  checked="{{physicalPerson.responsabilidad_publica}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Controla la sociedad</p>
-                                        <paper-toggle-button id="sociedad" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button checked="{{physicalPerson.controla_sociedad}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Más del 25% de control</p>
-                                        <paper-toggle-button  id="control" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button  checked="{{physicalPerson.control}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Relación de negocios</p>
-                                        <paper-toggle-button id="negocios" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button checked="{{physicalPerson.relacion_negocios}}" class="pink"></paper-toggle-button>
                                     </div>
                                 </div>
                                 <br>
+                        <template is="dom-if" if="{{physicalPerson.responsabilidad_publica}}" restamp>
+                            <representantes-publica></representantes-publica>
+                        </template>
+                        <template is="dom-if" if="{{physicalPerson.controla_sociedad}}" restamp>
+                            <representantes-sociedad></representantes-sociedad>
+                        </template>
+                        <template is="dom-if" if="{{physicalPerson.control}}" restamp>
+                            <representantes-25control></representantes-25control>
+                        </template>
                         <paper-fab icon="save" raised on-tap="add" data-item$="[[physicalPerson]]"></paper-fab>
                     </div>
                 </form>

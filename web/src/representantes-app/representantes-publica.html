@@ -43,6 +43,18 @@
                 --paper-fab-background: #ff4081;
                 --paper-fab-keyboard-focus-background: #DF4448;
             }
+            .textLine{
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                overflow: hidden;
+            }
+            .multiLineLabel {
+              display: inline-block;
+              box-sizing: border-box;
+              white-space: initial;
+              word-wrap: break-word;
+            }
             @media only screen and (max-width: 600px) {
                 .content {
                     padding-left: 30px;
@@ -96,10 +108,9 @@
         </iron-ajax>
 
         <div class="content ">
-
-                <h1>Personas con responsabilidad pública</h1>
                 <form>
-                    <div class="row">
+                    <div class="row multiLineLabel">
+                        <h1>Personas con responsabilidad pública</h1>
                         <p>1. ¿Ocupan los titulares o socios algún cargo importante como funcionario público en algún
                             estado miembro de la Unión Europea o algún otro país?</p>
                         <paper-radio-group value="{{physicalPerson.documento_identificativo}}" selected="{{physicalPerson.documento_identificativo}}" allow-empty-selection>

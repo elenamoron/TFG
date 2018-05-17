@@ -100,14 +100,6 @@
                 <h1>Datos de personas que controlan la Sociedad</h1>
                 <form>
                     <div class="row">
-                        <paper-input value="{{physicalPerson.nombre_completo}}" placeholder="Nombre y apellidos"></paper-input>
-                        <p>Tipo de Documento </p>
-                        <paper-radio-group value="{{physicalPerson.documento_identificativo}}" selected="{{physicalPerson.documento_identificativo}}" allow-empty-selection>
-                            <paper-radio-button name="nif" >NIF</paper-radio-button>
-                            <paper-radio-button name="pasaporte" >Pasaporte</paper-radio-button>
-                            <paper-radio-button name="t-residencia" >Tarjeta de residencia</paper-radio-button>
-                        </paper-radio-group>
-                        <vaadin-date-picker label="Fecha de caducidad" value="{{physicalPerson.fecha_caducidad}}"></vaadin-date-picker>
                         <paper-input value="{{physicalPerson.nombre_completo}}"
                                      placeholder="Determinar en calidad de qué detentan o controlan la sociedad"></paper-input>
                         <paper-fab icon="add" raised on-tap="add"></paper-fab>
