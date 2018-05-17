@@ -78,6 +78,7 @@
         <iron-ajax
             auto
             method="get"
+            id="getPhysicalPerson"
             url="http://0.0.0.0:8000/api/lpbc/client/PhysicalPerson/{{id_project}}/"
             handle-as="json"
             content-type="application/json"
@@ -237,7 +238,7 @@
                 }
             }
             handleResponse (data) {
-                this.physicalPerson = data.detail.response.results;
+                this.physicalPerson = {};
                 if(data.detail.response.count==1){
                     this.hasphysicaPerson = true;
                     this.physicalPersons=data.detail.response.results;
@@ -250,15 +251,16 @@
             add(event){
                 const item = JSON.parse(event.target.dataset.item);
                 item.project=this.id_project;
-                if(!this.hasphysicaPerson){
-                    this.$.addPhysicalPerson.body=Object.assign({}, item);
-                    this.$.addPhysicalPerson.generateRequest();
-                    this.hasphysicaPerson = true;
-                }else{
+                if(item.id){
                     this.$.putPhysicalPerson.url="http://0.0.0.0:8000/api/lpbc/client/PhysicalPersonbyId/"+item.id+"/";
                     this.$.putPhysicalPerson.body=item;
                     this.$.putPhysicalPerson.generateRequest();
+                }else{
+                    this.$.addPhysicalPerson.body=Object.assign({}, item);
+                    this.$.addPhysicalPerson.generateRequest();
+                    this.hasphysicaPerson = true;
                 }
+                this.$.getPhysicalPerson.generateRequest();
 
             }
 
