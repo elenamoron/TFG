@@ -133,15 +133,6 @@ class PhysicalPersonFromProjectViewSet(viewsets.ModelViewSet):
         id_project = self.kwargs['idProject']
         return PhysicalPerson.objects.filter(project=id_project)
 
-    '''def update(self, request, *args, **kwargs):
-        physical_person = get_object_or_404(PhysicalPerson, project_id=kwargs['idProject'])
-        serializer = PhysicalPersonSerializer(physical_person, data=request.data)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        serializer.save()
-        response_serializer = PhysicalPersonSerializer(physical_person)
-        return Response(response_serializer.data, status.HTTP_202_ACCEPTED)
-'''
 
 class PhysicalPersonByIdViewSet(viewsets.ModelViewSet):
     """
@@ -181,3 +172,11 @@ class DocumentUploadView(views.APIView):
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PhysicalPersonWithCapitalViewSet(viewsets.ModelViewSet):
+    serializer_class = PhysicalPersonSerializer
+
+    def get_queryset(self):
+        id_project = self.kwargs['idProject']
+        return PhysicalPerson.objects.filter(project=id_project,capital=True)

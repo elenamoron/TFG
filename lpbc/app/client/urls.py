@@ -18,13 +18,14 @@ from django.urls import re_path
 from rest_framework import routers
 from django.conf.urls import url
 from client.views import LegalPersonViewSet, PhysicalPersonViewSet, LegalPersonFromProjectViewSet, \
-    PhysicalPersonFromProjectViewSet, PhysicalPersonByIdViewSet, DocumentUploadView
+    PhysicalPersonFromProjectViewSet, PhysicalPersonByIdViewSet, DocumentUploadView, PhysicalPersonWithCapitalViewSet
 
 urlpatterns = [
     path('LegalPerson/', LegalPersonViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('LegalPerson/<int:idProject>/', LegalPersonFromProjectViewSet.as_view({'get': 'list', 'put': 'update'})),
     path('PhysicalPerson/', PhysicalPersonViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('PhysicalPerson/<int:idProject>/', PhysicalPersonFromProjectViewSet.as_view({'get': 'list'})),
+    path('PhysicalPerson/<int:idProject>/capital', PhysicalPersonWithCapitalViewSet.as_view({'get': 'list'})),
     path('PhysicalPersonbyId/<int:pk>/', PhysicalPersonByIdViewSet.as_view({'get': 'list', 'put': 'update'})),
     path('document/', DocumentUploadView.as_view())
 ]
