@@ -105,6 +105,7 @@
             url="http://0.0.0.0:8000/api/lpbc/client/document/"
             handle-as="json"
             accept="application/json"
+            content-type=""
             on-response={{upfileResponse}}>
 
         </iron-ajax>
@@ -211,7 +212,13 @@
 
             }
             upload(){
-                this.$.uploadfile.body={"project":this.id_project, "file":this.files, "persona_juridica":this.legalPerson.id};
+                var data = new FormData();
+                this.files.forEach(function(i){
+                    data.append("1.PDF[0]",i);
+                });
+                this.$.uploadfile.body=data;
+                this.$.uploadfile.contentType = undefined;
+                //this.$.uploadfile.body={"project":this.id_project, "file":this.files, "persona_juridica":this.legalPerson.id};
                 this.$.uploadfile.generateRequest();
             }
 

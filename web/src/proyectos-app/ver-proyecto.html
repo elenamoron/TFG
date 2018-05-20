@@ -143,31 +143,31 @@
                         </paper-item>
                         <paper-item name="[[_pageData.page]]/juridica">Persona Jurídica</paper-item>
                         <paper-item name="[[_pageData.page]]/representantes">Representantes Autorizados</paper-item>
-                        <paper-icon-item name="[[_pageData.page]]/representantes/socios25%">
+                        <paper-icon-item name="[[_pageData.page]]/resumen">
                             <div class="avatar blue" slot="item-icon"></div>
                             <paper-item-body >
                                 <div secondary class="second">Socios que obstentan más del 25% de capital</div>
                             </paper-item-body>
                         </paper-icon-item>
-                        <paper-icon-item name="[[_pageData.page]]/representantes/personas-responsabilidad-publica">
+                        <paper-icon-item name="[[_pageData.page]]/resumen">
                             <div class="avatar" slot="item-icon"></div>
                             <paper-item-body>
                                 <div secondary class="second">Personas con responsabilidad pública</div>
                             </paper-item-body>
                         </paper-icon-item>
-                        <paper-icon-item name="[[_pageData.page]]/representantes/personas-controlan-sociedad">
+                        <paper-icon-item name="[[_pageData.page]]/resumen">
                             <div class="avatar red" slot="item-icon"></div>
                             <paper-item-body>
                                 <div secondary class="second">Personas que controlan la sociedad</div>
                             </paper-item-body>
                         </paper-icon-item>
-                        <paper-icon-item name="[[_pageData.page]]/representantes/25%control">
+                        <paper-icon-item name="[[_pageData.page]]/resumen">
                             <div class="avatar red-google" slot="item-icon"></div>
                             <paper-item-body>
                                 <div secondary class="second">Personas con más del 25% de control</div>
                             </paper-item-body>
                         </paper-icon-item>
-                        <paper-icon-item name="[[_pageData.page]]/representantes/negocios">
+                        <paper-icon-item name="[[_pageData.page]]/resumen">
                             <div class="avatar pink" slot="item-icon"></div>
                             <paper-item-body>
                                 <div secondary class="second">Relación de negocios</div>
@@ -197,30 +197,6 @@
                 >
 
                 </representantes-app>
-                <representantes-25capital
-                    name="/representantes/socios25%"
-                    route="{{_subRoute}}"
-                >
-
-                </representantes-25capital>
-                <representantes-publica
-                    name="/representantes/personas-responsabilidad-publica"
-                    route="{{_subRoute}}"
-                >
-
-                </representantes-publica>
-                <representantes-sociedad
-                    name="/representantes/personas-controlan-sociedad"
-                    route="{{_subRoute}}"
-                >
-
-                </representantes-sociedad>
-                <representantes-25control
-                    name="/representantes/25%control"
-                    route="{{_subRoute}}"
-                >
-
-                </representantes-25control>
             </iron-pages>
 
         </app-drawer-layout>

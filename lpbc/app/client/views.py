@@ -166,7 +166,8 @@ class DocumentUploadView(views.APIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request, *args, **kwargs):
-        file_serializer = FileSerializer(data=request.data)
+        data = {'project': 1, 'persona_juridica': 1, 'file': request.file}
+        file_serializer = FileSerializer(data=data)
         if file_serializer.is_valid():
             file_serializer.save()
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
