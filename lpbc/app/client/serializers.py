@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from client.models import LegalPerson, PhysicalPerson, Document
+from client.models import LegalPerson, PhysicalPerson, Document, SupportDoc
 from organization.models import Project
 
 
@@ -24,9 +24,18 @@ class PhysicalPersonSerializer(serializers.ModelSerializer):
 
 
 class FileSerializer(serializers.ModelSerializer):
-    project = serializers.PrimaryKeyRelatedField(many=False, queryset=Project.objects.all())
-    persona_juridica = serializers.PrimaryKeyRelatedField(many=False, queryset=LegalPerson.objects.all())
 
     class Meta:
         model = Document
-        fields = ('meta_descripcion', 'file', 'project', 'persona_juridica')
+        fields = ('content_type', 'length', 'file')
+
+
+class SupportSerializer(serializers.ModelSerializer):
+    project = serializers.PrimaryKeyRelatedField(many=False, queryset=Project.objects.all())
+    persona_juridica = serializers.PrimaryKeyRelatedField(many=False, queryset=LegalPerson.objects.all())
+    persona_fisica = serializers.PrimaryKeyRelatedField(many=False, queryset=PhysicalPerson.objects.all())
+
+    class Meta:
+        model = SupportDoc
+        fields = ('project', 'persona_juridica', 'persona_fisica', 'cod_justificacion')
+

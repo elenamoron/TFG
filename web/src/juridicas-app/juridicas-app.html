@@ -104,7 +104,6 @@
             method="post"
             url="http://0.0.0.0:8000/api/lpbc/client/document/"
             handle-as="json"
-            accept="application/json"
             content-type=""
             on-response={{upfileResponse}}>
 
@@ -213,9 +212,17 @@
             }
             upload(){
                 var data = new FormData();
+                var content_type;
+                var length;
                 this.files.forEach(function(i){
-                    data.append("1.PDF[0]",i);
+                    var num=1;
+                    data.append("document"+num,i);
+                    content_type=i.type;
+                    length=i.size;
+                    num++;
                 });
+                data.append("json",JSON.stringify({"content_type":content_type,"length":length,"project":this.id_project,
+                        "persona_juridica":this.legalPerson.id, "tag": "documentación soporte persona jurídica"}));
                 this.$.uploadfile.body=data;
                 this.$.uploadfile.contentType = undefined;
                 //this.$.uploadfile.body={"project":this.id_project, "file":this.files, "persona_juridica":this.legalPerson.id};

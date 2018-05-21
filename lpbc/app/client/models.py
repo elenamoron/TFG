@@ -46,11 +46,10 @@ class Relationship(models.Model):
 
 
 class Document(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
-    meta_descripcion = models.CharField(max_length=255, blank=True)
+    content_type = models.CharField(max_length=255, blank=True)
+    length = models.CharField(max_length=255, blank=True)
     file = models.FileField(blank=True, null=True)
-    persona_juridica = models.ForeignKey(LegalPerson, null=True, on_delete=models.CASCADE)
-    persona_fisica = models.ForeignKey(PhysicalPerson, null=True, on_delete=models.CASCADE)
+
 
 
 class RelationshipLegalPhysical(models.Model):
@@ -60,4 +59,8 @@ class RelationshipLegalPhysical(models.Model):
     datos_particulares = models.CharField(max_length=255, blank=True)
     #documentos = models.ManyToOneRel(Documento)
 
-
+class SupportDoc(models.Model):
+    cod_justificacion = models.CharField(max_length=255, blank=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
+    persona_juridica = models.ForeignKey(LegalPerson, null=True, on_delete=models.CASCADE)
+    persona_fisica = models.ForeignKey(PhysicalPerson, null=True, on_delete=models.CASCADE)

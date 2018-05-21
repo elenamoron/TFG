@@ -25,12 +25,6 @@ class RelationshipAdmin(admin.ModelAdmin):
 admin.site.register(Relationship, RelationshipAdmin)
 
 
-class DocumentAdmin(admin.ModelAdmin):
-    list_display = ('meta_descripcion',)
-
-admin.site.register(Document, DocumentAdmin)
-
-
 class RelationshipLegalPhysicalAdmin(admin.ModelAdmin):
     list_display = ('persona_juridica', 'persona_fisica', 'tipo_relacion', 'datos_particulares')
     # documentos = models.ManyToOneRel(Documento)
