@@ -175,8 +175,6 @@ class DocumentUploadView(views.APIView):
             data_document['length'] = data['length']
             data_support = {}
             data_support['project'] = data['project']
-            data_support['persona_juridica'] = None
-            data_support['persona_fisica'] = None
             if data.get('persona_juridica'):
                 data_support['persona_juridica'] = data['persona_juridica']
             if data.get('persona_fisica'):
@@ -184,8 +182,6 @@ class DocumentUploadView(views.APIView):
             data_support['cod_justificacion'] = data['tag']
             file_serializer = FileSerializer(data=data_document)
             support_serializer = SupportSerializer(data=data_support)
-            import ipdb
-            ipdb.set_trace()
             if file_serializer.is_valid() and support_serializer.is_valid():
                 file_serializer.save()
                 support_serializer.save()

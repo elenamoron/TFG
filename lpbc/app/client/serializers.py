@@ -32,8 +32,10 @@ class FileSerializer(serializers.ModelSerializer):
 
 class SupportSerializer(serializers.ModelSerializer):
     project = serializers.PrimaryKeyRelatedField(many=False, queryset=Project.objects.all())
-    persona_juridica = serializers.PrimaryKeyRelatedField(many=False, queryset=LegalPerson.objects.all())
-    persona_fisica = serializers.PrimaryKeyRelatedField(many=False, queryset=PhysicalPerson.objects.all())
+    persona_juridica = serializers.PrimaryKeyRelatedField(required=False, many=False,
+                                                          queryset=LegalPerson.objects.all())
+    persona_fisica = serializers.PrimaryKeyRelatedField(required=False, many=False,
+                                                        queryset=PhysicalPerson.objects.all())
 
     class Meta:
         model = SupportDoc

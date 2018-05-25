@@ -62,5 +62,5 @@ class RelationshipLegalPhysical(models.Model):
 class SupportDoc(models.Model):
     cod_justificacion = models.CharField(max_length=255, blank=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
-    persona_juridica = models.ForeignKey(LegalPerson, null=True, on_delete=models.CASCADE)
-    persona_fisica = models.ForeignKey(PhysicalPerson, null=True, on_delete=models.CASCADE)
+    persona_juridica = models.ForeignKey(LegalPerson, null=True, blank=True, on_delete=models.CASCADE)
+    persona_fisica = models.ForeignKey(PhysicalPerson, null=True, blank=True, on_delete=models.CASCADE)
