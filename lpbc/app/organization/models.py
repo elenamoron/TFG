@@ -7,7 +7,9 @@ class Organization(models.Model):
     name = models.CharField(max_length=100, blank=True, default='')
     description = models.CharField(max_length=255, blank=True, default='')
     code = models.TextField()
-
+    address = models.CharField(max_length=255, blank=True, default='')
+    nif = models.CharField(max_length=255, blank=True, default='')
+    users = models.ManyToManyField(User)
     class Meta:
         ordering = ('created',)
 

@@ -130,6 +130,17 @@ class RegisterView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+    def post(self,request, *args, **kwargs):
+        email = kwargs['email']
+        user = User.objects.filter(email=email)
+        if(user):
+            return Response({"Error": "No exite usuario con ese email"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer = UserSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"User": "Register"}, status=status.HTTP_200_OK)
+
 
 class LoginView(viewsets.ModelViewSet):
     queryset = User.objects.all()
