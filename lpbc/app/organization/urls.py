@@ -18,7 +18,7 @@ from django.urls import re_path
 from rest_framework import routers
 from django.conf.urls import url
 from organization.views import OrganizationViewSet, ProfileViewSet, ProjectActive, ProjectViewSet, ProjectByName, \
-    ProjectDetailView, ProjectArchive
+    ProjectDetailView, ProjectArchive, RegisterView, LoginView
 
 
 urlpatterns = [
@@ -28,7 +28,10 @@ urlpatterns = [
     path('project/<int:pk>/', ProjectDetailView.as_view({'put': 'update'})),
     path('project/active', ProjectActive.as_view({'get': 'list'})),
     path('project/archive', ProjectArchive.as_view({'get': 'list'})),
-    path('project/<str:name>/', ProjectByName.as_view({'get': 'list'}))
+    path('project/<str:name>/', ProjectByName.as_view({'get': 'list'})),
+    path('login/', LoginView.as_view({'post': 'create'})),
+    path('register/', RegisterView.as_view({'post': 'create'})),
+    #path('logout/', LogoutView.as_view()),
 ]
 
 

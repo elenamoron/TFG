@@ -36,3 +36,8 @@ class Project(models.Model):
     activo = models.BooleanField(default=True)
 
 
+class User(models.Model):
+    email = models.CharField(max_length=255, blank=True)
+    password = models.CharField(max_length=255, blank=True)
+
+

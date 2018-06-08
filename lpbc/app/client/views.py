@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 
-from client.models import LegalPerson, PhysicalPerson
+from client.models import LegalPerson, PhysicalPerson, Document
 from client.serializers import LegalPersonSerializer, PhysicalPersonSerializer, FileSerializer, SupportSerializer
 
 import json
@@ -166,6 +166,13 @@ class PhysicalPersonByIdViewSet(viewsets.ModelViewSet):
 class DocumentUploadView(views.APIView):
     parser_classes = (MultiPartParser, FormParser)
 
+    queryset = Document.objects.all()
+
+    def get(self, *args, **kwargs):
+        qs = super(DocumentUploadView, self).get_queryset(*args, **kwargs)
+        qs = qs.filter(id=1)
+        return qs
+
     def post(self, request, *args, **kwargs):
         for file in request.FILES:
             data = json.loads(request.data['json'])
@@ -188,6 +195,7 @@ class DocumentUploadView(views.APIView):
                 return Response(file_serializer.data, status=status.HTTP_201_CREATED)
             else:
                 return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class PhysicalPersonWithCapitalViewSet(viewsets.ModelViewSet):
