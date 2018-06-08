@@ -164,7 +164,7 @@
                 this.$.auth.signInWithPopup()
                         .then(function(response){
                                     //crear user y organización
-                                    $.ajax({
+                                    result = $.ajax({
                                         type:"POST", // la variable type guarda el tipo de la peticion GET,POST,..
                                         url:"http://0.0.0.0:8000/api/lpbc/user/", //url guarda la ruta hacia donde se hace la peticion
                                         data:{"email":response.user.email, "password":""}, // data recive un objeto con la informacion que se enviara al servidor
@@ -173,6 +173,7 @@
                                          },
                                         dataType: "json" // El tipo de datos esperados del servidor. Valor predeterminado: Intelligent Guess (xml, json, script, text, html).
                                     });
+                                    debugger;
                                     location="#/home/mis-proyectos";
 
                                 }
