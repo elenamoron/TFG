@@ -1,11 +1,18 @@
 from rest_framework import serializers
 from organization.models import Organization, Profile, Project, User
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('email', 'password')
+
 
 class OrganizationSerializer(serializers.ModelSerializer):
+    users = UserSerializer(many=True, read_only=True)
+
     class Meta:
         model = Organization
-        fields = ('id', 'name', 'description', 'code')
+        fields = ('id', 'name', 'description', 'code', 'created', 'address', 'nif', 'users')
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -21,7 +28,3 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'description', 'fecha_creacion', 'cliente', 'logo', 'activo')
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('email', 'password')
