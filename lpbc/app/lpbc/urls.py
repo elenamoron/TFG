@@ -45,7 +45,9 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=None), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=None), name='schema-redoc'),
     path('api/lpbc/', include('organization.urls')),
-    path('api/lpbc/client/', include('client.urls'))
+    path('api/lpbc/client/', include('client.urls')),
+    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/registration/', include('rest_auth.registration.urls'))
 ]
 
 #     url(r'^api/lpbc/', include('lpbc.urls', namespace='lpbc')),

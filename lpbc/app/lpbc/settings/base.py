@@ -39,9 +39,18 @@ INSTALLED_APPS = [
     'organization',
     'client',
     'drf_yasg',
-    'corsheaders'
+    'corsheaders',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration'
 ]
 
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -132,3 +141,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20
 }
+
+EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
+MAILJET_API_KEY = 'b3c549348a7c52776f9cec78318b196a'
+MAILJET_API_SECRET = 'ccf7aa8a3483e56cd460766f6364a217'
