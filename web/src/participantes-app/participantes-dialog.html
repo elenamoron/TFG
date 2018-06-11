@@ -9,13 +9,14 @@
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 
 <link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
-<link rel="import" href="../participantes-app/participantes-dialog.html">
-<dom-module id="organization-dialog">
+
+<dom-module id="participantes-dialog">
     <template>
         <style>
 
@@ -77,43 +78,32 @@
                 width: 500px;
             }
         </style>
-            <paper-dialog id="animated">
-                <h2>Nueva Organización</h2>
-                <paper-input type="text" name="name" placeholder="nombre " value="{{nombre}}" required></paper-input>
-                <paper-input type="text" name="descripcion" placeholder="descripcion" value="{{descripcion}}" required></paper-input>
-                <paper-input type="text" name="code" placeholder="código" value="{{code}}" required></paper-input>
-                <paper-input type="text" name="address" placeholder="dirección" value="{{address}}" required></paper-input>
-                <paper-input type="text" name="nif" placeholder="nif" value="{{nif}}" required></paper-input>
-                <p>Añadir usuarios
-                    <paper-fab icon="icons:account-circle" raised >
-                        <participantes-dialog></participantes-dialog>
-                    </paper-fab></p>
-                <paper-button on-click="add" class="custom black" name="add" dialog-confirm autofocus>Crear</paper-button>
-            </paper-dialog>
-
+            <iron-dropdown id="userDialog" horizontal-align="right" vertical-align="top">
+              <paper-listbox slot="dropdown-content" selected="1">
+                <paper-item>allosaurus</paper-item>
+                <paper-item>brontosaurus</paper-item>
+                <paper-item>carcharodontosaurus</paper-item>
+                <paper-item>diplodocus</paper-item>
+              </paper-listbox>
+            </iron-dropdown>
     </template>
     <script>
         /**
          * @customElement
          * @polymer
          */
-        class OrganizationDialog extends Polymer.Element {
-            static get is() { return 'organization-dialog'; }
+        class ParticipantesDialog extends Polymer.Element {
+            static get is() { return 'participantes-dialog'; }
             static get properties() {
                 return {
                     prop1: {
                         type: String,
-                        value: 'organization-dialog'
+                        value: 'participantes-dialog'
                     }
 
                 };
             }
-            openDialog(){
-                debugger;
-                var dialog = this.shadowRoot.querySelector('#userDialog');
-                var popUp = dialog.shadowRoot.querySelector('iron-dropdown');
-                popUp.toggle();
-            }
+
             add(){
                 var d = new Date();
                 var dd = d.getDate();
@@ -130,6 +120,6 @@
 
 
         }
-        window.customElements.define(OrganizationDialog.is, OrganizationDialog);
+        window.customElements.define(ParticipantesDialog.is, ParticipantesDialog);
     </script>
 </dom-module>

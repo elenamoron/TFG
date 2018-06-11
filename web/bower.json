@@ -29,7 +29,10 @@
     "file-drop-zone": "PolymerVis/file-drop-zone#^2.0.3",
     "paper-toggle-button": "PolymerElements/paper-toggle-button#^2.1.1",
     "file-dropzone": "woutervroege/file-dropzone#^1.1.1",
-    "s-circle-progress": "StartPolymer/s-circle-progress#^1.0.0"
+    "s-circle-progress": "StartPolymer/s-circle-progress#^1.0.0",
+    "iron-collapse": "PolymerElements/iron-collapse#^2.2.1",
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^2.1.0",
+    "iron-dropdown": "PolymerElements/iron-dropdown#^2.2.0"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",
