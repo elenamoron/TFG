@@ -2,6 +2,7 @@
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <dom-module id="register-app">
     <template>
         <style>
@@ -37,21 +38,29 @@
                 };
             }
         </style>
-        <iron-form>
-            <form method="post" action="/home">
+            <paper-dialog>
                 <paper-input type="text" name="name" placeholder="username" value="{{nombre}}" required></paper-input>
-                <paper-input type="password" name="password" placeholder="password" valeu="{{password}}" required> </paper-input>
-                <paper-button on-click="registar" class="custom black" name="registro">Soy nuevo</paper-button>
+                <paper-input type="password" name="password" placeholder="password" value="{{password}}" required> </paper-input>
+                <paper-button on-click="registrar" class="custom black" name="registro" >Soy nuevo</paper-button>
                 <paper-button on-click="identificar" class="custom black" name="registro">Iniciar</paper-button>
-            </form>
-        </iron-form>
+            </paper-dialog>
+
         <iron-ajax
-                id="dataAjax"
-                url="https://www.googleapis.com/youtube/v3/search"
-                params='{"part":"snippet", "q":"polymer", "key": "YOUTUBE_API_KEY", "type": "video"}'
+                method="post"
+                id="register"
+                url="http://0.0.0.0:8000/rest-auth/registration/"
                 handle-as="json"
+                content-type="application/json"
+                on-response="registerResponse"
+                ></iron-ajax>
+        <iron-ajax
+                method="post"
+                id="login"
+                url="http://0.0.0.0:8000/rest-auth/login/"
+                handle-as="json"
+                content-type="application/json"
                 on-response="handleResponse"
-                debounce-duration="300"></iron-ajax>
+                ></iron-ajax>
     </template>
     <script>
         /**
@@ -72,8 +81,16 @@
                 };
             }
             identificar() {
-                this.$.dataAjax.body = {'nombre': this.nombre, 'password': this.password};
-                this.$.dataAjax.generateRequest();
+                this.$.login.body = {'username': this.nombre, 'email':this.nombre, 'password': this.password};
+                this.$.login.generateRequest();
+            }
+            registrar(){
+                this.$.register.body= {'username':this.nombre, 'email':this.nombre,'password1': this.password,'password2': this.password};
+                this.$.register.generateRequest();
+
+            }
+            registerResponse(data){
+                debugger;
             }
         }
         window.customElements.define(RegisterApp.is, RegisterApp);

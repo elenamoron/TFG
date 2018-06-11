@@ -75,24 +75,30 @@
         </style>
         <firebase-auth id="auth" user="{{user}}" provider="google" >
         </firebase-auth>
+        <app-location route="{{route}}" use-hash-as-path></app-location>
+        <app-route
+                route="{{route}}"
+                pattern="/:page"
+                data="{{_pageData}}"
+                tail="{{_subRoute}}"></app-route>
+        <app-route
+                route="{{_subRoute}}"
+                pattern="/:id"
+                data="{{_idData}}"></app-route>
             <div name="login">
                 <app-toolbar class="toolbar">
                     <div class="tabs">
                         <a href="about" on-click="_onTapAnchor">Cómo funciona</a>
                         <a href="services" on-click="_onTapAnchor">Servicios</a>
                         <a href="contact" on-click="_onTapAnchor">Contacto</a>
-                        <a href="register">Login</a>
+                        <a href="register" on-click="openRegister">Login</a>
                         <a href="" on-click="abrirVentanaLogin"><img src="../../media/Google_Logo.png" width="20px"></a>
                     </div>
                 </app-toolbar>
                 <header>
-                    <iron-pages
-                            selected="[[routeData.page]]"
-                            attr-for-selected="name"
-                            selected-attribute="visible"
-                    >
-                        <register-app name="register" route="{{subroute}}"></register-app>
-                    </iron-pages>
+
+                    <register-app id="register"></register-app>
+
                 </header>
                 <section id="about">
                     <div class="container">
@@ -223,6 +229,11 @@
             }
             _calculaLogado(usuario){
                 return ((this.$.auth.user=="undefined" || this.$.auth.user == null)?"login":"home");
+            }
+            openRegister(){
+                var dialog = this.shadowRoot.querySelector('#register');
+                var popUp = dialog.shadowRoot.querySelector('paper-dialog');
+                popUp.toggle();
             }
         }
 
