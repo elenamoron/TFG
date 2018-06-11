@@ -1,0 +1,178 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<!--link rel="import" href="../../bower_components/app-layout/app-header-layout"-->
+<!--link rel="import" href="../../bower_components/app-layout/app-header"-->
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+
+<link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="../organization-app/organization-dialog.html">
+<dom-module id="organization-app">
+    <template>
+        <style>
+            .content {
+                display: block;
+                position: relative;
+                max-width: 1000px;
+                margin: 5px auto;
+            }
+            .rate-image {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: 200px;
+                background-size: cover !important;
+                max-width: 100%;
+                max-height: 100%;
+                height: auto !important;
+                display: block;
+            }
+            .rate-header { @apply --paper-font-headline; }
+            .rate-name { color: var(--paper-grey-600); margin: 10px 0; }
+            paper-icon-button.rate-icon {
+                --iron-icon-fill-color: white;
+                --iron-icon-stroke-color: var(--paper-grey-600);
+            }
+            paper-card {
+                width: 700px;
+                margin-left: 30px;
+                margin-bottom: 30px;
+            }
+            paper-fab {
+                position: fixed;
+                right: 24px;
+                bottom: 24px;
+                --paper-fab-background: #ff4081;
+                --paper-fab-keyboard-focus-background: #DF4448;
+            }
+            paper-button.custom {
+                --paper-button-ink-color: var(--paper-pink-a200);
+                /* These could also be individually defined for each of the
+                  specific css classes, but we'll just do it once as an example */
+                --paper-button-flat-keyboard-focus: {
+                    background-color: var(--paper-pink-a200);
+                    color: white !important;
+                };
+                --paper-button-raised-keyboard-focus: {
+                    background-color: var(--paper-pink-a200) !important;
+                    color: white !important;
+                };
+            }
+            paper-button.custom {
+                background-color: lightgray;
+            }
+            paper-button.custom:hover {
+                background-color: #ff4081;
+            }
+            paper-button.black {
+                color: black;
+
+            }
+            paper-button.indigo {
+                background-color: var(--paper-indigo-500);
+                color: white;
+                --paper-button-raised-keyboard-focus: {
+                    background-color: var(--paper-pink-a200) !important;
+                    color: white !important;
+                };
+            }
+            paper-button {
+                margin-left: 50px;
+            }
+            a {
+                text-decoration: none;
+
+            }
+        </style>
+        <app-location route="{{route}}" use-hash-as-path></app-location>
+        <app-route
+                route="{{route}}"
+                pattern="/:page"
+                data="{{_pageData}}"
+                tail="{{_subRoute}}"></app-route>
+        <app-route
+                route="{{_subRoute}}"
+                pattern="/:id"
+                data="{{_idData}}"></app-route>
+
+        <app-header-layout>
+
+            <template is="dom-repeat" items="{{organizaciones}}">
+                <paper-card class="rate">
+                    <div class="card-content">
+                        <div class="rate-header">{{item.name}}</div>
+                        <div class="rate-name">{{item.cliente}}</div>
+                        <div>{{item.description}}</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="#/proyecto/{{item.name}}/resumen" name="ver">
+                            <paper-button  class="custom black" name="ver" dialog-confirm autofocus> Ver</paper-button>
+                        </a>
+                        <paper-button on-click="archivar" data-item$="[[item]]" class="custom black" name="archivar" dialog-confirm autofocus>Archivar</paper-button>
+                    </div>
+                    <div class="rate-image" style="background: url('../../media/{{item.logo }}')"></div>
+                </paper-card>
+
+            </template>
+
+
+            <br>
+
+            <paper-fab icon="add" raised on-tap="openDialog"></paper-fab>
+            <organization-dialog id="myDialog">
+
+            </organization-dialog>
+        </app-header-layout>
+    </template>
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class OrganizationApp extends Polymer.Element {
+            static get is() { return 'organization-app'; }
+            static get properties() {
+                return {
+                    prop1: {
+                        type: String,
+                        value: 'organization-app'
+                    },
+                    organizaciones: Object
+
+                };
+            }
+            openDialog() {
+                var dialog = this.shadowRoot.querySelector('#myDialog');
+                var popUp = dialog.shadowRoot.querySelector('paper-dialog');
+                popUp.toggle();
+            }
+            handleResponse (data) {
+                this.proyectos = data.detail.response.results;
+            }
+            add(){
+                var d = new Date();
+                var dd = d.getDate();
+                var mm = d.getMonth()+1; //January is 0!
+                var yyyy = d.getFullYear();
+                this.$.addProject.body={"name":this.nombre,"description":this.descripcion, "fecha_creacion":yyyy+'-'+mm+'-'+dd};
+                this.$.addProject.generateRequest();
+                this.$.getProject.generateRequest();
+            }
+
+
+
+
+
+        }
+        window.customElements.define(OrganizationApp.is, OrganizationApp);
+    </script>
+</dom-module>

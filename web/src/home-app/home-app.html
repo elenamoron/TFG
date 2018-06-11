@@ -19,6 +19,7 @@
 <link rel="import" href="../proyectos-app/proyectos-archivados.html">
 <link rel="import" href="../proyectos-app/proyectos-activos.html">
 <link rel="import" href="../proyectos-app/proyectos-mis-archivados.html">
+<link rel="import" href="../organization-app/organization-app.html">
 
 <dom-module id="home-app">
     <template>
@@ -122,7 +123,7 @@
                             <paper-item name="[[_pageData.page]]/activos">Proyectos activos
                             </paper-item>
                             <paper-item name="[[_pageData.page]]/archivados">Proyectos archivados</paper-item>
-                            <paper-item name="[[_pageData.page]]/organizaciones">Mis organizaciones</paper-item>
+                            <paper-item name="[[_pageData.page]]/organizaciones">Organizaciones</paper-item>
                         </paper-listbox>
 
                     </app-header-layout>
@@ -148,7 +149,11 @@
                             route="{{_subRoute}}"
                     >
                     </proyectos-mis-archivados>
-
+                    <organization-app
+                            name="/organizaciones"
+                            route="{{_subRoute}}"
+                    >
+                    </organization-app>
                 </iron-pages>
 
             </app-drawer-layout>
