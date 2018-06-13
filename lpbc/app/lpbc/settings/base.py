@@ -142,6 +142,19 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 20
 }
 
+REST_FRAMEWORK.update({
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+})
+
+
 EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
 MAILJET_API_KEY = 'b3c549348a7c52776f9cec78318b196a'
 MAILJET_API_SECRET = 'ccf7aa8a3483e56cd460766f6364a217'
+DEFAULT_FROM_EMAIL = 'lpbd@i2tic.com'
