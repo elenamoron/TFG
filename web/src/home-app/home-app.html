@@ -70,6 +70,14 @@
                 white-space: normal;
             }
         </style>
+        <iron-ajax
+                method="post"
+                id="logout"
+                url="http://0.0.0.0:8000/rest-auth/logout/"
+                handle-as="json"
+                content-type="application/json"
+                on-response="handleResponse"
+                ></iron-ajax>
         <firebase-auth id="auth" user="{{user}}" provider="google" >
         </firebase-auth>
         <app-location route="{{route}}" use-hash-as-path></app-location>
@@ -82,84 +90,79 @@
                 route="{{_subRoute}}"
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
-        <iron-pages
-                selected="[[usuarioLogado]]"
-                attr-for-selected="name"
-                selected-attribute="visible"
-        >
 
-            <app-drawer-layout name="home" responsive-width="1280px" >
-                <app-header-layout>
-                    <app-header slot="header">
-                        <app-toolbar>
-                            <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-                            <div main-title>[[_subRoute.path]]</div>
-                            <paper-icon-button icon="settings-power" raised on-click="desconectar"></paper-icon-button>
-                        </app-toolbar>
+
+        <app-drawer-layout name="home" responsive-width="1280px" >
+            <app-header-layout>
+                <app-header slot="header">
+                    <app-toolbar>
+                        <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+                        <div main-title>[[_subRoute.path]]</div>
+                        <paper-icon-button icon="settings-power" raised on-click="desconectar"></paper-icon-button>
+                    </app-toolbar>
+                </app-header>
+            </app-header-layout>
+            <app-drawer id="drawer" slot="drawer" swipe-open>
+                <app-header-layout has-scrolling-region>
+
+                    <app-header fixed>
+                        <paper-avatar label="[[user.displayName]]" src="[[user.photoURL]]"></paper-avatar>
+
+                        <div class="contact-info">
+                            <div class="name">[[user.displayName]]</div>
+                            <div class="email">[[user.email]]</div>
+
+                        </div>
                     </app-header>
+
+
+                    <paper-listbox
+                            selected="{{_pageData.page}}"
+                            attr-for-selected="name"
+                            on-iron-activate="_drawerSelected">
+                        <paper-item name="[[_pageData.page]]/mis-proyectos">Mis proyectos activos
+                        </paper-item>
+                        <paper-item name="[[_pageData.page]]/mis-archivados">Mis proyectos archivados
+                        </paper-item>
+                        <paper-item name="[[_pageData.page]]/activos">Proyectos activos
+                        </paper-item>
+                        <paper-item name="[[_pageData.page]]/archivados">Proyectos archivados</paper-item>
+                        <paper-item name="[[_pageData.page]]/organizaciones">Organizaciones</paper-item>
+                    </paper-listbox>
+
                 </app-header-layout>
-                <app-drawer id="drawer" slot="drawer" swipe-open>
-                    <app-header-layout has-scrolling-region>
+            </app-drawer>
+            <iron-pages selected="[[_subRoute.path]]" attr-for-selected="name">
+                <proyectos-app
+                        name="/mis-proyectos"
+                        route="{{_subRoute}}"
+                >
+                </proyectos-app>
+                <proyectos-archivados
+                        name="/archivados"
+                        route="{{_subRoute}}"
+                >
+                </proyectos-archivados>
+                <proyectos-activos
+                        name="/activos"
+                        route="{{_subRoute}}"
+                >
+                </proyectos-activos>
+                <proyectos-mis-archivados
+                        name="/mis-archivados"
+                        route="{{_subRoute}}"
+                >
+                </proyectos-mis-archivados>
+                <organization-app
+                        name="/organizaciones"
+                        route="{{_subRoute}}"
+                >
+                </organization-app>
+            </iron-pages>
 
-                        <app-header fixed>
-                            <paper-avatar label="[[user.displayName]]" src="[[user.photoURL]]"></paper-avatar>
-
-                            <div class="contact-info">
-                                <div class="name">[[user.displayName]]</div>
-                                <div class="email">[[user.email]]</div>
-
-                            </div>
-                        </app-header>
+        </app-drawer-layout>
 
 
-                        <paper-listbox
-                                selected="{{_pageData.page}}"
-                                attr-for-selected="name"
-                                on-iron-activate="_drawerSelected">
-                            <paper-item name="[[_pageData.page]]/mis-proyectos">Mis proyectos activos
-                            </paper-item>
-                            <paper-item name="[[_pageData.page]]/mis-archivados">Mis proyectos archivados
-                            </paper-item>
-                            <paper-item name="[[_pageData.page]]/activos">Proyectos activos
-                            </paper-item>
-                            <paper-item name="[[_pageData.page]]/archivados">Proyectos archivados</paper-item>
-                            <paper-item name="[[_pageData.page]]/organizaciones">Organizaciones</paper-item>
-                        </paper-listbox>
-
-                    </app-header-layout>
-                </app-drawer>
-                <iron-pages selected="[[_subRoute.path]]" attr-for-selected="name">
-                    <proyectos-app
-                            name="/mis-proyectos"
-                            route="{{_subRoute}}"
-                    >
-                    </proyectos-app>
-                    <proyectos-archivados
-                            name="/archivados"
-                            route="{{_subRoute}}"
-                    >
-                    </proyectos-archivados>
-                    <proyectos-activos
-                            name="/activos"
-                            route="{{_subRoute}}"
-                    >
-                    </proyectos-activos>
-                    <proyectos-mis-archivados
-                            name="/mis-archivados"
-                            route="{{_subRoute}}"
-                    >
-                    </proyectos-mis-archivados>
-                    <organization-app
-                            name="/organizaciones"
-                            route="{{_subRoute}}"
-                    >
-                    </organization-app>
-                </iron-pages>
-
-            </app-drawer-layout>
-
-            <!--web-app name="login"></web-app-->
-        </iron-pages>
     </template>
     <script>
         /**
@@ -184,6 +187,8 @@
             }
 
             desconectar(){
+                this.$.logout.headers['authorization'] = 'Token '+Polymer.globalsManager.get('token')
+                this.$.logout.generateRequest();
                 this.$.auth.signOut()
                         .then(function(response){
                             location="#/landing";
@@ -194,9 +199,10 @@
                             console.log(error);
                         });
             }
-            _calculaLogado(usuario){
+            /*_calculaLogado(usuario){
+                debugger;
                 return ((this.$.auth.user=="undefined" || this.$.auth.user == null)?"login":"home");
-            }
+            }*/
             _drawerSelected() {
                 if (!this.$.drawer.persistent) this.$.drawer.close();
             }

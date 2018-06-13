@@ -105,7 +105,8 @@
                 data="{{_idData}}"></app-route>
         <iron-ajax auto
                    id="getProject"
-                   url="http://0.0.0.0:8000/api/lpbc/project/active"
+                   url="http://0.0.0.0:8000/api/lpbc/organization/<id>/project/active"
+                   headers="{'Authorization': Polymer.globalsManager.get('token')}"
                    handle-as="json"
                    on-response="handleResponse"
                    debounce-duration="300"
@@ -115,7 +116,8 @@
         <iron-ajax
             id="addProject"
             method="post"
-            url="http://0.0.0.0:8000/api/lpbc/project/"
+            url="http://0.0.0.0:8000/api/lpbc/organization/<id>/project/"
+            headers="{'Authorization': Polymer.globalsManager.get('token')}"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>
@@ -124,7 +126,8 @@
         <iron-ajax
             id="putProject"
             method="put"
-            url="http://0.0.0.0:8000/api/lpbc/project/{{nombre}}/"
+            url="http://0.0.0.0:8000/api/lpbc/organization/<id>/project/{{nombre}}/"
+            headers="{'Authorization': Polymer.globalsManager.get('token')}"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>
