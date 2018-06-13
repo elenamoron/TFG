@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../home-app/home-app.html">
 <script src="../../bower_components/polymer-global-variables/dist/polymer-global-variables.js" charset="utf-8"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <dom-module id="register-app">
     <template>
         <style>
@@ -40,14 +41,20 @@
                     color: white !important;
                 };
             }
+            .errors{
+                color:red;
+            }
         </style>
             <paper-dialog>
+                <div class="errors">
+                    [[errors]]
+                </div>
                 <paper-input type="text" name="name" placeholder="username" value="{{nombre}}" required></paper-input>
                 <paper-input type="password" name="password" placeholder="password" value="{{password}}" required> </paper-input>
                 <paper-button on-click="registrar" class="custom black" name="registro" >Soy nuevo</paper-button>
                 <paper-button on-click="identificar" class="custom black" name="registro">Iniciar</paper-button>
             </paper-dialog>
-
+        <!-- Llamadas autenticación-->
         <iron-ajax
                 method="post"
                 id="register"
@@ -64,8 +71,9 @@
                 handle-as="json"
                 content-type="application/json"
                 on-response="handleResponse"
+                on-error="errorLogin"
                 ></iron-ajax>
-        <pre>[[json(lastResponse)]]</pre>
+
     </template>
     <script>
         /**
@@ -83,7 +91,7 @@
                     user: Object,
                     nombre:String,
                     password: String,
-                    token: String
+                    errors: String
                 };
             }
             identificar() {
@@ -98,10 +106,10 @@
             onError(data) {
                 if(data.detail.request.xhr.response){
                     if(data.detail.request.xhr.response["email"]){
-                        alert(data.detail.request.xhr.response["email"]);
+                        this.errors = data.detail.request.xhr.response["email"];
                     }
                     if(data.detail.request.xhr.response["password1"]){
-                        alert(data.detail.request.xhr.response["password1"]);
+                        this.errors = data.detail.request.xhr.response["password1"];
                     }
                 }
             }
@@ -110,7 +118,7 @@
                 location="#/home/mis-proyectos";
             }
             errorLogin(data){
-                alert(data.detail.request.xhr.response["non_field_errors"]);
+                this.errors = data.detail.request.xhr.response["non_field_errors"];
             }
         }
         window.customElements.define(RegisterApp.is, RegisterApp);
