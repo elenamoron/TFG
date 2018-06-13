@@ -77,6 +77,14 @@
                 width: 500px;
             }
         </style>
+        <iron-ajax
+                method="post"
+                id="addOrganization"
+                url="http://0.0.0.0:8000/api/lpbc/organization"
+                handle-as="json"
+                content-type="application/json"
+                on-response="handleResponse"
+                ></iron-ajax>
             <paper-dialog id="animated">
                 <h2>Nueva Organización</h2>
                 <paper-input type="text" name="name" placeholder="nombre " value="{{nombre}}" required></paper-input>
@@ -84,10 +92,6 @@
                 <paper-input type="text" name="code" placeholder="código" value="{{code}}" required></paper-input>
                 <paper-input type="text" name="address" placeholder="dirección" value="{{address}}" required></paper-input>
                 <paper-input type="text" name="nif" placeholder="nif" value="{{nif}}" required></paper-input>
-                <p>Añadir usuarios
-                    <paper-fab icon="icons:account-circle" raised >
-                        <participantes-dialog></participantes-dialog>
-                    </paper-fab></p>
                 <paper-button on-click="add" class="custom black" name="add" dialog-confirm autofocus>Crear</paper-button>
             </paper-dialog>
 
@@ -109,7 +113,6 @@
                 };
             }
             openDialog(){
-                debugger;
                 var dialog = this.shadowRoot.querySelector('#userDialog');
                 var popUp = dialog.shadowRoot.querySelector('iron-dropdown');
                 popUp.toggle();
@@ -119,8 +122,9 @@
                 var dd = d.getDate();
                 var mm = d.getMonth()+1; //January is 0!
                 var yyyy = d.getFullYear();
-                this.$.addProject.body={"name":this.nombre,"description":this.descripcion, "fecha_creacion":yyyy+'-'+mm+'-'+dd};
-                this.$.addProject.generateRequest();
+                this.$.addOrganization.headers['authorization'] = 'Token '+Polymer.globalsManager.get('token');
+                this.$.addOrganization.body={"name":this.nombre,"description":this.descripcion, "created":yyyy+'-'+mm+'-'+dd, "code":this.code, "address":this.address, "nif":this.nif};
+                this.$.addOrganization.generateRequest();
                 this.$.getProject.generateRequest();
             }
 

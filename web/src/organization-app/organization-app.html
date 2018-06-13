@@ -93,6 +93,15 @@
 
             }
         </style>
+        <iron-ajax
+                method="get"
+                headers="{{header)}}"
+                id="getOrganizations"
+                url="http://0.0.0.0:8000/api/lpbc/organization"
+                handle-as="json"
+                content-type="application/json"
+                on-response="handleResponse"
+                ></iron-ajax>
         <app-location route="{{route}}" use-hash-as-path></app-location>
         <app-route
                 route="{{route}}"
@@ -146,7 +155,10 @@
                         type: String,
                         value: 'organization-app'
                     },
-                    organizaciones: Object
+                    organizaciones: Object,
+                    header: {
+                        computed: 'computeHeader(user)'
+                    }
 
                 };
             }
@@ -166,6 +178,10 @@
                 this.$.addProject.body={"name":this.nombre,"description":this.descripcion, "fecha_creacion":yyyy+'-'+mm+'-'+dd};
                 this.$.addProject.generateRequest();
                 this.$.getProject.generateRequest();
+            }
+
+            computeHeader(user) {
+                return '{"Authorization": "Token '+Polymer.globalsManager.get('token')+'"}';
             }
 
 

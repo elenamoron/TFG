@@ -9,7 +9,7 @@ from organization.serializers import OrganizationSerializer, ProfileSerializer, 
 import json
 
 
-class OrganizationViewSet(views.APIView):
+class OrganizationViewSet(viewsets.ModelViewSet):
 
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
@@ -20,12 +20,11 @@ class OrganizationViewSet(views.APIView):
                          'created': request.data['created'], 'code': request.data['code']}
         organization = OrganizationSerializer(data=data_document)
         if organization.is_valid():
-            organization.save
-            email = request.data['users[0][email]']
-            import ipdb
-            ipdb.set_trace()
+            organization.save()
+            '''email = request.data['users[0][email]']
+
             user = User.objects.get_or_create(email=email)
-            OrganizationUser.objects.create(user=user, organization=organization)
+            OrganizationUser.objects.create(user=user, organization=organization)'''
             return Response({"Organization created"}, status=status.HTTP_201_CREATED)
         else:
             Response({"Error"}, status=status.HTTP_400_BAD_REQUEST)

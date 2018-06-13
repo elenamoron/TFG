@@ -106,7 +106,7 @@
         <iron-ajax auto
                    id="getProject"
                    url="http://0.0.0.0:8000/api/lpbc/organization/<id>/project/active"
-                   headers="{'Authorization': Polymer.globalsManager.get('token')}"
+                   headers='{"Authorization": {{Polymer.globalsManager.get("token")}}}'
                    handle-as="json"
                    on-response="handleResponse"
                    debounce-duration="300"
