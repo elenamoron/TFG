@@ -31,7 +31,6 @@ urlpatterns = [
     path('project/<str:name>/', ProjectByName.as_view({'get': 'list'})),
     path('login/', LoginView.as_view({'post': 'create'})),
     path('user/', RegisterView.as_view({'post': 'create'})),
-    #path('logout/', LogoutView.as_view()),
 ]
 
 

@@ -62,6 +62,7 @@
                 handle-as="json"
                 content-type="application/json"
                 last-response="{{lastResponse}}"
+                on-response="onSuccess"
                 on-error="onError"
                 ></iron-ajax>
         <iron-ajax
@@ -114,6 +115,11 @@
                 }
             }
             handleResponse(data){
+                Polymer.globalsManager.set('token',data.detail.response.key );
+                location="#/home/mis-proyectos";
+            }
+            onSuccess(data){
+                debugger;
                 Polymer.globalsManager.set('token',data.detail.response.key );
                 location="#/home/mis-proyectos";
             }

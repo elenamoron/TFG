@@ -21,10 +21,8 @@ class OrganizationViewSet(viewsets.ModelViewSet):
         organization = OrganizationSerializer(data=data_document)
         if organization.is_valid():
             organization.save()
-            '''email = request.data['users[0][email]']
-
-            user = User.objects.get_or_create(email=email)
-            OrganizationUser.objects.create(user=user, organization=organization)'''
+            logged_user = request.user
+            organization.users.add(logged_user)
             return Response({"Organization created"}, status=status.HTTP_201_CREATED)
         else:
             Response({"Error"}, status=status.HTTP_400_BAD_REQUEST)
