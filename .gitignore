@@ -88,3 +88,4 @@ db.*
 *.sql
 *.sqlite3
 data_redis/
+.DS_Store

@@ -3,7 +3,7 @@ from rest_framework import status, views
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from organization.models import Organization, Profile, Project, User, OrganizationUser
+from organization.models import Organization, Profile, Project, User
 from organization.serializers import OrganizationSerializer, ProfileSerializer, ProjectSerializer, UserSerializer
 
 import json

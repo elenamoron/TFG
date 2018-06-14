@@ -9,15 +9,10 @@ class Organization(models.Model):
     code = models.TextField()
     address = models.CharField(max_length=255, blank=True, default='')
     nif = models.CharField(max_length=255, blank=True, default='')
-    users = models.ManyToManyField(User, through='OrganizationUser',related_name='auditor')
+    users = models.ManyToManyField(User)
 
     class Meta:
         ordering = ('created',)
-
-
-class OrganizationUser(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
 
 
 class Profile(models.Model):
@@ -42,9 +37,3 @@ class Project(models.Model):
     cliente = models.CharField(max_length=100, blank=True, default='')
     logo = models.CharField(max_length=255, blank=True, default='')
     activo = models.BooleanField(default=True)
-
-
-class User(models.Model):
-    email = models.CharField(max_length=255, blank=True, unique=True)
-    password = models.CharField(max_length=255, blank=True)
-
