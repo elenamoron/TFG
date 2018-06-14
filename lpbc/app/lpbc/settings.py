@@ -153,8 +153,18 @@ REST_FRAMEWORK.update({
     ),
 })
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),   # Or an IP Address that your DB is hosted on
+        'PORT': os.getenv('DATABASE_PORT'),
+    }
+}
 
 EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
-MAILJET_API_KEY = 'b3c549348a7c52776f9cec78318b196a'
-MAILJET_API_SECRET = 'ccf7aa8a3483e56cd460766f6364a217'
-DEFAULT_FROM_EMAIL = 'lpbd@i2tic.com'
+MAILJET_API_KEY = os.getenv('MAILJET_API_KEY')
+MAILJET_API_SECRET = os.getenv('MAILJET_API_SECRET')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
