@@ -62,7 +62,7 @@
                 handle-as="json"
                 content-type="application/json"
                 last-response="{{lastResponse}}"
-                on-response="onSuccess"
+                on-response="handleResponse"
                 on-error="onError"
                 ></iron-ajax>
         <iron-ajax
@@ -71,8 +71,16 @@
                 url="http://0.0.0.0:8000/rest-auth/login/"
                 handle-as="json"
                 content-type="application/json"
-                on-response="handleResponse"
+                on-response="onSuccess"
                 on-error="errorLogin"
+                ></iron-ajax>
+        <iron-ajax
+                method="post"
+                id="addOrganization"
+                url="http://0.0.0.0:8000/api/lpbc/organization"
+                handle-as="json"
+                content-type="application/json"
+                on-response="handleResponse"
                 ></iron-ajax>
 
     </template>
@@ -115,16 +123,32 @@
                 }
             }
             handleResponse(data){
-                Polymer.globalsManager.set('token',data.detail.response.key );
-                location="#/home/mis-proyectos";
-            }
-            onSuccess(data){
-                debugger;
-                Polymer.globalsManager.set('token',data.detail.response.key );
-                location="#/home/mis-proyectos";
+
+                this.identificar();
+                if(data.detail.response.key){
+                    var d = new Date();
+                    var dd = d.getDate();
+                    var mm = d.getMonth()+1; //January is 0!
+                    var yyyy = d.getFullYear();
+                    Polymer.globalsManager.set('token',data.detail.response.key );
+                    this.$.addOrganization.headers['authorization'] = 'Token '+Polymer.globalsManager.get('token');
+                    this.$.addOrganization.body={"name":'name',"description":'des', "created":yyyy+'-'+mm+'-'+dd, "code":'ORG',
+                        "address":'', "nif":'dni'};
+                    this.$.addOrganization.generateRequest();
+                }
+
+
             }
             errorLogin(data){
                 this.errors = data.detail.request.xhr.response["non_field_errors"];
+            }
+            onSuccess(data){
+                if(!Polymer.globalsManager.get('token')){
+                    Polymer.globalsManager.set('token',data.detail.response.key );
+                    this.data = data.detail.response.key;
+                }
+
+                location="#/home/mis-proyectos";
             }
         }
         window.customElements.define(RegisterApp.is, RegisterApp);

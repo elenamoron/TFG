@@ -1,10 +1,11 @@
 from rest_framework import serializers
 from organization.models import Organization, Profile, Project, User
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('email', 'password')
+        fields = ('email',)
 
 
 class OrganizationSerializer(serializers.ModelSerializer):

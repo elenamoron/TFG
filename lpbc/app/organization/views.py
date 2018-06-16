@@ -14,15 +14,18 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
 
-    def post(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         data_document = {'name': request.data['name'], 'description': request.data['description'],
                          'nif': request.data['nif'], 'address': request.data['address'],
                          'created': request.data['created'], 'code': request.data['code']}
         organization = OrganizationSerializer(data=data_document)
+        import ipdb
+        ipdb.set_trace()
         if organization.is_valid():
-            organization.save()
             logged_user = request.user
             organization.users.add(logged_user)
+            organization.save()
+
             return Response({"Organization created"}, status=status.HTTP_201_CREATED)
         else:
             Response({"Error"}, status=status.HTTP_400_BAD_REQUEST)
@@ -102,27 +105,3 @@ class ProjectByName(viewsets.ModelViewSet):
 class ProjectDetailView(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-
-
-class RegisterView(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-class LoginView(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-    def post(self,request, *args, **kwargs):
-        import ipdb
-        ipdb.set_trace()
-        email = kwargs['email']
-        user = User.objects.filter(email=email)
-        if(user):
-            if(user.password == kwargs['password']):
-                return Response({"User": "login"}, status=status.HTTP_200_OK)
-            else:
-                return Response({"Error": "Contraseña incorrecta"}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({"Error": "No exite usuario con ese email"}, status=status.HTTP_400_BAD_REQUEST)
-

@@ -125,7 +125,6 @@
                 this.$.addOrganization.headers['authorization'] = 'Token '+Polymer.globalsManager.get('token');
                 this.$.addOrganization.body={"name":this.nombre,"description":this.descripcion, "created":yyyy+'-'+mm+'-'+dd, "code":this.code, "address":this.address, "nif":this.nif};
                 this.$.addOrganization.generateRequest();
-                this.$.getProject.generateRequest();
             }
 
 
