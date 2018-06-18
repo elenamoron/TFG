@@ -1,15 +1,16 @@
 from rest_framework import serializers
-from organization.models import Organization, Profile, Project, User
+from organization.models import Organization, Profile, Project
+from django.contrib.auth.models import User as DjangoUser
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ('email',)
+        model = DjangoUser
+        fields = ("__all__")
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
-    users = UserSerializer(many=True, read_only=True)
+    users = UserSerializer(many=True)
 
     class Meta:
         model = Organization

@@ -15,16 +15,22 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     serializer_class = OrganizationSerializer
 
     def create(self, request, *args, **kwargs):
+        logged_user = request.user
+
         data_document = {'name': request.data['name'], 'description': request.data['description'],
                          'nif': request.data['nif'], 'address': request.data['address'],
-                         'created': request.data['created'], 'code': request.data['code']}
+                         'created': request.data['created'], 'code': request.data['code'],
+                         'users': logged_user}
+
         organization = OrganizationSerializer(data=data_document)
         import ipdb
         ipdb.set_trace()
+
         if organization.is_valid():
-            logged_user = request.user
-            organization.users.add(logged_user)
             organization.save()
+            #logged_user = request.user
+            #organization.users.add(logged_user)
+
 
             return Response({"Organization created"}, status=status.HTTP_201_CREATED)
         else:
