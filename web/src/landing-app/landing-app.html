@@ -97,7 +97,7 @@
                 </app-toolbar>
                 <header>
 
-                    <register-app id="register"></register-app>
+                    <register-app id="register" data="[[token]]"></register-app>
 
                 </header>
                 <section id="about">
@@ -153,9 +153,17 @@
                     prop1: {
                         type: String,
                         value: 'landing-app'
+                    },
+                    token:{
+                        type:String,
+                        value: this.register,
+                        observer: 'changeToken'
                     }
 
                 };
+            }
+            changeToken(){
+                debugger;
             }
             abrirVentanaLogin(){
                 this.$.auth.signInWithPopup()
@@ -178,7 +186,7 @@
 
                                     var result_org = $.ajax({
                                         type:"POST",
-                                        url:"http://0.0.0.0:8000/api/lpbc/organization",
+                                        url:"http://0.0.0.0:8000/api/lpbc/organization/",
                                         data:{ users:[{"email":response.user.email, "password":""}],
                                                name: "Organization "+response.user.displayName,
                                                description: "Mi organización",
