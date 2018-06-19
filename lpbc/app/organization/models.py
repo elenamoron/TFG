@@ -4,11 +4,11 @@ from django.db import models
 
 class Organization(models.Model):
     created = models.DateField(blank=True, null=True)
-    name = models.CharField(max_length=100, blank=True, default='')
+    name = models.CharField(max_length=100, blank=True, default='', unique=True)
     description = models.CharField(max_length=255, blank=True, default='')
-    code = models.TextField()
+    code = models.TextField(unique=True)
     address = models.CharField(max_length=255, blank=True, default='')
-    nif = models.CharField(max_length=255, blank=True, default='')
+    nif = models.CharField(max_length=255, blank=True, default='', unique=True)
     users = models.ManyToManyField(User)
 
     class Meta:
