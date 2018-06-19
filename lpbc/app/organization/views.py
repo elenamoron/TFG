@@ -14,6 +14,10 @@ class OrganizationViewSet(viewsets.ModelViewSet):
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
 
+    def get_queryset(self):
+        logger_user = self.request.user
+        return Organization.objects.filter(users=logger_user)
+
     def create(self, request, *args, **kwargs):
 
         data_document = {'name': request.data['name'], 'description': request.data['description'],

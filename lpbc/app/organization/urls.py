@@ -22,7 +22,7 @@ from organization.views import OrganizationViewSet, ProfileViewSet, ProjectActiv
 
 
 urlpatterns = [
-    path('organization', OrganizationViewSet.as_view({'get': 'list', 'post': 'create'})),
+    path('', OrganizationViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('profile', ProfileViewSet),
     path('project/', ProjectViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('project/<int:pk>/', ProjectDetailView.as_view({'put': 'update'})),
