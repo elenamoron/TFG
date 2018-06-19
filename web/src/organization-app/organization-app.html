@@ -97,7 +97,7 @@
                 method="get"
                 headers="{{header)}}"
                 id="getOrganizations"
-                url="http://0.0.0.0:8000/api/lpbc/organization"
+                url="http://0.0.0.0:8000/api/v1/organization"
                 handle-as="json"
                 content-type="application/json"
                 on-response="handleResponse"
@@ -156,12 +156,21 @@
                         value: 'organization-app'
                     },
                     organizaciones: Object,
-                    header: {
-                        computed: 'computeHeader(user)'
+                    header: Object,
+                    globalsProperties:['token'],
+                    token : {
+                        value: Polymer.globalsManager.get('token'),
+                        type: String,
+                        observer: 'computeHeader'
                     }
 
                 };
             }
+            ready(){
+                super.ready();
+                this.token = Polymer.globalsManager.get('token');
+            }
+
             openDialog() {
                 var dialog = this.shadowRoot.querySelector('#myDialog');
                 var popUp = dialog.shadowRoot.querySelector('paper-dialog');
@@ -180,7 +189,8 @@
                 this.$.getProject.generateRequest();
             }
 
-            computeHeader(user) {
+            computeHeader(token) {
+                debugger;
                 return '{"Authorization": "Token '+Polymer.globalsManager.get('token')+'"}';
             }
 

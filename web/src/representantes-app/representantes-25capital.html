@@ -70,7 +70,7 @@
         <iron-ajax
             auto
             method="get"
-            url="http://0.0.0.0:8000/api/lpbc/client/PhysicalPerson/{{id_project}}/"
+            url="http://0.0.0.0:8000/api/v1/client/PhysicalPerson/{{id_project}}/"
             handle-as="json"
             content-type="application/json"
             on-response="handleResponse">
@@ -79,7 +79,7 @@
         <iron-ajax
             id="addPhysicalPerson"
             method="post"
-            url="http://0.0.0.0:8000/api/lpbc/client/PhysicalPerson/"
+            url="http://0.0.0.0:8000/api/v1/client/PhysicalPerson/"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>
@@ -88,7 +88,7 @@
         <iron-ajax
             id="putPhysicalPerson"
             method="put"
-            url="http://0.0.0.0:8000/api/lpbc/client/PhysicalPerson/{{id_project}}/"
+            url="http://0.0.0.0:8000/api/v1/client/PhysicalPerson/{{id_project}}/"
             handle-as="json"
             content-type="application/json"
             on-response={{putResponse}}>

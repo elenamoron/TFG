@@ -75,7 +75,7 @@
         <iron-ajax
             auto
             method="get"
-            url="http://0.0.0.0:8000/api/lpbc/client/LegalPerson/{{id_project}}/"
+            url="http://0.0.0.0:8000/api/v1/client/LegalPerson/{{id_project}}/"
             handle-as="json"
             content-type="application/json"
             on-response="handleResponse">
@@ -84,7 +84,7 @@
         <iron-ajax
             id="addLegalPerson"
             method="post"
-            url="http://0.0.0.0:8000/api/lpbc/client/LegalPerson/"
+            url="http://0.0.0.0:8000/api/v1/client/LegalPerson/"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>
@@ -93,7 +93,7 @@
         <iron-ajax
             id="putLegalPerson"
             method="put"
-            url="http://0.0.0.0:8000/api/lpbc/client/LegalPerson/{{id_project}}/"
+            url="http://0.0.0.0:8000/api/v1/LegalPerson/{{id_project}}/"
             handle-as="json"
             content-type="application/json"
             on-response={{putResponse}}>
@@ -102,7 +102,7 @@
         <iron-ajax
             id="uploadfile"
             method="post"
-            url="http://0.0.0.0:8000/api/lpbc/client/document/"
+            url="http://0.0.0.0:8000/api/v1/client/document/"
             handle-as="json"
             content-type=""
             on-response={{upfileResponse}}>

@@ -105,7 +105,7 @@
                 data="{{_idData}}"></app-route>
         <iron-ajax auto
                    id="getProject"
-                   url="http://0.0.0.0:8000/api/lpbc/organization/<id>/project/active"
+                   url="http://0.0.0.0:8000/api/v1/organization/<id>/project/active"
                    headers='{"Authorization": {{Polymer.globalsManager.get("token")}}}'
                    handle-as="json"
                    on-response="handleResponse"
@@ -116,7 +116,7 @@
         <iron-ajax
             id="addProject"
             method="post"
-            url="http://0.0.0.0:8000/api/lpbc/organization/<id>/project/"
+            url="http://0.0.0.0:8000/api/v1/organization/<id>/project/"
             headers="{'Authorization': Polymer.globalsManager.get('token')}"
             handle-as="json"
             content-type="application/json"
@@ -126,7 +126,7 @@
         <iron-ajax
             id="putProject"
             method="put"
-            url="http://0.0.0.0:8000/api/lpbc/organization/<id>/project/{{nombre}}/"
+            url="http://0.0.0.0:8000/api/v1/organization/<id>/project/{{nombre}}/"
             headers="{'Authorization': Polymer.globalsManager.get('token')}"
             handle-as="json"
             content-type="application/json"
@@ -201,7 +201,7 @@
             }
             archivar(event){
                 const item = JSON.parse(event.target.dataset.item);
-                this.$.putProject.url="http://0.0.0.0:8000/api/lpbc/project/"+item.id+"/";
+                this.$.putProject.url="http://0.0.0.0:8000/api/v1/project/"+item.id+"/";
                 this.$.putProject.body={"activo":false};
                 this.$.putProject.generateRequest();
                 this.$.getProject.generateRequest();

@@ -58,7 +58,7 @@
         <iron-ajax
                 method="post"
                 id="register"
-                url="http://0.0.0.0:8000/rest-auth/registration/"
+                url="http://0.0.0.0:8000/api/v1/rest-auth/registration/"
                 handle-as="json"
                 content-type="application/json"
                 last-response="{{lastResponse}}"
@@ -68,7 +68,7 @@
         <iron-ajax
                 method="post"
                 id="login"
-                url="http://0.0.0.0:8000/rest-auth/login/"
+                url="http://0.0.0.0:8000/api/v1/rest-auth/login/"
                 handle-as="json"
                 content-type="application/json"
                 on-response="onSuccess"
@@ -77,7 +77,7 @@
         <iron-ajax
                 method="post"
                 id="addOrganization"
-                url="http://0.0.0.0:8000/api/lpbc/organization/"
+                url="http://0.0.0.0:8000/api/v1/organization/"
                 handle-as="json"
                 content-type="application/json"
                 on-response="handleResponse"
