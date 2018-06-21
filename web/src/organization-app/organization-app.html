@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
@@ -113,12 +114,11 @@
                 data="{{_idData}}"></app-route>
 
         <app-header-layout>
-
-            <template is="dom-repeat" items="{{organizaciones}}">
+            <template id="organizationList" is="dom-repeat" items="{{organizaciones}}">
                 <paper-card class="rate">
                     <div class="card-content">
                         <div class="rate-header">{{item.name}}</div>
-                        <div class="rate-name">{{item.cliente}}</div>
+                        <div class="rate-name">{{item.code}}</div>
                         <div>{{item.description}}</div>
                     </div>
                     <div class="card-actions">
@@ -154,7 +154,9 @@
                         type: String,
                         value: 'organization-app'
                     },
-                    organizaciones: Object,
+                    organizaciones: {
+                        type:Object
+                    },
                     header: Object,
                     token: {
                         type: String,
@@ -163,6 +165,7 @@
 
                 };
             }
+
             onChangeToken(){
                 this.$.getOrganizations.headers['authorization']='Token '+this.token;
                 this.$.getOrganizations.generateRequest();
@@ -174,7 +177,8 @@
                 popUp.toggle();
             }
             handleResponse (data) {
-                this.proyectos = data.detail.response.results;
+                this.organizaciones = data.detail.response.results;
+                this.$.organizationList.render();
             }
             add(){
                 var d = new Date();
