@@ -102,9 +102,9 @@
                 route="{{_subRoute}}"
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
-        <iron-ajax auto
+        <iron-ajax
                    id="getProject"
-                   url="http://0.0.0.0:8000/api/v1/project/{{_pageData.page}}/"
+                   url="http://0.0.0.0:8000/api/v1/organization/project/"
                    handle-as="json"
                    on-response="handleResponse"
                    debounce-duration="300"
@@ -183,17 +183,20 @@
                         route="{{_subRoute}}"
                         proyecto="{{proyecto}}"
                         nombre="{{nombre}}"
+                        token="{{token}}"
                 >
                 </resumen-app>
                 <juridicas-app
                     name="/juridica"
                     route="{{_subRoute}}"
+                    token="{{token}}"
                 >
 
                 </juridicas-app>
                 <representantes-app
                     name="/representantes"
                     route="{{_subRoute}}"
+                    token="{{token}}"
                 >
 
                 </representantes-app>
@@ -217,9 +220,17 @@
                     },
                     user: Object,
                     proyecto: Object,
-                    nombre: String
+                    nombre: String,
+                    token: {
+                        type: String,
+                        observer:'onChangeToken'
+                    }
 
                 };
+            }
+            onChangeToken(){
+                this.$.getProject.headers['authorization']='Token '+this.token;
+                this.$.getProject.generateRequest();
             }
             _drawerSelected() {
                 if (!this.$.drawer.persistent) this.$.drawer.close();
@@ -236,7 +247,7 @@
                         });
             }
             handleResponse (data) {
-                if(!this.proyecto.length){
+                if(!this.proyecto){
                     this.proyecto = data.detail.response.results;
                     if(this.proyecto[0]){
                         this.nombre = this.proyecto[0].name;

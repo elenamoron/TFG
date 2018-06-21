@@ -80,9 +80,9 @@
                 route="{{_subRoute}}"
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
-        <iron-ajax auto
+        <iron-ajax
                    id="getProject"
-                   url="http://0.0.0.0:8000/api/v1/project/archive"
+                   url="http://0.0.0.0:8000/api/v1/organization/project/archive"
                    handle-as="json"
                    on-response="handleResponse"
                    debounce-duration="300"
@@ -124,8 +124,16 @@
                         value: 'proyectos-archivados'
                     },
                     proyectos: Object,
+                    token: {
+                        type: String,
+                        observer:'onChangeToken'
+                    }
 
                 };
+            }
+            onChangeToken(){
+                this.$.getProject.headers['authorization']='Token '+this.token;
+                this.$.getProject.generateRequest();
             }
             handleResponse (data) {
                 this.proyectos = data.detail.response.results;

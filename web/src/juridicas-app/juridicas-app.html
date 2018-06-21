@@ -73,7 +73,7 @@
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
         <iron-ajax
-            auto
+            id="getLegalPerson"
             method="get"
             url="http://0.0.0.0:8000/api/v1/client/LegalPerson/{{id_project}}/"
             handle-as="json"
@@ -180,9 +180,17 @@
                     legalPerson: Object,
                     haslegalPerson: Boolean,
                     id_project: Number,
-                    files: Object
+                    files: Object,
+                    token: {
+                        type: String,
+                        observer:'onChangeToken'
+                    }
 
                 };
+            }
+            onChangeToken(){
+                this.$.getLegalPerson.headers['authorization']='Token '+this.token;
+                this.$.getLegalPerson.generateRequest();
             }
             ready() {
                 super.ready();

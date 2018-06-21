@@ -5,7 +5,7 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../home-app/home-app.html">
-<script src="../../bower_components/polymer-global-variables/dist/polymer-global-variables.js" charset="utf-8"></script>
+<link rel="import" href="../proyectos-app/proyectos-app.html">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <dom-module id="register-app">
     <template>
@@ -82,6 +82,10 @@
                 content-type="application/json"
                 on-response="handleResponse"
                 ></iron-ajax>
+        <iron-pages id="pages" selected="{{usuarioLogado}}" attr-for-selected="name" >
+            <home-app name="logado" token="{{token}}"></home-app>
+        </iron-pages>
+
 
     </template>
     <script>
@@ -100,9 +104,15 @@
                     user: Object,
                     nombre:String,
                     password: String,
-                    errors: String
+                    errors: String,
+                    num :{
+                        type:Number,
+                        value:0
+                    },
+                    token: String
                 };
             }
+
             identificar() {
                 this.$.login.body = {'username': this.nombre, 'email':this.nombre, 'password': this.password};
                 this.$.login.generateRequest();
@@ -126,14 +136,15 @@
 
                 this.identificar();
                 if(data.detail.response.key){
+                    this.num++;
                     var d = new Date();
                     var dd = d.getDate();
                     var mm = d.getMonth()+1; //January is 0!
                     var yyyy = d.getFullYear();
-                    Polymer.globalsManager.set('token',data.detail.response.key );
-                    this.$.addOrganization.headers['authorization'] = 'Token '+Polymer.globalsManager.get('token');
-                    this.$.addOrganization.body={"name":'name',"description":'des', "created":yyyy+'-'+mm+'-'+dd, "code":'ORG',
-                        "address":'', "nif":'dni'};
+                    this.token = data.detail.response.key;
+                    this.$.addOrganization.headers['authorization'] = 'Token '+this.token;
+                    this.$.addOrganization.body={"name":'Organization '+this.nombre,"description":'des', "created":yyyy+'-'+mm+'-'+dd, "code":'ORG-'+str(this.num),
+                        "address":'', "nif":'dni'+str(this.num)};
                     this.$.addOrganization.generateRequest();
                 }
 
@@ -143,11 +154,9 @@
                 this.errors = data.detail.request.xhr.response["non_field_errors"];
             }
             onSuccess(data){
-                if(!Polymer.globalsManager.get('token')){
-                    Polymer.globalsManager.set('token',data.detail.response.key );
-                    this.data = data.detail.response.key;
+                if(!this.token){
+                    this.token = data.detail.response.key;
                 }
-
                 location="#/home/mis-proyectos";
             }
         }

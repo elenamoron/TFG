@@ -14,7 +14,7 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 
 <link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
-
+<link rel="import" href="../proyectos-app/ver-proyecto.html">
 <dom-module id="proyectos-app">
     <template>
         <style>
@@ -103,10 +103,9 @@
                 route="{{_subRoute}}"
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
-        <iron-ajax auto
+        <iron-ajax
                    id="getProject"
-                   url="http://0.0.0.0:8000/api/v1/organization/<id>/project/active"
-                   headers='{"Authorization": {{Polymer.globalsManager.get("token")}}}'
+                   url="http://0.0.0.0:8000/api/v1/organization/project/active"
                    handle-as="json"
                    on-response="handleResponse"
                    debounce-duration="300"
@@ -116,8 +115,7 @@
         <iron-ajax
             id="addProject"
             method="post"
-            url="http://0.0.0.0:8000/api/v1/organization/<id>/project/"
-            headers="{'Authorization': Polymer.globalsManager.get('token')}"
+            url="http://0.0.0.0:8000/api/v1/organization/project/"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>
@@ -126,8 +124,7 @@
         <iron-ajax
             id="putProject"
             method="put"
-            url="http://0.0.0.0:8000/api/v1/organization/<id>/project/{{nombre}}/"
-            headers="{'Authorization': Polymer.globalsManager.get('token')}"
+            url="http://0.0.0.0:8000/api/v1/organization/project/{{nombre}}/"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>
@@ -164,6 +161,7 @@
                 <paper-button on-click="add" class="custom black" name="add" dialog-confirm autofocus>Añadir</paper-button>
             </paper-dialog>
         </app-header-layout>
+        <ver-proyecto token="{{token}}"></ver-proyecto>
     </template>
     <script>
         /**
@@ -180,9 +178,17 @@
                     },
                     proyectos: Object,
                     nombre: String,
-                    descripcion: String
+                    descripcion: String,
+                    token: {
+                        type: String,
+                        observer:'onChangeToken'
+                    }
 
                 };
+            }
+            onChangeToken(){
+                this.$.getProject.headers['authorization']='Token '+this.token;
+                this.$.getProject.generateRequest();
             }
             openDialog() {
                 this.$.animated.open();
@@ -195,13 +201,15 @@
                 var dd = d.getDate();
                 var mm = d.getMonth()+1; //January is 0!
                 var yyyy = d.getFullYear();
+                this.$.addProject.headers['authorization']='Token '+this.token;
                 this.$.addProject.body={"name":this.nombre,"description":this.descripcion, "fecha_creacion":yyyy+'-'+mm+'-'+dd};
                 this.$.addProject.generateRequest();
                 this.$.getProject.generateRequest();
             }
             archivar(event){
                 const item = JSON.parse(event.target.dataset.item);
-                this.$.putProject.url="http://0.0.0.0:8000/api/v1/project/"+item.id+"/";
+                this.$.putProject.url="http://0.0.0.0:8000/api/v1/organization/project/"+item.id+"/";
+                this.$.putProject.headers['authorization']='Token '+this.token;
                 this.$.putProject.body={"activo":false};
                 this.$.putProject.generateRequest();
                 this.$.getProject.generateRequest();

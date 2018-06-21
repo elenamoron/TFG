@@ -95,9 +95,8 @@
         </style>
         <iron-ajax
                 method="get"
-                headers="{{header)}}"
                 id="getOrganizations"
-                url="http://0.0.0.0:8000/api/v1/organization"
+                url="http://0.0.0.0:8000/api/v1/organization/"
                 handle-as="json"
                 content-type="application/json"
                 on-response="handleResponse"
@@ -157,18 +156,16 @@
                     },
                     organizaciones: Object,
                     header: Object,
-                    globalsProperties:['token'],
-                    token : {
-                        value: Polymer.globalsManager.get('token'),
+                    token: {
                         type: String,
-                        observer: 'computeHeader'
+                        observer:'onChangeToken'
                     }
 
                 };
             }
-            ready(){
-                super.ready();
-                this.token = Polymer.globalsManager.get('token');
+            onChangeToken(){
+                this.$.getOrganizations.headers['authorization']='Token '+this.token;
+                this.$.getOrganizations.generateRequest();
             }
 
             openDialog() {
@@ -189,10 +186,7 @@
                 this.$.getProject.generateRequest();
             }
 
-            computeHeader(token) {
-                debugger;
-                return '{"Authorization": "Token '+Polymer.globalsManager.get('token')+'"}';
-            }
+
 
 
 

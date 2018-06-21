@@ -154,17 +154,11 @@
                         type: String,
                         value: 'landing-app'
                     },
-                    token:{
-                        type:String,
-                        value: this.register,
-                        observer: 'changeToken'
-                    }
+
 
                 };
             }
-            changeToken(){
-                debugger;
-            }
+
             abrirVentanaLogin(){
                 this.$.auth.signInWithPopup()
                         .then(function(response){

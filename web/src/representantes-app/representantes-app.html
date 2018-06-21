@@ -79,7 +79,6 @@
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
         <iron-ajax
-            auto
             method="get"
             id="getPhysicalPerson"
             url="http://0.0.0.0:8000/api/v1/client/PhysicalPerson/{{id_project}}/"
@@ -155,13 +154,13 @@
                                 </div>
                                 <br>
                                 <template is="dom-if" if="{{item.responsabilidad_publica}}" restamp>
-                                    <representantes-publica></representantes-publica>
+                                    <representantes-publica token="{{token}}"></representantes-publica>
                                 </template>
                                 <template is="dom-if" if="{{item.controla_sociedad}}" restamp>
-                                    <representantes-sociedad></representantes-sociedad>
+                                    <representantes-sociedad token="{{token}}"></representantes-sociedad>
                                 </template>
                                 <template is="dom-if" if="{{item.control}}" restamp>
-                                    <representantes-25control></representantes-25control>
+                                    <representantes-25control token="{{token}}"></representantes-25control>
                                 </template>
                                 <paper-fab icon="create" raised on-tap="add" data-item$="[[item]]"></paper-fab>
                             </div>
@@ -247,9 +246,17 @@
                     physicalPerson: Object,
                     physicalPersons: Object,
                     hasphysicaPerson: Boolean,
-                    id_project: Number
+                    id_project: Number,
+                    token: {
+                        type: String,
+                        observer:'onChangeToken'
+                    }
 
                 };
+            }
+            onChangeToken(){
+                this.$.getPhysicalPerson.headers['authorization']='Token '+this.token;
+                this.$.getPhysicalPerson.generateRequest();
             }
             ready() {
                 super.ready();
@@ -273,13 +280,16 @@
                 item.project=this.id_project;
                 if(item.id){
                     this.$.putPhysicalPerson.url="http://0.0.0.0:8000/api/v1/client/PhysicalPersonbyId/"+item.id+"/";
+                    this.$.putPhysicalPerson.headers['authorization']='Token '+this.token;
                     this.$.putPhysicalPerson.body=item;
                     this.$.putPhysicalPerson.generateRequest();
                 }else{
+                    this.$.addPhysicalPerson.headers['authorization']='Token '+this.token;
                     this.$.addPhysicalPerson.body=Object.assign({}, item);
                     this.$.addPhysicalPerson.generateRequest();
                     this.hasphysicaPerson = true;
                 }
+                this.$.getPhysicalPerson.headers['authorization']='Token '+this.token;
                 this.$.getPhysicalPerson.generateRequest();
 
             }

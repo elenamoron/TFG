@@ -136,6 +136,7 @@
                 <proyectos-app
                         name="/mis-proyectos"
                         route="{{_subRoute}}"
+                        token="{{token}}"
                 >
                 </proyectos-app>
                 <proyectos-archivados
@@ -146,16 +147,19 @@
                 <proyectos-activos
                         name="/activos"
                         route="{{_subRoute}}"
+                        token="{{token}}"
                 >
                 </proyectos-activos>
                 <proyectos-mis-archivados
                         name="/mis-archivados"
                         route="{{_subRoute}}"
+                        token="{{token}}"
                 >
                 </proyectos-mis-archivados>
                 <organization-app
                         name="/organizaciones"
                         route="{{_subRoute}}"
+                        token="{{token}}"
                 >
                 </organization-app>
             </iron-pages>
@@ -177,17 +181,18 @@
                         type: String,
                         value: 'home-app'
                     },
-                    usuarioLogado: {
-                        type: String,
-                        computed:'_calculaLogado(user)'
-                    },
                     user:Object,
                     _idData: Object,
+                    token: {
+                        type: String
+                    }
+
                 };
             }
 
+
             desconectar(){
-                this.$.logout.headers['authorization'] = 'Token '+Polymer.globalsManager.get('token')
+                this.$.logout.headers['authorization'] = 'Token '+this.token;
                 this.$.logout.generateRequest();
                 this.$.auth.signOut()
                         .then(function(response){

@@ -80,7 +80,7 @@
         <iron-ajax
                 method="post"
                 id="addOrganization"
-                url="http://0.0.0.0:8000/api/v1/organization"
+                url="http://0.0.0.0:8000/api/v1/organization/"
                 handle-as="json"
                 content-type="application/json"
                 on-response="handleResponse"
@@ -122,7 +122,7 @@
                 var dd = d.getDate();
                 var mm = d.getMonth()+1; //January is 0!
                 var yyyy = d.getFullYear();
-                this.$.addOrganization.headers['authorization'] = 'Token '+Polymer.globalsManager.get('token');
+                this.$.addOrganization.headers['authorization'] = 'Token '+this.token;
                 this.$.addOrganization.body={"name":this.nombre,"description":this.descripcion, "created":yyyy+'-'+mm+'-'+dd, "code":this.code, "address":this.address, "nif":this.nif};
                 this.$.addOrganization.generateRequest();
             }
