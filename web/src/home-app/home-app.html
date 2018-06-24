@@ -137,11 +137,13 @@
                         name="/mis-proyectos"
                         route="{{_subRoute}}"
                         token="{{token}}"
+                        id_organization="{{id_organization}}"
                 >
                 </proyectos-app>
                 <proyectos-archivados
                         name="/archivados"
                         route="{{_subRoute}}"
+                        id_organization="{{id_organization}}"
                 >
                 </proyectos-archivados>
                 <proyectos-activos
@@ -160,6 +162,7 @@
                         name="/organizaciones"
                         route="{{_subRoute}}"
                         token="{{token}}"
+                        id_organization="{{id_organization}}"
                 >
                 </organization-app>
             </iron-pages>
@@ -185,7 +188,8 @@
                     _idData: Object,
                     token: {
                         type: String
-                    }
+                    },
+                    id_organization: String
 
                 };
             }

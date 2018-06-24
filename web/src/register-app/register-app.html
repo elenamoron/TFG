@@ -80,10 +80,10 @@
                 url="http://0.0.0.0:8000/api/v1/organization/"
                 handle-as="json"
                 content-type="application/json"
-                on-response="handleResponse"
+                on-response="newOrganization"
                 ></iron-ajax>
         <iron-pages id="pages" selected="{{usuarioLogado}}" attr-for-selected="name" >
-            <home-app name="logado" token="{{token}}"></home-app>
+            <home-app name="logado" token="{{token}}" id_organization="{{id_organization}}"></home-app>
         </iron-pages>
 
 
@@ -109,7 +109,8 @@
                         type:Number,
                         value:0
                     },
-                    token: String
+                    token: String,
+                    id_organization: String
                 };
             }
 
@@ -143,8 +144,8 @@
                     var yyyy = d.getFullYear();
                     this.token = data.detail.response.key;
                     this.$.addOrganization.headers['authorization'] = 'Token '+this.token;
-                    this.$.addOrganization.body={"name":'Organization '+this.nombre,"description":'des', "created":yyyy+'-'+mm+'-'+dd, "code":'ORG-'+str(this.num),
-                        "address":'', "nif":'dni'+str(this.num)};
+                    this.$.addOrganization.body={"name":'Organization '+this.nombre,"description":'des', "created":yyyy+'-'+mm+'-'+dd, "code":'ORG-'+this.num,
+                        "address":'', "nif":'dni'+this.num};
                     this.$.addOrganization.generateRequest();
                 }
 
@@ -158,6 +159,9 @@
                     this.token = data.detail.response.key;
                 }
                 location="#/home/mis-proyectos";
+            }
+            newOrganization(data){
+                this.id_organization = data.detail.response.id
             }
         }
         window.customElements.define(RegisterApp.is, RegisterApp);

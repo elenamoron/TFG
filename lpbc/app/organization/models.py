@@ -37,3 +37,7 @@ class Project(models.Model):
     cliente = models.CharField(max_length=100, blank=True, default='')
     logo = models.CharField(max_length=255, blank=True, default='')
     activo = models.BooleanField(default=True)
+    organization = models.ForeignKey(Organization, null=True, on_delete=models.CASCADE)
+
+
+

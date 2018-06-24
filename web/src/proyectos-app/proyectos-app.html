@@ -105,7 +105,7 @@
                 data="{{_idData}}"></app-route>
         <iron-ajax
                    id="getProject"
-                   url="http://0.0.0.0:8000/api/v1/organization/project/active"
+                   url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}/project"
                    handle-as="json"
                    on-response="handleResponse"
                    debounce-duration="300"
@@ -115,7 +115,7 @@
         <iron-ajax
             id="addProject"
             method="post"
-            url="http://0.0.0.0:8000/api/v1/organization/project/"
+            url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}/project/"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>
@@ -182,12 +182,19 @@
                     token: {
                         type: String,
                         observer:'onChangeToken'
+                    },
+                    id_organization: {
+                        type: String,
+                        observer:'onChangeId'
                     }
 
                 };
             }
             onChangeToken(){
                 this.$.getProject.headers['authorization']='Token '+this.token;
+
+            }
+            onChangeId(){
                 this.$.getProject.generateRequest();
             }
             openDialog() {

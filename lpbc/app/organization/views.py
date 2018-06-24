@@ -30,7 +30,7 @@ class OrganizationViewSet(viewsets.ModelViewSet):
             new_organization = organization.save()
             new_organization.users.add(request.user)
 
-            return Response({"Organization created"}, status=status.HTTP_201_CREATED)
+            return Response(organization.data, status=status.HTTP_201_CREATED)
         else:
             Response({"Error"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -81,6 +81,9 @@ class ProjectViewSet(viewsets.ModelViewSet):
         """
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+
+    def get_queryset(self):
+        return Project.objects.filter(organization=self.kwargs['pk'])
 
 
 class ProjectActive(viewsets.ModelViewSet):
