@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from client.models import LegalPerson, PhysicalPerson, Document
 from client.serializers import LegalPersonSerializer, PhysicalPersonSerializer, FileSerializer, SupportSerializer
-
+from organization.models import Project
 import json
 
 
@@ -35,6 +35,33 @@ class LegalPersonViewSet(viewsets.ModelViewSet):
         """
     queryset = LegalPerson.objects.all()
     serializer_class = LegalPersonSerializer
+
+    def get_queryset(self):
+        return LegalPerson.objects.filter(project=self.kwargs['pk2'])
+
+    def create(self, request, *args, **kwargs):
+        data = {'denominacion_social': request.data['denominacion_social'], 'CIF': request.data['CIF'],
+                'ubicacion': request.data['ubicacion'], 'fecha_constitucion': request.data['fecha_constitucion'],
+                'sector': request.data['sector'], 'forma_juridica': request.data['forma_juridica'], 'registro':
+                    request.data['registro'], 'numero_inscripciones': request.data['numero_inscripciones'], 'poblacion':
+                    request.data['poblacion'], 'provincia': request.data['provincia'], 'codigo_postal':
+                    request.data['codigo_postal'], 'pais': request.data['pais'], 'telefono': request.data['telefono'],
+                'email': request.data['email']}
+
+        legalPerson = LegalPersonSerializer(data=data)
+
+        if legalPerson.is_valid():
+            newLegalPerson = legalPerson.save()
+
+            try:
+                project = Project.objects.get(id=self.kwargs['pk2'], organization_id=self.kwargs['pk1'])
+                newLegalPerson.project = project
+                newLegalPerson.save()
+                return Response(legalPerson.data, status=status.HTTP_201_CREATED)
+            except ValueError:
+                return Response({"Error no hay proyecto con ese Id"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            Response({"Error"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LegalPersonFromProjectViewSet(viewsets.ModelViewSet):

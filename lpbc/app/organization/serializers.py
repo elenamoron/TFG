@@ -10,9 +10,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
+    users = UserSerializer(many=True, read_only=True)
+
     class Meta:
         model = Organization
-        fields = ('id', 'name', 'description', 'code', 'created', 'address', 'nif')
+        fields = ('id', 'name', 'description', 'code', 'created', 'address', 'nif', 'users')
 
 
 class ProfileSerializer(serializers.ModelSerializer):

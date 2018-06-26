@@ -48,8 +48,9 @@ class OrganizationViewSet(viewsets.ModelViewSet):
         organization.delete()
         return Response({'Organization delete'}, status.HTTP_200_OK)
 
+
 class OrganizationMemberViewSet(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
+    serializer_class = OrganizationSerializer
 
     def get_queryset(self):
 
@@ -117,6 +118,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
             new_project = project.save()
             organization = Organization.objects.get(id=self.kwargs['pk'])
             new_project.organization = organization
+            new_project = project.save()
+
             new_project.users.add(request.user)
 
             return Response(project.data, status=status.HTTP_201_CREATED)
@@ -169,7 +172,9 @@ class ProjectDetailView(viewsets.ModelViewSet):
         return Project.objects.filter(organization=self.kwargs['pk1'], id=self.kwargs['pk2'])
 
     def delete(self, request, *args, **kwargs):
-        pass
+        project = Project.objects.filter(organization=self.kwargs['pk1'], id=self.kwargs['pk2'])
+        project.delete()
+        return Response({"Project delete"}, status.HTTP_200_OK)
 
     def update(self, request, *args, **kwargs):
         project = get_object_or_404(Project, organization=self.kwargs['pk1'], id=self.kwargs['pk2'])

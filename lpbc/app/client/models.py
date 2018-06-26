@@ -5,7 +5,7 @@ from organization.models import Project
 
 
 class LegalPerson(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, null=True, on_delete=models.CASCADE)
     denominacion_social = models.CharField(max_length=100, blank=True, default='')
     CIF = models.CharField(max_length=100, blank=True, default='')
     ubicacion = models.CharField(max_length=100, blank=True, default='')
