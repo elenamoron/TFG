@@ -20,11 +20,11 @@ class OrganizationViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
 
-        data_document = {'name': request.data['name'], 'description': request.data['description'],
+        data = {'name': request.data['name'], 'description': request.data['description'],
                          'nif': request.data['nif'], 'address': request.data['address'],
                          'created': request.data['created'], 'code': request.data['code']}
 
-        organization = OrganizationSerializer(data=data_document)
+        organization = OrganizationSerializer(data=data)
 
         if organization.is_valid():
             new_organization = organization.save()
@@ -106,9 +106,32 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Project.objects.filter(organization=self.kwargs['pk'])
 
+    def create(self, request, *args, **kwargs):
+        data = {'name': request.data['name'], 'description': request.data['description'],
+                'fecha_creacion': request.data['fecha_creacion'], 'cliente': request.data['cliente'],
+                'logo': request.data['logo'], 'activo': request.data['activo']}
+
+        project = ProjectSerializer(data=data)
+
+        if project.is_valid():
+            new_project = project.save()
+            new_project.users.add(request.user)
+
+            return Response(project.data, status=status.HTTP_201_CREATED)
+        else:
+            Response({"Error"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ProjectsViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
+
+    def get_queryset(self):
+        if self.kwargs['scope'] == 'active':
+            Project.objects.filter(organization=self.kwargs['pk'], activo=True)
+        elif self.kwargs['scope'] == 'archive':
+            Project.objects.filter(organization=self.kwargs['pk'], activo=False)
+        else:
+            Project.objects.filter(organization=self.kwargs['pk'])
 
 
 class ProjectActive(viewsets.ModelViewSet):

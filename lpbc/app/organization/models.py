@@ -38,6 +38,6 @@ class Project(models.Model):
     logo = models.CharField(max_length=255, blank=True, default='')
     activo = models.BooleanField(default=True)
     organization = models.ForeignKey(Organization, null=True, on_delete=models.CASCADE)
-
+    users = models.ManyToManyField(User)
 
 
