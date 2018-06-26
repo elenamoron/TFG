@@ -170,3 +170,12 @@ class ProjectDetailView(viewsets.ModelViewSet):
 
     def delete(self, request, *args, **kwargs):
         pass
+
+    def update(self, request, *args, **kwargs):
+        project = get_object_or_404(Project, organization=self.kwargs['pk1'], id=self.kwargs['pk2'])
+        serializer = ProjectSerializer(project, data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        response_serializer = ProjectSerializer(project)
+        return Response(response_serializer.data, status.HTTP_202_ACCEPTED)
