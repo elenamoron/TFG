@@ -44,8 +44,9 @@ class OrganizationViewSet(viewsets.ModelViewSet):
         return Response(response_serializer.data, status.HTTP_202_ACCEPTED)
 
     def delete(self, request, *args, **kwargs):
-        pass
-
+        organization = Organization.objects.get(id=self.kwargs['pk'])
+        organization.delete()
+        return Response({'Organization delete'}, status.HTTP_200_OK)
 
 class OrganizationMemberViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
