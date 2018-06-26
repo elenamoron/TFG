@@ -25,6 +25,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ('id', 'name', 'description', 'fecha_creacion', 'cliente', 'logo', 'activo')
+        fields = ('id', 'name', 'description', 'fecha_creacion', 'cliente', 'logo', 'activo', 'organization_id')
 
 

@@ -107,6 +107,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return Project.objects.filter(organization=self.kwargs['pk'])
 
     def create(self, request, *args, **kwargs):
+        import ipdb
+        ipdb.set_trace()
         data = {'name': request.data['name'], 'description': request.data['description'],
                 'fecha_creacion': request.data['fecha_creacion'], 'cliente': request.data['cliente'],
                 'logo': request.data['logo'], 'activo': request.data['activo']}
@@ -115,6 +117,8 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
         if project.is_valid():
             new_project = project.save()
+            organization = Organization.objects.get(id=self.kwargs['pk'])
+            new_project.organization = organization
             new_project.users.add(request.user)
 
             return Response(project.data, status=status.HTTP_201_CREATED)
@@ -127,11 +131,13 @@ class ProjectsViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.kwargs['scope'] == 'active':
-            Project.objects.filter(organization=self.kwargs['pk'], activo=True)
+            return Project.objects.filter(organization=self.kwargs['pk'], activo=True, users=self.request.user)
         elif self.kwargs['scope'] == 'archive':
-            Project.objects.filter(organization=self.kwargs['pk'], activo=False)
+            return Project.objects.filter(organization=self.kwargs['pk'], activo=False, users=self.request.user)
+        elif self.kwargs['scope'] == 'all':
+            return Project.objects.filter(organization=self.kwargs['pk'])
         else:
-            Project.objects.filter(organization=self.kwargs['pk'])
+            return Response({"Error no existe ninguna coincidencia con lo que solicita"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProjectActive(viewsets.ModelViewSet):
