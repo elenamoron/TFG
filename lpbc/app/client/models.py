@@ -23,7 +23,7 @@ class LegalPerson(models.Model):
 
 
 class PhysicalPerson(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, null=True, on_delete=models.CASCADE)
     nombre_completo = models.CharField(max_length=255, blank=True)
     documento_identificativo = models.CharField(max_length=255, blank=True)
     fecha_caducidad = models.DateField(blank=True, null=True)

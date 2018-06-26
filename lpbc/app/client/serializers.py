@@ -18,7 +18,7 @@ class PhysicalPersonSerializer(serializers.ModelSerializer):
         model = PhysicalPerson
         fields = ('id', 'project_id', 'nombre_completo', 'documento_identificativo', 'fecha_caducidad', 'nacionalidad',
                   'pais_nacionalidad', 'lugar_nacimiento', 'pais_residencia', 'domicilio', 'telefono', 'email',
-                  'capital', 'responsabilidad_publica', 'controla_sociedad', 'control')
+                  'capital', 'responsabilidad_publica', 'controla_sociedad', 'control', 'relacion_negocios')
 
 
 class FileSerializer(serializers.ModelSerializer):

@@ -139,6 +139,34 @@ class PhysicalPersonViewSet(viewsets.ModelViewSet):
     queryset = PhysicalPerson.objects.all()
     serializer_class = PhysicalPersonSerializer
 
+    def get_queryset(self):
+        return PhysicalPerson.objects.filter(project=self.kwargs['pk2'])
+
+    def create(self, request, *args, **kwargs):
+        data = {'nombre_completo': request.data['nombre_completo'], 'documento_identificativo':
+                request.data['documento_identificativo'], 'fecha_caducidad': request.data['fecha_caducidad'],
+                'nacionalidad': request.data['nacionalidad'], 'pais_nacionalidad': request.data['pais_nacionalidad'],
+                'lugar_nacimiento': request.data['lugar_nacimiento'], 'pais_residencia': request.data['pais_residencia']
+                , 'domicilio': request.data['domicilio'], 'telefono': request.data['telefono'], 'email':
+                    request.data['email'], 'capital': request.data['capital'], 'responsabilidad_publica':
+                    request.data['responsabilidad_publica'], 'controla_sociedad': request.data['controla_sociedad'],
+                'control': request.data['control'], 'relacion_negocios': request.data['relacion_negocios']}
+
+        physicalPerson = PhysicalPersonSerializer(data=data)
+
+        if physicalPerson.is_valid():
+            newPhysicalPerson = physicalPerson.save()
+
+            try:
+                project = Project.objects.get(id=self.kwargs['pk2'], organization_id=self.kwargs['pk1'])
+                newPhysicalPerson.project = project
+                newPhysicalPerson.save()
+                return Response(physicalPerson.data, status=status.HTTP_201_CREATED)
+            except ValueError:
+                return Response({"Error no hay proyecto con ese Id"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            Response({"Error"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class PhysicalPersonFromProjectViewSet(viewsets.ModelViewSet):
     """
