@@ -107,8 +107,6 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return Project.objects.filter(organization=self.kwargs['pk'])
 
     def create(self, request, *args, **kwargs):
-        import ipdb
-        ipdb.set_trace()
         data = {'name': request.data['name'], 'description': request.data['description'],
                 'fecha_creacion': request.data['fecha_creacion'], 'cliente': request.data['cliente'],
                 'logo': request.data['logo'], 'activo': request.data['activo']}
@@ -166,3 +164,9 @@ class ProjectByName(viewsets.ModelViewSet):
 class ProjectDetailView(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+
+    def get_queryset(self):
+        return Project.objects.filter(organization=self.kwargs['pk1'], id=self.kwargs['pk2'])
+
+    def delete(self, request, *args, **kwargs):
+        pass
