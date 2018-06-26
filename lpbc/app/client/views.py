@@ -198,14 +198,12 @@ class SpecificPhysicalPersonViewSet(viewsets.ModelViewSet):
         return PhysicalPerson.objects.filter(project=self.kwargs['pk2'], id=self.kwargs['id'])
 
     def update(self, request, *args, **kwargs):
-        import ipdb
-        ipdb.set_trace()
-        physicalPerson = get_object_or_404(PhysicalPerson, project=self.kwargs['pk2'])
-        serializer = PhysicalPersonSerializer(PhysicalPerson, data=request.data)
+        physicalperson = get_object_or_404(PhysicalPerson, project=self.kwargs['pk2'], id=self.kwargs['id'])
+        serializer = PhysicalPersonSerializer(physicalperson, data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
-        response_serializer = PhysicalPersonSerializer(physicalPerson)
+        response_serializer = PhysicalPersonSerializer(physicalperson)
         return Response(response_serializer.data, status.HTTP_202_ACCEPTED)
 
     def delete(self):
