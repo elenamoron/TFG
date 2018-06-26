@@ -78,22 +78,6 @@
                 content-type="application/json"
                 on-response="handleResponse"
                 ></iron-ajax>
-        <iron-ajax
-                method="get"
-                id="getUser"
-                url="http://0.0.0.0:8000/api/v1/rest-auth/user/"
-                handle-as="json"
-                content-type="application/json"
-                on-response="onSuccess"
-                ></iron-ajax>
-        <iron-ajax
-                method="get"
-                id="getProfile"
-                url="http://0.0.0.0:8000/api/v1/organization/profile/{{id_user}}"
-                handle-as="json"
-                content-type="application/json"
-                on-response="onResponse"
-                ></iron-ajax>
         <firebase-auth id="auth" user="{{user}}" provider="google" >
         </firebase-auth>
         <app-location route="{{route}}" use-hash-as-path></app-location>
@@ -203,16 +187,20 @@
                     user:Object,
                     _idData: Object,
                     token: {
-                        type: String,
-                        observer: 'onChangeToken'
+                        type: String
                     },
-                    id_organization: String,
+                    id_organization: {
+                        type:String,
+                        observer: 'onChangeId'
+                    },
                     id_user: String
 
                 };
             }
 
-
+            onChangeId(){
+                debugger;
+            }
             desconectar(){
                 this.$.logout.headers['authorization'] = 'Token '+this.token;
                 this.$.logout.generateRequest();
@@ -227,21 +215,8 @@
                         });
             }
 
-            onChangeToken(){
-                this.$.getUser.headers['authorization'] = 'Token '+this.token;
-                this.$.getUser.generateRequest();
-            }
             _drawerSelected() {
                 if (!this.$.drawer.persistent) this.$.drawer.close();
-            }
-            onResponse(data){
-                this.user = data.detail.response.results[0];
-            }
-            onSuccess(data){
-                this.id_user = data.detail.response.pk;
-                this.$.getProfile.url='http://0.0.0.0:8000/api/v1/organization/profile/'+this.id_user;
-                this.$.getProfile.headers['authorization'] = 'Token '+this.token;
-                this.$.getProfile.generateRequest();
             }
 
 

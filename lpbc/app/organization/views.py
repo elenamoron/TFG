@@ -34,6 +34,26 @@ class OrganizationViewSet(viewsets.ModelViewSet):
         else:
             Response({"Error"}, status=status.HTTP_400_BAD_REQUEST)
 
+    def update(self, request, *args, **kwargs):
+        organization = get_object_or_404(Organization, id=self.kwargs['pk'])
+        serializer = OrganizationSerializer(organization, data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        response_serializer = OrganizationSerializer(organization)
+        return Response(response_serializer.data, status.HTTP_202_ACCEPTED)
+
+    def delete(self, request, *args, **kwargs):
+        pass
+
+
+class OrganizationMemberViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+
+        return Organization.objects.filter(id=self.kwargs['pk']).values('users')
+
 
 class ProfileViewSet(viewsets.ModelViewSet):
     """

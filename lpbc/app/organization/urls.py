@@ -18,14 +18,14 @@ from django.urls import re_path
 from rest_framework import routers
 from django.conf.urls import url
 from organization.views import OrganizationViewSet, ProfileViewSet, ProjectActive, ProjectViewSet, ProjectByName, \
-    ProjectDetailView, ProjectArchive, ProjectsViewSet
+    ProjectDetailView, ProjectArchive, ProjectsViewSet, OrganizationMemberViewSet
 
 
 urlpatterns = [
     path('', OrganizationViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('<int:pk>', OrganizationViewSet.as_view({'put': 'update', 'delete': 'delete'})),
     path('<int:pk>/member/<int:uuid>', OrganizationViewSet.as_view({'post': 'create', 'delete': 'delete'})),
-    path('<int:pk>/member/', OrganizationViewSet.as_view({'get': 'list'})),
+    path('<int:pk>/member/', OrganizationMemberViewSet.as_view({'get': 'list'})),
     path('profile/', ProfileViewSet.as_view({'post': 'create'})),
     path('profile/<int:pk>', ProfileViewSet.as_view({'get': 'list', 'put': 'update'})),
     path('<int:pk>/project/', ProjectViewSet.as_view({'post': 'create'})),

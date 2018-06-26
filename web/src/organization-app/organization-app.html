@@ -19,6 +19,9 @@
 <dom-module id="organization-app">
     <template>
         <style>
+            :host {
+                display: block;
+            }
             .content {
                 display: block;
                 position: relative;
@@ -114,7 +117,7 @@
                 data="{{_idData}}"></app-route>
 
         <app-header-layout>
-            <template id="organizationList" is="dom-repeat" items="{{organizaciones}}">
+            <template id="organizationList" is="dom-repeat" items="{{organizaciones}}" mutable-data>
                 <paper-card class="rate">
                     <div class="card-content">
                         <div class="rate-header">{{item.name}}</div>
@@ -155,7 +158,8 @@
                         value: 'organization-app'
                     },
                     organizaciones: {
-                        type:Object
+                        type:Array,
+                        notify: true
                     },
                     header: Object,
                     token: {
@@ -177,8 +181,9 @@
                 popUp.toggle();
             }
             handleResponse (data) {
-                this.organizaciones = data.detail.response.results;
-                this.$.organizationList.render();
+                this.set('organizaciones', data.detail.response.results);
+                this.notifyPath('organizaciones');
+                //  this.$.organizationList.render();
             }
             add(){
                 var d = new Date();

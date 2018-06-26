@@ -90,8 +90,32 @@
                 content-type="application/json"
                 on-response="resultOrganization"
                 ></iron-ajax>
+        <iron-ajax
+                method="post"
+                id="postProfile"
+                url="http://0.0.0.0:8000/api/v1/organization/profile"
+                handle-as="json"
+                content-type="application/json"
+                on-response="resultProfile"
+                ></iron-ajax>
+        <iron-ajax
+                method="get"
+                id="getUser"
+                url="http://0.0.0.0:8000/api/v1/rest-auth/user/"
+                handle-as="json"
+                content-type="application/json"
+                on-response="onResponse"
+                ></iron-ajax>
+        <iron-ajax
+                method="get"
+                id="getProfile"
+                url="http://0.0.0.0:8000/api/v1/organization/profile/{{id_user}}"
+                handle-as="json"
+                content-type="application/json"
+                on-response="onResponseGetProfile"
+                ></iron-ajax>
         <iron-pages id="pages" selected="{{usuarioLogado}}" attr-for-selected="name" >
-            <home-app name="logado" token="{{token}}" id_organization="{{id_organization}}"></home-app>
+            <home-app name="logado" token="{{token}}" id_organization="{{id_organization}}" user="{{user}}"></home-app>
         </iron-pages>
 
 
@@ -118,7 +142,9 @@
                         value:0
                     },
                     token: String,
-                    id_organization: String
+                    id_organization: String,
+                    id_user: String,
+                    user: Object
                 };
             }
 
@@ -168,7 +194,6 @@
                     this.$.getOrganization.headers['authorization'] = 'Token '+this.token;
                     this.$.getOrganization.generateRequest();
                 }
-                location="#/home/mis-proyectos";
             }
             newOrganization(data){
                 this.id_organization = data.detail.response.id
@@ -176,6 +201,35 @@
             resultOrganization(data){
                 if(data.detail.response.count==1){
                     this.id_organization = data.detail.response.results[0].id;
+                }
+                this.$.getUser.headers['authorization'] = 'Token '+this.token;
+                this.$.getUser.generateRequest();
+            }
+            onResponse(data){
+                this.id_user = data.detail.response.pk;
+                this.$.getProfile.url='http://0.0.0.0:8000/api/v1/organization/profile/'+this.id_user;
+                this.$.getProfile.headers['authorization'] = 'Token '+this.token;
+                this.$.getProfile.generateRequest();
+
+            }
+            resultProfile(data){
+                this.user = data.detail.response.results[0];
+                location="#/home/mis-proyectos";
+            }
+            onResponseGetProfile(data){
+                if(data.detail.response.count == 0){
+                    var d = new Date();
+                    var dd = d.getDate();
+                    var mm = d.getMonth()+1; //January is 0!
+                    var yyyy = d.getFullYear();
+                    this.id_user = data.detail.response.pk;
+                    this.$.postProfile.headers['authorization'] = 'Token '+this.token;
+                    this.$.postProfile.body = {"user":this.id_user, "nombre":"", "apellidos":"", "fecha_nacimiento":yyyy+'-'+mm+'-'+dd,
+                        "codigo_postal":"", "telefono":"","mail":this.nombre, "observaciones":""};
+                    this.$.postProfile.generateRequest();
+                } else {
+                    this.user = data.detail.response.results[0];
+                    location="#/home/mis-proyectos";
                 }
             }
         }

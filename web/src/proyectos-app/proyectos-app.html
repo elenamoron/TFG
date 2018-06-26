@@ -105,7 +105,7 @@
                 data="{{_idData}}"></app-route>
         <iron-ajax
                    id="getProject"
-                   url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}/project"
+                   url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}/project/"
                    handle-as="json"
                    on-response="handleResponse"
                    debounce-duration="300"
@@ -195,10 +195,10 @@
 
             }
             onChangeId(){
+                debugger;
                 this.id_organization=this.id_organization;
                 this.$.getProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/";
                 this.$.getProject.generateRequest();
-                this.$.addProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/";
             }
             openDialog() {
                 this.$.animated.open();
@@ -211,6 +211,7 @@
                 var dd = d.getDate();
                 var mm = d.getMonth()+1; //January is 0!
                 var yyyy = d.getFullYear();
+                this.$.addProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/";
                 this.$.addProject.headers['authorization']='Token '+this.token;
                 this.$.addProject.body={"name":this.nombre,"description":this.descripcion, "fecha_creacion":yyyy+'-'+mm+'-'+dd};
                 this.$.addProject.generateRequest();
