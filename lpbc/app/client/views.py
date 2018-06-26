@@ -168,7 +168,7 @@ class PhysicalPersonViewSet(viewsets.ModelViewSet):
             Response({"Error"}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class PhysicalPersonFromProjectViewSet(viewsets.ModelViewSet):
+class SpecificPhysicalPersonViewSet(viewsets.ModelViewSet):
     """
             retrieve:
                 Return a PhysicalPerson instance.
@@ -191,12 +191,25 @@ class PhysicalPersonFromProjectViewSet(viewsets.ModelViewSet):
             update:
                 Update a LegalPerson.
             """
-
+    queryset = PhysicalPerson.objects.all()
     serializer_class = PhysicalPersonSerializer
 
     def get_queryset(self):
-        id_project = self.kwargs['idProject']
-        return PhysicalPerson.objects.filter(project=id_project)
+        return PhysicalPerson.objects.filter(project=self.kwargs['pk2'], id=self.kwargs['id'])
+
+    def update(self, request, *args, **kwargs):
+        import ipdb
+        ipdb.set_trace()
+        physicalPerson = get_object_or_404(PhysicalPerson, project=self.kwargs['pk2'])
+        serializer = PhysicalPersonSerializer(PhysicalPerson, data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        response_serializer = PhysicalPersonSerializer(physicalPerson)
+        return Response(response_serializer.data, status.HTTP_202_ACCEPTED)
+
+    def delete(self):
+        pass
 
 
 class PhysicalPersonByIdViewSet(viewsets.ModelViewSet):

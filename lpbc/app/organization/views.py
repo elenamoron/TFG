@@ -54,7 +54,7 @@ class OrganizationMemberViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
 
-        return Organization.objects.filter(id=self.kwargs['pk']).values('users')
+        return Organization.objects.filter(id=self.kwargs['pk'])
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
