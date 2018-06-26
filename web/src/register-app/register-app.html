@@ -82,6 +82,14 @@
                 content-type="application/json"
                 on-response="newOrganization"
                 ></iron-ajax>
+        <iron-ajax
+                method="get"
+                id="getOrganization"
+                url="http://0.0.0.0:8000/api/v1/organization/"
+                handle-as="json"
+                content-type="application/json"
+                on-response="resultOrganization"
+                ></iron-ajax>
         <iron-pages id="pages" selected="{{usuarioLogado}}" attr-for-selected="name" >
             <home-app name="logado" token="{{token}}" id_organization="{{id_organization}}"></home-app>
         </iron-pages>
@@ -157,11 +165,18 @@
             onSuccess(data){
                 if(!this.token){
                     this.token = data.detail.response.key;
+                    this.$.getOrganization.headers['authorization'] = 'Token '+this.token;
+                    this.$.getOrganization.generateRequest();
                 }
                 location="#/home/mis-proyectos";
             }
             newOrganization(data){
                 this.id_organization = data.detail.response.id
+            }
+            resultOrganization(data){
+                if(data.detail.response.count==1){
+                    this.id_organization = data.detail.response.results[0].id;
+                }
             }
         }
         window.customElements.define(RegisterApp.is, RegisterApp);

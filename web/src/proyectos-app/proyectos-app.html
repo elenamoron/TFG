@@ -195,7 +195,10 @@
 
             }
             onChangeId(){
+                this.id_organization=this.id_organization;
+                this.$.getProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/";
                 this.$.getProject.generateRequest();
+                this.$.addProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/";
             }
             openDialog() {
                 this.$.animated.open();

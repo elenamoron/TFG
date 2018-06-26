@@ -18,17 +18,19 @@ from django.urls import re_path
 from rest_framework import routers
 from django.conf.urls import url
 from organization.views import OrganizationViewSet, ProfileViewSet, ProjectActive, ProjectViewSet, ProjectByName, \
-    ProjectDetailView, ProjectArchive
+    ProjectDetailView, ProjectArchive, ProjectsViewSet
 
 
 urlpatterns = [
     path('', OrganizationViewSet.as_view({'get': 'list', 'post': 'create'})),
-    path('profile', ProfileViewSet),
-    path('<int:pk>/project/', ProjectViewSet.as_view({'get': 'list', 'post': 'create'})),
-    path('project/<int:pk>/', ProjectDetailView.as_view({'put': 'update'})),
-    path('project/active', ProjectActive.as_view({'get': 'list'})),
-    path('project/archive', ProjectArchive.as_view({'get': 'list'})),
-    path('project/<str:name>/', ProjectByName.as_view({'get': 'list'}))
+    path('<int:pk>', OrganizationViewSet.as_view({'put': 'update', 'delete': 'delete'})),
+    path('<int:pk>/member/<int:uuid>', OrganizationViewSet.as_view({'post': 'create', 'delete': 'delete'})),
+    path('<int:pk>/member/', OrganizationViewSet.as_view({'get': 'list'})),
+    path('profile/', ProfileViewSet.as_view({'post': 'create'})),
+    path('profile/<int:pk>', ProfileViewSet.as_view({'get': 'list', 'put': 'update'})),
+    path('<int:pk>/project/', ProjectViewSet.as_view({'post': 'create'})),
+    path('<int:pk>/project/<str:scope>', ProjectsViewSet.as_view({'get': 'list'})),
+    path('<int:pk1>/project/<int:pk2>/', ProjectDetailView.as_view({'get': 'list', 'put': 'update', 'delete': 'delete'})),
 ]
 
 

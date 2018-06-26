@@ -86,6 +86,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return Project.objects.filter(organization=self.kwargs['pk'])
 
 
+class ProjectsViewSet(viewsets.ModelViewSet):
+    serializer_class = ProjectSerializer
+
+
 class ProjectActive(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
 
