@@ -63,6 +63,15 @@ class LegalPersonViewSet(viewsets.ModelViewSet):
         else:
             Response({"Error"}, status=status.HTTP_400_BAD_REQUEST)
 
+    def update(self, request, *args, **kwargs):
+        legalPerson = get_object_or_404(LegalPerson, project=self.kwargs['pk2'])
+        serializer = LegalPersonSerializer(legalPerson, data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        response_serializer = LegalPersonSerializer(legalPerson)
+        return Response(response_serializer.data, status.HTTP_202_ACCEPTED)
+
 
 class LegalPersonFromProjectViewSet(viewsets.ModelViewSet):
     """
