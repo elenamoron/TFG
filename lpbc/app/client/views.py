@@ -206,8 +206,10 @@ class SpecificPhysicalPersonViewSet(viewsets.ModelViewSet):
         response_serializer = PhysicalPersonSerializer(physicalperson)
         return Response(response_serializer.data, status.HTTP_202_ACCEPTED)
 
-    def delete(self):
-        pass
+    def delete(self, request, *args, **kwargs):
+        physicalperson = get_object_or_404(PhysicalPerson, project=self.kwargs['pk2'], id=self.kwargs['id'])
+        physicalperson.delete()
+        return Response({"PhysicalPerson delete"}, status.HTTP_200_OK)
 
 
 class PhysicalPersonByIdViewSet(viewsets.ModelViewSet):
