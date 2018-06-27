@@ -2,8 +2,6 @@
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<!--link rel="import" href="../../bower_components/app-layout/app-header-layout"-->
-<!--link rel="import" href="../../bower_components/app-layout/app-header"-->
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
@@ -131,7 +129,8 @@
 
         </iron-ajax>
         <app-header-layout>
-            <template is="dom-repeat" items="{{proyectos}}">
+            Hola Mundo [[proyectos[0]]]
+            <template is="dom-repeat" items="[[proyectos]]">
                 <paper-card class="rate">
                     <div class="card-content">
                         <div class="rate-header">{{item.name}}</div>
@@ -161,7 +160,7 @@
                 <paper-button on-click="add" class="custom black" name="add" dialog-confirm autofocus>Añadir</paper-button>
             </paper-dialog>
         </app-header-layout>
-        <ver-proyecto token="{{token}}"></ver-proyecto>
+
     </template>
     <script>
         /**
@@ -180,8 +179,7 @@
                     nombre: String,
                     descripcion: String,
                     token: {
-                        type: String,
-                        observer:'onChangeToken'
+                        type: String
                     },
                     id_organization: {
                         type: String,
@@ -190,14 +188,11 @@
 
                 };
             }
-            onChangeToken(){
-                this.$.getProject.headers['authorization']='Token '+this.token;
 
-            }
             onChangeId(){
-                debugger;
                 this.id_organization=this.id_organization;
-                this.$.getProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/";
+                this.$.getProject.headers['authorization']='Token '+this.token;
+                this.$.getProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/active";
                 this.$.getProject.generateRequest();
             }
             openDialog() {

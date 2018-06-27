@@ -105,7 +105,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
 
     def get_queryset(self):
-        return Project.objects.filter(organization=self.kwargs['pk'])
+        return Project.objects.filter(organization=self.kwargs['pk'],users=self.request.user)
 
     def create(self, request, *args, **kwargs):
         data = {'name': request.data['name'], 'description': request.data['description'],

@@ -67,7 +67,7 @@
                 route="{{_subRoute}}"
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
-        <iron-ajax
+        <!--iron-ajax
             auto
             method="get"
             url="http://0.0.0.0:8000/api/v1/client/PhysicalPerson/{{id_project}}/"
@@ -93,7 +93,7 @@
             content-type="application/json"
             on-response={{putResponse}}>
 
-        </iron-ajax>
+        </iron-ajax-->
 
         <div class="content ">
 
@@ -128,12 +128,7 @@
 
                 };
             }
-            ready() {
-                super.ready();
-                if(localStorage.getItem('id_project')){
-                    this.id_project=localStorage.getItem('id_project');
-                }
-            }
+
             handleResponse (data) {
                 this.physicalPerson = data.detail.response.results;
                 if(data.detail.response.count==1){

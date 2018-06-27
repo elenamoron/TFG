@@ -2,13 +2,9 @@
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
-<link rel="import" href="../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../bower_components/app-route/app-location.html">
-<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+
 <link rel="import" href="../register-app/register-app.html">
-<link rel="import" href="../home-app/home-app.html">
-<link rel="import" href="../proyectos-app/ver-proyecto.html">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 <dom-module id="landing-app">
     <template>
         <style>
@@ -75,17 +71,8 @@
         </style>
         <firebase-auth id="auth" user="{{user}}" provider="google" >
         </firebase-auth>
-        <app-location route="{{route}}" use-hash-as-path></app-location>
-        <app-route
-                route="{{route}}"
-                pattern="/:page"
-                data="{{_pageData}}"
-                tail="{{_subRoute}}"></app-route>
-        <app-route
-                route="{{_subRoute}}"
-                pattern="/:id"
-                data="{{_idData}}"></app-route>
-            <div name="login">
+
+
                 <app-toolbar class="toolbar">
                     <div class="tabs">
                         <a href="about" on-click="_onTapAnchor">Cómo funciona</a>
@@ -97,7 +84,7 @@
                 </app-toolbar>
                 <header>
 
-                    <register-app id="register" data="[[token]]"></register-app>
+                    <register-app id="register" token="{{token}}"></register-app>
 
                 </header>
                 <section id="about">
@@ -137,7 +124,7 @@
                         </div>
                     </div>
                 </section>
-            </div>
+
 
     </template>
 
@@ -154,13 +141,21 @@
                         type: String,
                         value: 'landing-app'
                     },
+                    token:{
+                        type: String,
+                        observer: 'onChangeToken',
+                        reflectToAttribute:true,
+                        notify: true
+                    }
 
 
                 };
             }
-
+            onChangeToken(){
+                alert('Token Landing '+this.token);
+            }
             abrirVentanaLogin(){
-                this.$.auth.signInWithPopup()
+                /*this.$.auth.signInWithPopup()
                         .then(function(response){
                                     //crear user y organización
                                     var result = $.ajax({
@@ -210,7 +205,7 @@
                         )
                         .catch(function(error) {
                             console.log(error);
-                        });
+                        });*/
 
             }
             _onTapAnchor(e) {

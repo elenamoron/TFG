@@ -72,7 +72,7 @@
                 route="{{_subRoute}}"
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
-        <iron-ajax
+        <!--iron-ajax
             id="getLegalPerson"
             method="get"
             url="http://0.0.0.0:8000/api/v1/client/LegalPerson/{{id_project}}/"
@@ -98,7 +98,7 @@
             content-type="application/json"
             on-response={{putResponse}}>
 
-        </iron-ajax>
+        </iron-ajax-->
         <iron-ajax
             id="uploadfile"
             method="post"
@@ -189,15 +189,10 @@
                 };
             }
             onChangeToken(){
-                this.$.getLegalPerson.headers['authorization']='Token '+this.token;
-                this.$.getLegalPerson.generateRequest();
+               // this.$.getLegalPerson.headers['authorization']='Token '+this.token;
+               // this.$.getLegalPerson.generateRequest();
             }
-            ready() {
-                super.ready();
-                if(localStorage.getItem('id_project')){
-                    this.id_project=localStorage.getItem('id_project');
-                }
-            }
+
             handleResponse (data) {
                 this.legalPerson = data.detail.response.results;
                 if(this.legalPerson[0]){

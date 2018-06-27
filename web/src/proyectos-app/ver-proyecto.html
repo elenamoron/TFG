@@ -193,13 +193,13 @@
                 >
 
                 </juridicas-app>
-                <representantes-app
+                <!--representantes-app
                     name="/representantes"
                     route="{{_subRoute}}"
                     token="{{token}}"
                 >
 
-                </representantes-app>
+                </representantes-app-->
             </iron-pages>
 
         </app-drawer-layout>
@@ -236,22 +236,13 @@
                 this.$.getProject.headers['authorization']='Token '+this.token;
             }
             onChangeId(){
+                this.$.getProject.headers['authorization']='Token '+this.token;
                 this.$.getProject.generateRequest();
             }
             _drawerSelected() {
                 if (!this.$.drawer.persistent) this.$.drawer.close();
             }
-            desconectar(){
-                this.$.auth.signOut()
-                        .then(function(response){
-                                    location="#/landing";
-                                }
 
-                        )
-                        .catch(function(error) {
-                            console.log(error);
-                        });
-            }
             handleResponse (data) {
                 if(!this.proyecto){
                     this.proyecto = data.detail.response.results;

@@ -6,9 +6,8 @@
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../register-app/register-app.html">
-<link rel="import" href="../home-app/home-app.html">
-<link rel="import" href="../proyectos-app/ver-proyecto.html">
 <link rel="import" href="../landing-app/landing-app.html">
+<link rel="import" href="../home-app/home-app.html">
 <dom-module id="web-app">
   <template>
     <style>
@@ -81,10 +80,6 @@
             tail="{{subroute}}"
             active="{{active}}">
     </app-route>
-    <app-route
-            route="{{subRoute}}"
-            pattern="/:id"
-            data="{{_idData}}"></app-route>
 
 
     <iron-pages
@@ -92,15 +87,8 @@
             attr-for-selected="name"
             selected-attribute="visible"
     >
-      <landing-app name="landing"></landing-app>
-      <home-app name="home" route="{{subroute}}" user="{{this.$.auth}}"></home-app>
-      <ver-proyecto
-              id="proyectoView"
-              name="proyecto"
-              proyecto="{{_idData}}"
-              user="{{this.$.auth}}"
-      >
-      </ver-proyecto>
+      <landing-app name="landing" token="{{token}}"></landing-app>
+      <home-app name="home" route="{{subroute}}" token="{{token}}"></home-app>
 
 
     </iron-pages>
@@ -123,7 +111,8 @@
           route: Object,
           routeData: Object,
           basepath: String,
-          page: String
+          page: String,
+          token:String
 
         };
 
@@ -131,9 +120,9 @@
 
       ready() {
         super.ready();
-        if(this.route.path==0 || !this.route.path){
+        /*if(this.route.path==0 || !this.route.path){
           location='#/landing';
-        }
+        }*/
       }
 
     }

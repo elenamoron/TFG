@@ -93,6 +93,7 @@
 
 
         <app-drawer-layout name="home" responsive-width="1280px" >
+            Hola Mundo
             <app-header-layout>
                 <app-header slot="header">
                     <app-toolbar>
@@ -132,6 +133,7 @@
 
                 </app-header-layout>
             </app-drawer>
+
             <iron-pages selected="[[_subRoute.path]]" attr-for-selected="name">
                 <proyectos-app
                         name="/mis-proyectos"
@@ -187,7 +189,8 @@
                     user:Object,
                     _idData: Object,
                     token: {
-                        type: String
+                        type: String,
+                        observer:'onChangeToken'
                     },
                     id_organization: {
                         type:String,
@@ -197,14 +200,16 @@
 
                 };
             }
-
+            onChangeToken(){
+                alert('Token home  '+this.token);
+            }
             onChangeId(){
-                debugger;
+
             }
             desconectar(){
                 this.$.logout.headers['authorization'] = 'Token '+this.token;
                 this.$.logout.generateRequest();
-                this.$.auth.signOut()
+                /*this.$.auth.signOut()
                         .then(function(response){
                             location="#/landing";
                         }
@@ -213,6 +218,7 @@
                         .catch(function(error) {
                             console.log(error);
                         });
+            */
             }
 
             _drawerSelected() {

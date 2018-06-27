@@ -5,8 +5,7 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../home-app/home-app.html">
-<link rel="import" href="../proyectos-app/proyectos-app.html">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 <dom-module id="register-app">
     <template>
         <style>
@@ -114,9 +113,9 @@
                 content-type="application/json"
                 on-response="onResponseGetProfile"
                 ></iron-ajax>
-        <iron-pages id="pages" selected="{{usuarioLogado}}" attr-for-selected="name" >
-            <home-app name="logado" token="{{token}}" id_organization="{{id_organization}}" user="{{user}}"></home-app>
-        </iron-pages>
+
+
+
 
 
     </template>
@@ -141,7 +140,12 @@
                         type:Number,
                         value:0
                     },
-                    token: String,
+                    token:{
+                       type: String,
+                       reflectToAttribute:true,
+                        notify: true,
+                        observer: 'onChangeToken'
+                    } ,
                     id_organization: String,
                     id_user: String,
                     user: Object
