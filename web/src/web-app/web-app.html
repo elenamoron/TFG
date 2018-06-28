@@ -87,8 +87,8 @@
             attr-for-selected="name"
             selected-attribute="visible"
     >
-      <landing-app name="landing" token="{{token}}"></landing-app>
-      <home-app name="home" route="{{subroute}}" token="{{token}}"></home-app>
+      <landing-app name="landing" token="{{token}}" id_organization="{{id_organization}}" user="{{user}}"></landing-app>
+      <home-app name="home" route="{{subroute}}" token="{{token}}" id_organization="{{id_organization}}" user="{{user}}">/home-app>
 
 
     </iron-pages>
@@ -107,12 +107,10 @@
             type: String,
             value: 'web-app'
           },
-          user: Object,
           route: Object,
           routeData: Object,
           basepath: String,
-          page: String,
-          token:String
+          page: String
 
         };
 

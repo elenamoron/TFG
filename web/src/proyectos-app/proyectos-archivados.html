@@ -132,6 +132,7 @@
                 };
             }
             onChangeToken(){
+                this.$.getProject.url = "http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/archive";
                 this.$.getProject.headers['authorization']='Token '+this.token;
                 this.$.getProject.generateRequest();
             }

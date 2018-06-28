@@ -104,7 +104,7 @@
                 data="{{_idData}}"></app-route>
         <iron-ajax
                    id="getProject"
-                   url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}/project/"
+                   url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}/project/{{id_project}}"
                    handle-as="json"
                    on-response="handleResponse"
                    debounce-duration="300"
@@ -178,28 +178,7 @@
 
             </app-drawer>
             <iron-pages selected="[[_subRoute.path]]" attr-for-selected="name">
-                <resumen-app
-                        name="/resumen"
-                        route="{{_subRoute}}"
-                        proyecto="{{proyecto}}"
-                        nombre="{{nombre}}"
-                        token="{{token}}"
-                >
-                </resumen-app>
-                <juridicas-app
-                    name="/juridica"
-                    route="{{_subRoute}}"
-                    token="{{token}}"
-                >
 
-                </juridicas-app>
-                <!--representantes-app
-                    name="/representantes"
-                    route="{{_subRoute}}"
-                    token="{{token}}"
-                >
-
-                </representantes-app-->
             </iron-pages>
 
         </app-drawer-layout>

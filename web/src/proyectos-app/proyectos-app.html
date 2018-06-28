@@ -129,7 +129,6 @@
 
         </iron-ajax>
         <app-header-layout>
-            Hola Mundo [[proyectos[0]]]
             <template is="dom-repeat" items="[[proyectos]]">
                 <paper-card class="rate">
                     <div class="card-content">
@@ -150,7 +149,15 @@
 
 
             <br>
+            <iron-pages
+                selected="[[_pageData.page]]"
+                attr-for-selected="name"
+                selected-attribute="visible"
+            >
+                  <ver-proyecto name="proyecto" route="{{subroute}}" token="{{token}}" id_organization="{{id_organization}}"></ver-proyecto>
 
+
+            </iron-pages>
             <paper-fab icon="add" raised on-tap="openDialog"></paper-fab>
             <paper-dialog id="animated">
                 <h2>Nuevo proyecto</h2>
@@ -175,20 +182,39 @@
                         type: String,
                         value: 'proyectos-app'
                     },
-                    proyectos: Object,
+                    proyectos:{
+                      type: Array
+                    } ,
                     nombre: String,
                     descripcion: String,
                     token: {
-                        type: String
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true
                     },
                     id_organization: {
                         type: String,
-                        observer:'onChangeId'
+                        observer:'onChangeId',
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    id_project: {
+                        type: String,
+                        observer:'onChangeIdProject',
+                        reflectToAttribute:true,
+                        notify: true
                     }
 
                 };
             }
+            ready(){
+                super.ready();
+                if(!this.token && localStorage.getItem('token')!=null){
+                    this.token = localStorage.getItem('token');
+                    this.id_organization = localStorage.getItem('id_organization');
 
+                }
+            }
             onChangeId(){
                 this.id_organization=this.id_organization;
                 this.$.getProject.headers['authorization']='Token '+this.token;
@@ -199,7 +225,7 @@
                 this.$.animated.open();
             }
             handleResponse (data) {
-                this.proyectos = data.detail.response.results;
+                this.set('proyectos',data.detail.response.results);
             }
             add(){
                 var d = new Date();

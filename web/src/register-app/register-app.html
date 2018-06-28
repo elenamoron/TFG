@@ -132,7 +132,6 @@
                         type: String,
                         value: 'register-app'
                     },
-                    user: Object,
                     nombre:String,
                     password: String,
                     errors: String,
@@ -141,14 +140,23 @@
                         value:0
                     },
                     token:{
-                       type: String,
-                       reflectToAttribute:true,
+                        type: String,
+                        reflectToAttribute:true,
                         notify: true,
                         observer: 'onChangeToken'
                     } ,
-                    id_organization: String,
+                    id_organization: {
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true,
+                        observer: 'onChangeId'
+                    } ,
                     id_user: String,
-                    user: Object
+                    user:{
+                        type: Object,
+                        reflectToAttribute:true,
+                        notify: true
+                    }
                 };
             }
 
@@ -181,6 +189,7 @@
                     var mm = d.getMonth()+1; //January is 0!
                     var yyyy = d.getFullYear();
                     this.token = data.detail.response.key;
+                    localStorage.setItem('token',this.token);
                     this.$.addOrganization.headers['authorization'] = 'Token '+this.token;
                     this.$.addOrganization.body={"name":'Organization '+this.nombre,"description":'des', "created":yyyy+'-'+mm+'-'+dd, "code":'ORG-'+this.num,
                         "address":'', "nif":'dni'+this.num};
@@ -195,22 +204,26 @@
             onSuccess(data){
                 if(!this.token){
                     this.token = data.detail.response.key;
+                    localStorage.setItem('token',this.token);
                     this.$.getOrganization.headers['authorization'] = 'Token '+this.token;
                     this.$.getOrganization.generateRequest();
                 }
             }
             newOrganization(data){
                 this.id_organization = data.detail.response.id
+                localStorage.setItem('id_organization',this.id_organization);
             }
             resultOrganization(data){
                 if(data.detail.response.count==1){
                     this.id_organization = data.detail.response.results[0].id;
+                    localStorage.setItem('id_organization',this.id_organization);
                 }
                 this.$.getUser.headers['authorization'] = 'Token '+this.token;
                 this.$.getUser.generateRequest();
             }
             onResponse(data){
                 this.id_user = data.detail.response.pk;
+
                 this.$.getProfile.url='http://0.0.0.0:8000/api/v1/organization/profile/'+this.id_user;
                 this.$.getProfile.headers['authorization'] = 'Token '+this.token;
                 this.$.getProfile.generateRequest();
@@ -218,6 +231,7 @@
             }
             resultProfile(data){
                 this.user = data.detail.response.results[0];
+                localStorage.setItem('user',this.user);
                 location="#/home/mis-proyectos";
             }
             onResponseGetProfile(data){
@@ -233,6 +247,7 @@
                     this.$.postProfile.generateRequest();
                 } else {
                     this.user = data.detail.response.results[0];
+                    localStorage.setItem('user',this.user);
                     location="#/home/mis-proyectos";
                 }
             }

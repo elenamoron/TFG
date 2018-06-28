@@ -84,7 +84,7 @@
                 </app-toolbar>
                 <header>
 
-                    <register-app id="register" token="{{token}}"></register-app>
+                    <register-app id="register" token="{{token}}" id_organization="{{id_organization}}" user="{{user}}"></register-app>
 
                 </header>
                 <section id="about">
@@ -146,14 +146,24 @@
                         observer: 'onChangeToken',
                         reflectToAttribute:true,
                         notify: true
+                    },
+                    id_organization:{
+                        type: String,
+                        observer: 'onChangeId',
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    user:{
+                        type: Object,
+                        observer: 'onChangeUser',
+                        reflectToAttribute:true,
+                        notify: true
                     }
 
 
                 };
             }
-            onChangeToken(){
-                alert('Token Landing '+this.token);
-            }
+
             abrirVentanaLogin(){
                 /*this.$.auth.signInWithPopup()
                         .then(function(response){
