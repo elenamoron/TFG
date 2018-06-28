@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
-<link rel="import" href="../../bower_components/s-circle-progress/s-circle-progress.html">
+<link rel="import" href="../../bower_components/progress-bubble/progress-bubble.html">
 
 <dom-module id="representantes-25capital">
     <template>
@@ -11,18 +11,13 @@
                 padding-top: 30px;
                 padding-bottom: 30px;
             }
-            .column {
-                float: left;
-                width: 47%;
-                padding-left: 10px;
-            }
-
-            /* Clear floats after the columns */
-            .row:after {
-                content: "";
-                display: table;
-                clear: both;
-            }
+            progress-bubble {
+                --progress-bubble-stroke-color: rgba(255, 0, 0, 0.8);
+                --progress-bubble-stroke-linecap: butt;
+                --progress-bubble-bg-stroke-color: rgba(193, 193, 193, 0.2);
+                --progress-bubble-background: transparent;
+                --progress-bubble-reflection-display: none;
+              }
             paper-fab {
                 position: fixed;
                 right: 24px;
@@ -43,16 +38,7 @@
                 }
             }
         </style>
-        <app-location route="{{route}}" use-hash-as-path></app-location>
-        <app-route
-                route="{{route}}"
-                pattern="/:page"
-                data="{{_pageData}}"
-                tail="{{_subRoute}}"></app-route>
-        <app-route
-                route="{{_subRoute}}"
-                pattern="/:id"
-                data="{{_idData}}"></app-route>
+
         <!--iron-ajax
             auto
             method="get"
@@ -84,11 +70,12 @@
         <div class="content ">
 
             <paper-card class="white" >
-                <s-circle-progress value="6" max="10">
-                  60%
-                </s-circle-progress>
+                <progress-bubble value="8" max="10" stroke-width="10">
+
+                </progress-bubble>
+
                 <div class="card-actions">
-                    Socios con 25% de capital
+                <strong>80%</strong>    Socios con 25% de capital
                 </div>
             </paper-card>
 

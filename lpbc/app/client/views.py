@@ -266,10 +266,18 @@ class DocumentUploadView(views.APIView):
                 return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-class PhysicalPersonWithCapitalViewSet(viewsets.ModelViewSet):
+class PhysicalPersonTypeViewSet(viewsets.ModelViewSet):
     serializer_class = PhysicalPersonSerializer
 
     def get_queryset(self):
-        id_project = self.kwargs['idProject']
-        return PhysicalPerson.objects.filter(project=id_project, capital=True)
+        if self.kwargs['scope'] == 'capital':
+            return PhysicalPerson.objects.filter(project=self.kwargs['pk2'], capital=True)
+        elif self.kwargs['scope'] == 'control':
+            return PhysicalPerson.objects.filter(project=self.kwargs['pk2'], control=True)
+        elif self.kwargs['scope'] == 'publica':
+            return PhysicalPerson.objects.filter(project=self.kwargs['pk2'], responsabilidad_publica=True)
+        elif self.kwargs['scope'] == 'sociedad':
+            return PhysicalPerson.objects.filter(project=self.kwargs['pk2'], controla_sociedad=True)
+        else:
+            return Response({"Error no existe ninguna coincidencia con lo que solicita"}, status=status.HTTP_400_BAD_REQUEST)
+
