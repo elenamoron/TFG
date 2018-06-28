@@ -1,16 +1,11 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
-<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
-<link rel="import" href="../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../bower_components/app-route/app-location.html">
-<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+
 <link rel="import" href="../../bower_components/paper-avatar/paper-avatar.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/s-circle-progress/s-circle-progress.html">
-<link rel="import" href="../register-app/register-app.html">
-<link rel="import" href="../home-app/home-app.html">
-<link rel="import" href="../proyectos-app/ver-proyecto.html">
+<link rel="import" href="../representantes-app/representantes-publica.html">
+<link rel="import" href="../representantes-app/representantes-25capital.html">
 <dom-module id="resumen-app">
     <template>
         <style>
@@ -26,13 +21,9 @@
             }
             .resumen{
                 margin-top: 20px;
+                display: inline-block;
             }
-            .white{
-                margin-bottom:8px;
-                margin-top:50px;
-                display: block;
-                width: 20%;
-            }
+
             --s-circle-progress-bg-stroke-color{
                 --paper-grey-100;
             }
@@ -42,37 +33,40 @@
             --s-circle-progress-stroke-linecap{
                 round;
             }
+            paper-fab {
+                position: fixed;
+                right: 24px;
+                bottom: 24px;
+                --paper-fab-background: #ff4081;
+                --paper-fab-keyboard-focus-background: #DF4448;
+            }
         </style>
-        <app-location route="{{route}}" use-hash-as-path></app-location>
-        <app-route
-                route="{{route}}"
-                pattern="/:page"
-                data="{{_pageData}}"
-                tail="{{_subRoute}}"></app-route>
-        <app-route
-                route="{{_subRoute}}"
-                pattern="/:id"
-                data="{{_idData}}"></app-route>
+
+        <iron-ajax
+            method="put"
+            id="putProject"
+            url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}/project/{{id_project}}/"
+            handle-as="json"
+            content-type="application/json"
+            on-response="handleResponse">
+
+        </iron-ajax>
         <app-header-layout>
             <template is="dom-repeat" items="{{proyecto}}">
 
                 <paper-avatar label="[[item.name]]" src="[[item.logo]]"></paper-avatar>
                 <div class="resumen">
-                        <div class=""><strong>Nombre del proyecto: </strong>{{item.name}}</div><br>
-                        <div class=""><strong>Nombre del cliente: </strong> {{item.cliente}}</div><br>
-                        <div><strong>Descripción: </strong> {{item.description}}</div>
+
+                        <div class=""><paper-input value="{{item.name}}" placeholder="Nombre del proyecto"></paper-input></div><br>
+                        <div class=""><paper-input value="{{item.cliente}}" placeholder="Cliente"></paper-input></div><br>
+                        <div class=""><paper-input value="{{item.description}}" placeholder="Descripción del proyecto"></paper-input></div><br>
+                        <paper-fab icon="create" raised on-tap="update" data-item$="[[item]]"></paper-fab>
                 </div>
 
             </template>
             <br>
-            <paper-card class="white" >
-                <s-circle-progress value="6" max="10">
-                  60%
-                </s-circle-progress>
-                <div class="card-actions">
-                    <paper-icon-button icon="icons:euro-symbol"></paper-icon-button>Socios con 25% de capital
-                </div>
-            </paper-card>
+            <representantes-25capital></representantes-25capital>
+
         </app-header-layout>
     </template>
 
@@ -89,11 +83,51 @@
                         type: String,
                         value: 'resumen-app'
                     },
-                    proyecto : Object
+                    proyecto : Object,
+                    token: {
+                        type: String,
+                        observer:'onChangeToken',
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    id_organization: {
+                        type: String,
+                        observer:'onChangeId',
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    user: {
+                        type: Object,
+                        observer:'onChangeUser',
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    nombre:{
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true
+                    }
 
                 };
             }
+            ready(){
+                super.ready();
+                if(!this.token && localStorage.getItem('token')!=null){
+                    this.token = localStorage.getItem('token');
+                    this.id_organization = localStorage.getItem('id_organization');
+                    this.user = localStorage.getItem('user');
 
+                }
+            }
+            update(event){
+                const item = JSON.parse(event.target.dataset.item);
+
+                this.$.putProject.url = "http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/"+item.id+"/";
+                this.$.putProject.headers['authorization']='Token '+this.token;
+                this.$.putProject.body=item;
+                this.$.putProject.generateRequest();
+
+            }
 
         }
 

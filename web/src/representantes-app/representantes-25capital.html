@@ -1,19 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
-<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="../../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
-<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
-<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
-<link rel="import" href="../../bower_components/paper-collapse-item/paper-collapse-item.html">
-<link rel="import" href="../../bower_components/vaadin-date-picker/vaadin-date-picker.html">
-<link rel="import" href="../../bower_components/polymerfire/firebase-auth.html">
-<link rel="import" href="../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../bower_components/app-route/app-location.html">
-<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../register-app/register-app.html">
-<link rel="import" href="../home-app/home-app.html">
-<link rel="import" href="../proyectos-app/ver-proyecto.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/s-circle-progress/s-circle-progress.html">
+
 <dom-module id="representantes-25capital">
     <template>
         <style>
@@ -21,7 +9,6 @@
                 padding-left: 50px;
                 padding-right: 50px;
                 padding-top: 30px;
-                background-color: ghostwhite;
                 padding-bottom: 30px;
             }
             .column {
@@ -48,7 +35,6 @@
                     padding-left: 30px;
                     padding-right: 10px;
                     padding-top: 30px;
-                    background-color: ghostwhite;
                     padding-bottom: 30px;
                 }
                 .column {
@@ -97,22 +83,41 @@
 
         <div class="content ">
 
-                <h1>Datos de socios que posean más del 25 % de capital</h1>
-                <form>
-                    <div class="row">
+            <paper-card class="white" >
+                <s-circle-progress value="6" max="10">
+                  60%
+                </s-circle-progress>
+                <div class="card-actions">
+                    Socios con 25% de capital
+                </div>
+            </paper-card>
 
-                        <paper-input value="{{physicalPerson.nombre_completo}}" placeholder="Nombre y apellidos"></paper-input>
-                        <p>Tipo de Documento </p>
-                        <paper-radio-group value="{{physicalPerson.documento_identificativo}}" selected="{{physicalPerson.documento_identificativo}}" allow-empty-selection>
-                            <paper-radio-button name="nif" >NIF</paper-radio-button>
-                            <paper-radio-button name="pasaporte" >Pasaporte</paper-radio-button>
-                            <paper-radio-button name="t-residencia" >Tarjeta de residencia</paper-radio-button>
-                        </paper-radio-group>
-                        <vaadin-date-picker label="Fecha de caducidad" value="{{physicalPerson.fecha_caducidad}}"></vaadin-date-picker>
+            <paper-card class="white" >
+                <s-circle-progress value="6" max="10">
+                  60%
+                </s-circle-progress>
+                <div class="card-actions">
+                    Socios con 25% de control
+                </div>
+            </paper-card>
 
-                        <paper-fab icon="add" raised on-tap="add"></paper-fab>
-                    </div>
-                </form>
+            <paper-card class="white" >
+                <s-circle-progress value="6" max="10">
+                  60%
+                </s-circle-progress>
+                <div class="card-actions">
+                    Socios con Responsabilidad pública
+                </div>
+            </paper-card>
+
+            <paper-card class="white" >
+                <s-circle-progress value="6" max="10">
+                  60%
+                </s-circle-progress>
+                <div class="card-actions">
+                    Socios que controlan la sociedad
+                </div>
+            </paper-card>
         </div>
     </template>
 
@@ -136,7 +141,6 @@
 
                 };
             }
-
             handleResponse (data) {
                 this.physicalPerson = data.detail.response.results;
                 if(data.detail.response.count==1){

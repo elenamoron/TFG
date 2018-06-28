@@ -62,16 +62,6 @@
                 }
             }
         </style>
-        <app-location route="{{route}}" use-hash-as-path></app-location>
-        <app-route
-                route="{{route}}"
-                pattern="/:page"
-                data="{{_pageData}}"
-                tail="{{_subRoute}}"></app-route>
-        <app-route
-                route="{{_subRoute}}"
-                pattern="/:id"
-                data="{{_idData}}"></app-route>
         <!--iron-ajax
             id="getLegalPerson"
             method="get"
@@ -179,14 +169,41 @@
                     },
                     legalPerson: Object,
                     haslegalPerson: Boolean,
-                    id_project: Number,
                     files: Object,
                     token: {
                         type: String,
-                        observer:'onChangeToken'
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    id_organization: {
+                        type: String,
+                        observer:'onChangeId',
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    id_project: {
+                        type: String,
+                        observer:'onChangeIdProject',
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    user: {
+                        type: Object,
+                        observer:'onChangeUser',
+                        reflectToAttribute:true,
+                        notify: true
                     }
 
                 };
+            }
+            ready(){
+                super.ready();
+                if(!this.token && localStorage.getItem('token')!=null){
+                    this.token = localStorage.getItem('token');
+                    this.id_organization = localStorage.getItem('id_organization');
+                    this.user = localStorage.getItem('user');
+
+                }
             }
             onChangeToken(){
                // this.$.getLegalPerson.headers['authorization']='Token '+this.token;

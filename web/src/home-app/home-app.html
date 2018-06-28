@@ -16,8 +16,7 @@
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 
 <link rel="import" href="../proyectos-app/proyectos-app.html">
-<link rel="import" href="../proyectos-app/proyectos-archivados.html">
-<link rel="import" href="../proyectos-app/proyectos-activos.html">
+<link rel="import" href="../proyectos-app/proyectos-all.html">
 <link rel="import" href="../proyectos-app/proyectos-mis-archivados.html">
 <link rel="import" href="../organization-app/organization-app.html">
 
@@ -125,9 +124,8 @@
                         </paper-item>
                         <paper-item name="[[_pageData.page]]/mis-archivados">Mis proyectos archivados
                         </paper-item>
-                        <paper-item name="[[_pageData.page]]/activos">Proyectos activos
+                        <paper-item name="[[_pageData.page]]/all">Todos los proyectos
                         </paper-item>
-                        <paper-item name="[[_pageData.page]]/archivados">Proyectos archivados</paper-item>
                         <paper-item name="[[_pageData.page]]/organizaciones">Organizaciones</paper-item>
                     </paper-listbox>
 
@@ -142,22 +140,19 @@
                         id_organization="{{id_organization}}"
                 >
                 </proyectos-app>
-                <proyectos-archivados
-                        name="/archivados"
-                        route="{{_subRoute}}"
-                        id_organization="{{id_organization}}"
-                >
-                </proyectos-archivados>
-                <proyectos-activos
-                        name="/activos"
+
+                <proyectos-all
+                        name="/all"
                         route="{{_subRoute}}"
                         token="{{token}}"
+                        id_organization="{{id_organization}}"
                 >
-                </proyectos-activos>
+                </proyectos-all>
                 <proyectos-mis-archivados
                         name="/mis-archivados"
                         route="{{_subRoute}}"
                         token="{{token}}"
+                        id_organization="{{id_organization}}"
                 >
                 </proyectos-mis-archivados>
                 <organization-app
@@ -220,6 +215,7 @@
             desconectar(){
                 this.$.logout.headers['authorization'] = 'Token '+this.token;
                 this.$.logout.generateRequest();
+                localStorage.clear();
                 /*this.$.auth.signOut()
                         .then(function(response){
                             location="#/landing";

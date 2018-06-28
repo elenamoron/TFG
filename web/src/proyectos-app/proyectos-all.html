@@ -6,17 +6,11 @@
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/file-drop-zone/file-drop-zone.html">
-<link rel="import" href="../register-app/register-app.html">
-<link rel="import" href="../home-app/home-app.html">
+
 <link rel="import" href="../proyectos-app/ver-proyecto.html">
-<dom-module id="proyectos-archivados">
+<dom-module id="proyectos-all">
     <template>
         <style>
-            paper-card {
-                width: 700px;
-                margin-left: 30px;
-                margin-bottom: 30px;
-            }
             .rate-image {
                 position: absolute;
                 top: 0;
@@ -31,6 +25,21 @@
             }
             .rate-header { @apply --paper-font-headline; }
             .rate-name { color: var(--paper-grey-600); margin: 10px 0; }
+            paper-icon-button.rate-icon {
+                --iron-icon-fill-color: white;
+                --iron-icon-stroke-color: var(--paper-grey-600);
+            }
+            paper-card {
+                width: 700px;
+                margin-left: 30px;
+                margin-bottom: 30px;
+            }
+            paper-fab {
+                    margin-right: 10px;
+                    margin-left: 10px;
+                --paper-fab-background: #ff4081;
+                --paper-fab-keyboard-focus-background: #DF4448;
+            }
             paper-button.custom {
                 --paper-button-ink-color: var(--paper-pink-a200);
                 /* These could also be individually defined for each of the
@@ -65,9 +74,9 @@
             paper-button {
                 margin-left: 50px;
             }
-            a {
+            .ver {
                 text-decoration: none;
-
+                float:left;
             }
         </style>
         <app-location route="{{route}}" use-hash-as-path></app-location>
@@ -82,16 +91,14 @@
                 data="{{_idData}}"></app-route>
         <iron-ajax
                    id="getProject"
-                   url="http://0.0.0.0:8000/api/v1/organization/project/archive"
+                   url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}/project/all"
                    handle-as="json"
                    on-response="handleResponse"
-                   debounce-duration="300"
                    content-type="application/json"
                    method="GET"
         ></iron-ajax>
-
         <app-header-layout>
-            <template is="dom-repeat" items="{{proyectos}}">
+            <template is="dom-repeat" items="[[proyectos]]" rendered-item-count="{{renderedCount}}">
                 <paper-card class="rate">
                     <div class="card-content">
                         <div class="rate-header">{{item.name}}</div>
@@ -99,15 +106,34 @@
                         <div>{{item.description}}</div>
                     </div>
                     <div class="card-actions">
-                        <a href="#/proyecto/{{item.name}}/resumen" name="ver">
-                            <paper-button  class="custom black" name="ver" dialog-confirm autofocus> Ver</paper-button>
+                        <a href="#/proyecto/{{item.name}}/resumen" class="ver">
+                            <paper-fab icon="visibility" raised ></paper-fab>
                         </a>
+                        <paper-fab icon="delete" raised on-tap="openDialog"></paper-fab>
                     </div>
                     <div class="rate-image" style="background: url('../../media/{{item.logo }}')"></div>
                 </paper-card>
 
             </template>
+
+            <template is="dom-if" if="{{!renderedCount}}">
+                <paper-card heading="Esta organización no tiene proyectos" class="cyan">
+
+                </paper-card>
+            </template>
+            <br>
+            <iron-pages
+                selected="[[_pageData.page]]"
+                attr-for-selected="name"
+                selected-attribute="visible"
+            >
+                  <ver-proyecto name="proyecto" route="{{subroute}}" token="{{token}}" id_organization="{{id_organization}}"></ver-proyecto>
+
+
+            </iron-pages>
+
         </app-header-layout>
+        
     </template>
 
     <script>
@@ -115,33 +141,54 @@
          * @customElement
          * @polymer
          */
-        class ProyectosArchivadosApp extends Polymer.Element {
-            static get is() { return 'proyectos-archivados'; }
+        class ProyectosAllApp extends Polymer.Element {
+            static get is() { return 'proyectos-all'; }
             static get properties() {
                 return {
                     prop1: {
                         type: String,
-                        value: 'proyectos-archivados'
+                        value: 'proyectos-all'
                     },
-                    proyectos: Object,
                     token: {
                         type: String,
-                        observer:'onChangeToken'
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    id_organization: {
+                        type: String,
+                        observer:'onChangeId',
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    id_project: {
+                        type: String,
+                        observer:'onChangeIdProject',
+                        reflectToAttribute:true,
+                        notify: true
                     }
 
                 };
             }
-            onChangeToken(){
-                this.$.getProject.url = "http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/archive";
+            ready(){
+                super.ready();
+                if(!this.token && localStorage.getItem('token')!=null){
+                    this.token = localStorage.getItem('token');
+                    this.id_organization = localStorage.getItem('id_organization');
+
+                }
+            }
+            onChangeId(){
+                this.id_organization=this.id_organization;
                 this.$.getProject.headers['authorization']='Token '+this.token;
+                this.$.getProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/all";
                 this.$.getProject.generateRequest();
             }
             handleResponse (data) {
-                this.proyectos = data.detail.response.results;
+                this.set('proyectos',data.detail.response.results);
             }
 
         }
 
-        window.customElements.define(ProyectosArchivadosApp.is, ProyectosArchivadosApp);
+        window.customElements.define(ProyectosAllApp.is, ProyectosAllApp);
     </script>
 </dom-module>

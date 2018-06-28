@@ -103,6 +103,14 @@
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
         <iron-ajax
+                method="post"
+                id="logout"
+                url="http://0.0.0.0:8000/api/v1/rest-auth/logout/"
+                handle-as="json"
+                content-type="application/json"
+                on-response="onlogout"
+                ></iron-ajax>
+        <iron-ajax
                    id="getProject"
                    url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}/project/{{id_project}}"
                    handle-as="json"
@@ -116,7 +124,7 @@
                 <app-header slot="header">
                     <app-toolbar>
                         <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-                        <div main-title>[[_pageData.page]]</div>
+                        <div main-title>[[nombre]]</div>
                         <paper-icon-button icon="settings-power" raised on-click="desconectar"></paper-icon-button>
                     </app-toolbar>
                 </app-header>
@@ -126,11 +134,11 @@
                 <app-header-layout has-scrolling-region>
 
                     <app-header fixed>
-                        <paper-avatar label="[[user.displayName]]" src="[[user.photoURL]]"></paper-avatar>
+                        <paper-avatar label="[[user.nombre]]" src="[[user.photoURL]]"></paper-avatar>
 
                         <div class="contact-info">
-                            <div class="name">[[user.displayName]]</div>
-                            <div class="email">[[user.email]]</div>
+                            <div class="name">[[user.nombre]]</div>
+                            <div class="email">[[user.mail]]</div>
 
                         </div>
                     </app-header>
@@ -178,7 +186,32 @@
 
             </app-drawer>
             <iron-pages selected="[[_subRoute.path]]" attr-for-selected="name">
+                <resumen-app
+                        name="/resumen"
+                        route="{{_subRoute}}"
+                        proyecto="{{proyecto}}"
+                        nombre="{{nombre}}"
+                        token="{{token}}"
+                        user="{{user}}"
+                >
+                </resumen-app>
+                <juridicas-app
+                    name="/juridica"
+                    route="{{_subRoute}}"
+                    token="{{token}}"
+                    user="{{user}}"
+                >
 
+                </juridicas-app>
+                <representantes-app
+                    name="/representantes"
+                    route="{{_subRoute}}"
+                    token="{{token}}"
+                    user="{{user}}"
+                    id_project="{{id_project}}"
+                >
+
+                </representantes-app>
             </iron-pages>
 
         </app-drawer-layout>
@@ -197,46 +230,105 @@
                         type: String,
                         value: 'ver-proyecto'
                     },
-                    user: Object,
-                    proyecto: Object,
-                    nombre: String,
+                    user: {
+                        type: Object,
+                        observer:'onChangeUser',
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    proyecto: {
+                        type: Object,
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    nombre: {
+                        type:String,
+                        reflectToAttribute:true,
+                        notify: true
+                    },
                     token: {
                         type: String,
-                        observer:'onChangeToken'
+                        observer:'onChangeToken',
+                        reflectToAttribute:true,
+                        notify: true
                     },
                     id_organization: {
                         type: String,
-                        observer:'onChangeId'
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    id_project: {
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true,
+                        observer:'onChangeId',
                     }
 
                 };
             }
-            onChangeToken(){
-                this.$.getProject.headers['authorization']='Token '+this.token;
+            ready(){
+                super.ready();
+
+                if(!this.token && localStorage.getItem('token')!=null){
+                    this.token = localStorage.getItem('token');
+                    this.id_organization = localStorage.getItem('id_organization');
+                    this.user = JSON.parse(localStorage.getItem('user'));
+                    this.id_project = localStorage.getItem('id_project');
+
+                }
+
+                if(!this.user.id){
+                    this.user = JSON.parse(this.user);
+                }
             }
+
             onChangeId(){
-                this.$.getProject.headers['authorization']='Token '+this.token;
-                this.$.getProject.generateRequest();
+                if(this.id_project){
+                    if(!this.id_organization){
+                        this.id_organization = localStorage.getItem('id_organization');
+                    }
+                    this.$.getProject.url = "http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/"+this.id_project+"/";
+                    this.$.getProject.headers['authorization']='Token '+this.token;
+                    this.$.getProject.generateRequest();
+                }
+
             }
             _drawerSelected() {
                 if (!this.$.drawer.persistent) this.$.drawer.close();
             }
 
             handleResponse (data) {
-                if(!this.proyecto){
-                    this.proyecto = data.detail.response.results;
-                    if(this.proyecto[0]){
-                        this.nombre = this.proyecto[0].name;
-                        if(localStorage.getItem('id_project')){
-                            if(localStorage.getItem('id_project')!=this.proyecto[0].id){
-                                localStorage.setItem('id_project', this.proyecto[0].id)
-                            }
-                        }else{
+                this.proyecto = data.detail.response.results;
+                if(this.proyecto[0]){
+                    this.nombre = this.proyecto[0].name;
+                    if(localStorage.getItem('id_project')){
+                        if(localStorage.getItem('id_project')!=this.proyecto[0].id){
                             localStorage.setItem('id_project', this.proyecto[0].id)
                         }
-
+                    }else{
+                        localStorage.setItem('id_project', this.proyecto[0].id)
                     }
+
                 }
+
+            }
+            desconectar(){
+                this.$.logout.headers['authorization'] = 'Token '+this.token;
+                this.$.logout.generateRequest();
+                localStorage.clear();
+                /*this.$.auth.signOut()
+                        .then(function(response){
+                            location="#/landing";
+                        }
+
+                )
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+            */
+            }
+            onlogout(){
+                location='#/landing';
             }
 
 

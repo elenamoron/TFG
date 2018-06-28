@@ -5,9 +5,10 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../register-app/register-app.html">
+
 <link rel="import" href="../landing-app/landing-app.html">
 <link rel="import" href="../home-app/home-app.html">
+<link rel="import" href="../proyectos-app/ver-proyecto.html">
 <dom-module id="web-app">
   <template>
     <style>
@@ -88,7 +89,8 @@
             selected-attribute="visible"
     >
       <landing-app name="landing" token="{{token}}" id_organization="{{id_organization}}" user="{{user}}"></landing-app>
-      <home-app name="home" route="{{subroute}}" token="{{token}}" id_organization="{{id_organization}}" user="{{user}}">/home-app>
+      <home-app name="home" route="{{subroute}}" token="{{token}}" id_organization="{{id_organization}}" user="{{user}}" id_project="{{id_project}}"></home-app>
+      <ver-proyecto name="proyecto" route="{{subroute}}" token="{{token}}" id_organization="{{id_organization}}" id_project="{{id_project}}" user="{{user}}"></ver-proyecto>
 
 
     </iron-pages>

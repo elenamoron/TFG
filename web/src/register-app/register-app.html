@@ -202,12 +202,10 @@
                 this.errors = data.detail.request.xhr.response["non_field_errors"];
             }
             onSuccess(data){
-                if(!this.token){
-                    this.token = data.detail.response.key;
-                    localStorage.setItem('token',this.token);
-                    this.$.getOrganization.headers['authorization'] = 'Token '+this.token;
-                    this.$.getOrganization.generateRequest();
-                }
+                this.token = data.detail.response.key;
+                localStorage.setItem('token',this.token);
+                this.$.getOrganization.headers['authorization'] = 'Token '+this.token;
+                this.$.getOrganization.generateRequest();
             }
             newOrganization(data){
                 this.id_organization = data.detail.response.id
@@ -231,7 +229,7 @@
             }
             resultProfile(data){
                 this.user = data.detail.response.results[0];
-                localStorage.setItem('user',this.user);
+                localStorage.setItem('user',JSON.stringify(this.user));
                 location="#/home/mis-proyectos";
             }
             onResponseGetProfile(data){
@@ -247,7 +245,7 @@
                     this.$.postProfile.generateRequest();
                 } else {
                     this.user = data.detail.response.results[0];
-                    localStorage.setItem('user',this.user);
+                    localStorage.setItem('user',JSON.stringify(this.user));
                     location="#/home/mis-proyectos";
                 }
             }
