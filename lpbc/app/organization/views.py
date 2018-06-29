@@ -20,11 +20,7 @@ class OrganizationViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
 
-        data = {'name': request.data['name'], 'description': request.data['description'],
-                         'nif': request.data['nif'], 'address': request.data['address'],
-                         'created': request.data['created'], 'code': request.data['code']}
-
-        organization = OrganizationSerializer(data=data)
+        organization = OrganizationSerializer(data=request.data)
 
         if organization.is_valid():
             new_organization = organization.save()
@@ -55,6 +51,16 @@ class OrganizationMemberViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
 
         return Organization.objects.filter(id=self.kwargs['pk'])
+
+    def create(self, request, *args, **kwargs):
+        organization = Organization.objects.get(id=self.kwargs['pk'])
+        user = User.objects.filter(id=self.kwargs['uuid'])
+        organization.users.add(user)
+        organization.save()
+        return Response({'User asign to organization'}, status.HTTP_200_OK)
+
+    def delete(self):
+        pass
 
 
 class ProfileViewSet(viewsets.ModelViewSet):
@@ -108,11 +114,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         return Project.objects.filter(organization=self.kwargs['pk'],users=self.request.user)
 
     def create(self, request, *args, **kwargs):
-        data = {'name': request.data['name'], 'description': request.data['description'],
-                'fecha_creacion': request.data['fecha_creacion'], 'cliente': request.data['cliente'],
-                'logo': request.data['logo'], 'activo': request.data['activo']}
-
-        project = ProjectSerializer(data=data)
+        project = ProjectSerializer(data=request.data)
 
         if project.is_valid():
             new_project = project.save()
@@ -139,29 +141,6 @@ class ProjectsViewSet(viewsets.ModelViewSet):
             return Project.objects.filter(organization=self.kwargs['pk'])
         else:
             return Response({"Error no existe ninguna coincidencia con lo que solicita"}, status=status.HTTP_400_BAD_REQUEST)
-
-
-class ProjectActive(viewsets.ModelViewSet):
-    serializer_class = ProjectSerializer
-
-    def get_queryset(self):
-        return Project.objects.filter(activo=True)
-
-
-class ProjectArchive(viewsets.ModelViewSet):
-    serializer_class = ProjectSerializer
-
-    def get_queryset(self):
-        return Project.objects.filter(activo=False)
-
-
-class ProjectByName(viewsets.ModelViewSet):
-    serializer_class = ProjectSerializer
-
-    def get_queryset(self):
-
-        name = self.kwargs['name']
-        return Project.objects.filter(name=name)
 
 
 class ProjectDetailView(viewsets.ModelViewSet):

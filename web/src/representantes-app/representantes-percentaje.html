@@ -1,0 +1,235 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/progress-bubble/progress-bubble.html">
+
+<dom-module id="representantes-percentaje">
+    <template>
+        <style>
+            .content{
+                padding-left: 50px;
+                padding-right: 50px;
+                padding-top: 30px;
+                padding-bottom: 30px;
+            }
+            .capital{
+                --progress-bubble-stroke-color: var(--paper-light-blue-300);
+            }
+            .control{
+                --progress-bubble-stroke-color: var(--google-red-100);
+            }
+            .publica{
+                --progress-bubble-stroke-color: var(--paper-amber-500);
+            }
+            .sociedad{
+                --progress-bubble-stroke-color: var(--paper-red-300);
+            }
+            progress-bubble {
+
+                --progress-bubble-stroke-linecap: butt;
+                --progress-bubble-bg-stroke-color: rgba(193, 193, 193, 0.2);
+                --progress-bubble-background: transparent;
+                --progress-bubble-reflection-display: none;
+              }
+            paper-fab {
+                position: fixed;
+                right: 24px;
+                bottom: 24px;
+                --paper-fab-background: #ff4081;
+                --paper-fab-keyboard-focus-background: #DF4448;
+            }
+            paper-card{
+                margin-bottom: 10px;
+            }
+            @media only screen and (max-width: 600px) {
+                .content {
+                    padding-left: 30px;
+                    padding-right: 10px;
+                    padding-top: 30px;
+                    padding-bottom: 30px;
+                }
+                .column {
+                    float: left;
+                    width: 90%;
+                }
+            }
+        </style>
+        <iron-ajax
+            method="get"
+            id="getPersons"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/PhysicalPerson/"
+            handle-as="json"
+            content-type="application/json"
+            on-response="onTotal">
+
+        </iron-ajax>
+        <iron-ajax
+            method="get"
+            id="getPersonWithCapital"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/PhysicalPerson/capital"
+            handle-as="json"
+            content-type="application/json"
+            on-response="onCapital">
+
+        </iron-ajax>
+        <iron-ajax
+            id="getPersonWithControl"
+            method="get"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/PhysicalPerson/control"
+            handle-as="json"
+            content-type="application/json"
+            on-response="onControl">
+
+        </iron-ajax>
+        <iron-ajax
+            id="getPersonWithPublica"
+            method="get"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/PhysicalPerson/publica"
+            handle-as="json"
+            content-type="application/json"
+            on-response="onPublica">
+
+        </iron-ajax>
+        <iron-ajax
+            id="getPersonWithSociedad"
+            method="get"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/PhysicalPerson/sociedad"
+            handle-as="json"
+            content-type="application/json"
+            on-response="onSociedad">
+
+        </iron-ajax>
+        <div class="content ">
+
+            <paper-card class="white" >
+                <progress-bubble class="capital" value="{{capital}}" max="{{total}}" stroke-width="10">
+
+                </progress-bubble>
+
+                <div class="card-actions">
+                <strong>[[calculatePercentaje(capital,total)]]%</strong>    Socios con 25% de capital
+                </div>
+            </paper-card>
+
+            <paper-card class="white" >
+                <progress-bubble class="control" value="{{control}}" max="{{total}}" stroke-width="10">
+
+                </progress-bubble>
+                <div class="card-actions">
+                <strong>[[calculatePercentaje(control,total)]]%</strong>    Socios con 25% de control
+                </div>
+            </paper-card>
+
+            <paper-card class="white" >
+                <progress-bubble class="publica" value="{{publica}}" max="{{total}}" stroke-width="10">
+
+                </progress-bubble>
+                <div class="card-actions">
+                  <strong>[[calculatePercentaje(publica,total)]]%</strong>  Socios con Responsabilidad pública
+                </div>
+            </paper-card>
+
+            <paper-card class="white" >
+                <progress-bubble class="sociedad" value="{{sociedad}}" max="{{total}}" stroke-width="10">
+
+                </progress-bubble>
+                <div class="card-actions">
+                   <strong>[[calculatePercentaje(sociedad,total)]]%</strong> Socios que controlan la sociedad
+                </div>
+            </paper-card>
+        </div>
+    </template>
+
+    <script>
+        /**
+         * @customElement
+         * @polymer
+         */
+        class RepresentantesPercentajeApp extends Polymer.Element {
+            static get is() { return 'representantes-percentaje'; }
+            static get properties() {
+                return {
+                    prop1: {
+                        type: String,
+                        value: 'representantes-percentaje'
+                    },
+                    physicalPerson: Object,
+                    physicalPersons: Object,
+                    token: {
+                        type: String,
+                        observer:'onChangeToken',
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    id_project:{
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true,
+                        observer:'onChangeIdProject'
+                    }
+
+                };
+            }
+            ready(){
+                super.ready();
+                if(!this.token && localStorage.getItem('token')!=null){
+                    this.token = localStorage.getItem('token');
+                    this.id_organization = localStorage.getItem('id_organization');
+                    this.user = localStorage.getItem('user');
+                    this.id_project = localStorage.getItem('id_project');
+                    this.capital = localStorage.getItem('capital');
+                    this.control = localStorage.getItem('control');
+                    this.sociedad = localStorage.getItem('sociedad');
+                    this.publica = localStorage.getItem('publica');
+                    this.total = localStorage.getItem('total');
+
+                }
+            }
+            onCapital(data){
+                this.capital = data.detail.response.count;
+                localStorage.setItem('capital',this.capital);
+            }
+            onPublica(data){
+                this.publica = data.detail.response.count
+                localStorage.setItem('publica',this.publica);
+            }
+            onSociedad(data){
+                this.sociedad = data.detail.response.count;
+                localStorage.setItem('sociedad',this.sociedad);
+            }
+            onControl(data){
+                this.control = data.detail.response.count;
+                localStorage.setItem('control',this.control);
+            }
+            onTotal(data){
+                this.total = data.detail.response.count;
+                localStorage.setItem('total',this.total);
+            }
+            onChangeIdProject(){
+                if(this.id_project){
+                    this.$.getPersons.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/PhysicalPerson/";
+                    this.$.getPersons.headers['authorization']='Token '+this.token;
+                    this.$.getPersons.generateRequest();
+                    this.$.getPersonWithCapital.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/PhysicalPerson/capital";
+                    this.$.getPersonWithCapital.headers['authorization']='Token '+this.token;
+                    this.$.getPersonWithCapital.generateRequest();
+                    this.$.getPersonWithControl.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/PhysicalPerson/control";
+                    this.$.getPersonWithControl.headers['authorization']='Token '+this.token;
+                    this.$.getPersonWithControl.generateRequest();
+                    this.$.getPersonWithPublica.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/PhysicalPerson/publica";
+                    this.$.getPersonWithPublica.headers['authorization']='Token '+this.token;
+                    this.$.getPersonWithPublica.generateRequest();
+                    this.$.getPersonWithSociedad.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/PhysicalPerson/sociedad";
+                    this.$.getPersonWithSociedad.headers['authorization']='Token '+this.token;
+                    this.$.getPersonWithSociedad.generateRequest();
+                }
+
+            }
+            calculatePercentaje(num,total){
+                return num/total*100;
+            }
+
+        }
+
+        window.customElements.define(RepresentantesPercentajeApp.is, RepresentantesPercentajeApp);
+    </script>
+</dom-module>

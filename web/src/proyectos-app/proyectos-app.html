@@ -150,7 +150,7 @@
             </template>
 
             <template is="dom-if" if="{{!renderedCount}}">
-                <paper-card heading="Todavía no hay proyectos archivados" class="cyan">
+                <paper-card heading="Todavía no hay proyectos" class="cyan">
 
                 </paper-card>
             </template>
@@ -220,14 +220,24 @@
                 if(!this.token && localStorage.getItem('token')!=null){
                     this.token = localStorage.getItem('token');
                     this.id_organization = localStorage.getItem('id_organization');
+                    this.id_project = localStorage.getItem('id_project');
 
+                }
+                if(!this.id_organization){
+                    this.id_organization = localStorage.getItem('id_organization');
+                    this.$.getProject.headers['authorization']='Token '+this.token;
+                    this.$.getProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/active";
+                    this.$.getProject.generateRequest();
                 }
             }
             onChangeId(){
-                this.id_organization=this.id_organization;
-                this.$.getProject.headers['authorization']='Token '+this.token;
-                this.$.getProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/active";
-                this.$.getProject.generateRequest();
+                if(this.id_organization){
+                    this.id_organization=this.id_organization;
+                    this.$.getProject.headers['authorization']='Token '+this.token;
+                    this.$.getProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/active";
+                    this.$.getProject.generateRequest();
+                }
+
             }
             openDialog() {
                 this.$.animated.open();
@@ -236,6 +246,9 @@
                 this.set('proyectos',data.detail.response.results);
             }
             add(){
+                if(!this.id_organization){
+                    this.id_organization = localStorage.getItem('id_organization');
+                }
                 var d = new Date();
                 var dd = d.getDate();
                 var mm = d.getMonth()+1; //January is 0!
@@ -250,7 +263,7 @@
                 const item = JSON.parse(event.target.dataset.item);
                 this.id_project = item.id;
                 localStorage.setItem('id_project',this.id_project);
-                this.$.putProject.url="http://0.0.0.0:8000/api/v1/organization/project/"+item.id+"/";
+                this.$.putProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/"+this.id_project+"/";
                 this.$.putProject.headers['authorization']='Token '+this.token;
                 this.$.putProject.body={"activo":false};
                 this.$.putProject.generateRequest();

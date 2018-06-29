@@ -12,6 +12,23 @@
             .cyan{
                 background-color: cyan;
             }
+            paper-card {
+                width: 700px;
+                margin-left: 30px;
+                margin-bottom: 30px;
+            }
+            .ver {
+                text-decoration: none;
+                float:left;
+
+            }
+            paper-fab {
+                margin-bottom: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
+                --paper-fab-background: #ff4081;
+                --paper-fab-keyboard-focus-background: #DF4448;
+            }
         </style>
         <app-location route="{{route}}" use-hash-as-path></app-location>
         <app-route
@@ -41,8 +58,8 @@
                         <div>{{item.description}}</div>
                     </div>
                     <div class="card-actions">
-                        <a href="#/proyecto/{{item.name}}/resumen" name="ver">
-                            <paper-button  class="custom black" name="ver" dialog-confirm autofocus> Ver</paper-button>
+                        <a href="#/proyecto/{{item.name}}/resumen" class="ver">
+                            <paper-fab icon="visibility" raised title="ver" data-item$="[[item]]" on-tap="saveProject"></paper-fab>
                         </a>
                     </div>
                     <div class="rate-image" style="background: url('../../media/{{item.logo }}')"></div>

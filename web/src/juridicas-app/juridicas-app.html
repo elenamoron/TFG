@@ -62,10 +62,10 @@
                 }
             }
         </style>
-        <!--iron-ajax
+        <iron-ajax
             id="getLegalPerson"
             method="get"
-            url="http://0.0.0.0:8000/api/v1/client/LegalPerson/{{id_project}}/"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/LegalPerson/"
             handle-as="json"
             content-type="application/json"
             on-response="handleResponse">
@@ -74,7 +74,7 @@
         <iron-ajax
             id="addLegalPerson"
             method="post"
-            url="http://0.0.0.0:8000/api/v1/client/LegalPerson/"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/LegalPerson/"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>
@@ -88,7 +88,7 @@
             content-type="application/json"
             on-response={{putResponse}}>
 
-        </iron-ajax-->
+        </iron-ajax>
         <iron-ajax
             id="uploadfile"
             method="post"
@@ -202,12 +202,22 @@
                     this.token = localStorage.getItem('token');
                     this.id_organization = localStorage.getItem('id_organization');
                     this.user = localStorage.getItem('user');
+                    this.id_project = localStorage.getItem('id_project');
 
                 }
+
+                if(!this.legalPerson && this.id_project){
+                    this.$.getLegalPerson.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/LegalPerson/";
+                    this.$.getLegalPerson.headers['authorization']='Token '+this.token;
+                    this.$.getLegalPerson.generateRequest();
+                }
             }
-            onChangeToken(){
-               // this.$.getLegalPerson.headers['authorization']='Token '+this.token;
-               // this.$.getLegalPerson.generateRequest();
+            onChangeIdProject(){
+                if(this.id_project){
+                    this.$.getLegalPerson.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/LegalPerson/";
+                    this.$.getLegalPerson.headers['authorization']='Token '+this.token;
+                    this.$.getLegalPerson.generateRequest();
+                }
             }
 
             handleResponse (data) {
@@ -219,12 +229,16 @@
 
             }
             add(){
-                this.legalPerson.project=this.id_project;
+                //this.legalPerson.project=this.id_project;
                 if(!this.haslegalPerson){
+                    this.$.addLegalPerson.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/LegalPerson/";
+                    this.$.addLegalPerson.headers['authorization']='Token '+this.token;
                     this.$.addLegalPerson.body=Object.assign({}, this.legalPerson);
                     this.$.addLegalPerson.generateRequest();
                     this.haslegalPerson = true;
                 }else{
+                    this.$.putLegalPerson.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/LegalPerson/";
+                    this.$.putLegalPerson.headers['authorization']='Token '+this.token;
                     this.$.putLegalPerson.body=this.legalPerson;
                     this.$.putLegalPerson.generateRequest();
                 }

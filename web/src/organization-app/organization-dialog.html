@@ -68,6 +68,7 @@
             }
             paper-button {
                 margin-left: 50px;
+                margin-bottom:10px;
             }
             a {
                 text-decoration: none;
@@ -85,14 +86,30 @@
                 content-type="application/json"
                 on-response="handleResponse"
                 ></iron-ajax>
+        <iron-ajax
+                method="put"
+                id="putOrganization"
+                url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}"
+                handle-as="json"
+                content-type="application/json"
+                on-response="onUpdate"
+                ></iron-ajax>
             <paper-dialog id="animated">
-                <h2>Nueva Organización</h2>
-                <paper-input type="text" name="name" placeholder="nombre " value="{{nombre}}" required></paper-input>
-                <paper-input type="text" name="descripcion" placeholder="descripcion" value="{{descripcion}}" required></paper-input>
-                <paper-input type="text" name="code" placeholder="código" value="{{code}}" required></paper-input>
-                <paper-input type="text" name="address" placeholder="dirección" value="{{address}}" required></paper-input>
-                <paper-input type="text" name="nif" placeholder="nif" value="{{nif}}" required></paper-input>
-                <paper-button on-click="add" class="custom black" name="add" dialog-confirm autofocus>Crear</paper-button>
+                <template is="dom-if" if="{{!organization}}">
+                    <h2>Nueva Organización</h2>
+                </template>
+                <paper-input type="text" name="name" placeholder="nombre " value="{{organization.name}}" required></paper-input>
+                <paper-input type="text" name="descripcion" placeholder="descripcion" value="{{organization.description}}" required></paper-input>
+                <paper-input type="text" name="code" placeholder="código" value="{{organization.code}}" required></paper-input>
+                <paper-input type="text" name="address" placeholder="dirección" value="{{organization.address}}" required></paper-input>
+                <paper-input type="text" name="nif" placeholder="nif" value="{{organization.nif}}" required></paper-input>
+                <template is="dom-if" if="{{!organization}}">
+                    <paper-button on-click="add" class="custom black" name="add" dialog-confirm autofocus>Crear</paper-button>
+                </template>
+                <template is="dom-if" if="{{organization}}">
+                    <paper-fab icon="create" title="actualizar" on-tap="update"></paper-fab>
+                </template>
+
             </paper-dialog>
 
     </template>
@@ -108,6 +125,16 @@
                     prop1: {
                         type: String,
                         value: 'organization-dialog'
+                    },
+                    organization:{
+                        type:Object,
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    token:{
+                        type:Object,
+                        reflectToAttribute:true,
+                        notify: true
                     }
 
                 };
@@ -123,8 +150,14 @@
                 var mm = d.getMonth()+1; //January is 0!
                 var yyyy = d.getFullYear();
                 this.$.addOrganization.headers['authorization'] = 'Token '+this.token;
-                this.$.addOrganization.body={"name":this.nombre,"description":this.descripcion, "created":yyyy+'-'+mm+'-'+dd, "code":this.code, "address":this.address, "nif":this.nif};
+                this.$.addOrganization.body=this.organization;
                 this.$.addOrganization.generateRequest();
+            }
+            update(){
+                this.$.putOrganization.headers['authorization'] = 'Token '+this.token;
+                this.$.putOrganization.url="http://0.0.0.0:8000/api/v1/organization/"+this.organization.id;
+                this.$.putOrganization.body=this.organization;
+                this.$.putOrganization.generateRequest();
             }
 
 

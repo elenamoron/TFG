@@ -97,6 +97,14 @@
                    content-type="application/json"
                    method="GET"
         ></iron-ajax>
+        <iron-ajax
+                   id="deleteProject"
+                   url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}/project/{{id_project}}"
+                   handle-as="json"
+                   on-response="onDelete"
+                   content-type="application/json"
+                   method="DELETE"
+        ></iron-ajax>
         <app-header-layout>
             <template is="dom-repeat" items="[[proyectos]]" rendered-item-count="{{renderedCount}}">
                 <paper-card class="rate">
@@ -107,9 +115,9 @@
                     </div>
                     <div class="card-actions">
                         <a href="#/proyecto/{{item.name}}/resumen" class="ver">
-                            <paper-fab icon="visibility" raised ></paper-fab>
+                            <paper-fab icon="visibility" title="ver" raised ></paper-fab>
                         </a>
-                        <paper-fab icon="delete" raised on-tap="openDialog"></paper-fab>
+                        <paper-fab icon="delete" title="borrar" raised data-item$="[[item]]" on-tap="delete"></paper-fab>
                     </div>
                     <div class="rate-image" style="background: url('../../media/{{item.logo }}')"></div>
                 </paper-card>
@@ -162,7 +170,6 @@
                     },
                     id_project: {
                         type: String,
-                        observer:'onChangeIdProject',
                         reflectToAttribute:true,
                         notify: true
                     }
@@ -174,6 +181,7 @@
                 if(!this.token && localStorage.getItem('token')!=null){
                     this.token = localStorage.getItem('token');
                     this.id_organization = localStorage.getItem('id_organization');
+                    this.id_project = localStorage.getItem('id_project');
 
                 }
             }
@@ -185,6 +193,18 @@
             }
             handleResponse (data) {
                 this.set('proyectos',data.detail.response.results);
+            }
+            delete(event){
+                const item = JSON.parse(event.target.dataset.item);
+                this.id_project = item.id;
+                this.$.deleteProject.headers['authorization']='Token '+this.token;
+                this.$.deleteProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/"+this.id_project+"/";
+                this.$.deleteProject.generateRequest();
+            }
+            onDelete(){
+                this.$.getProject.headers['authorization']='Token '+this.token;
+                this.$.getProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/all";
+                this.$.getProject.generateRequest();
             }
 
         }

@@ -5,7 +5,7 @@
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/s-circle-progress/s-circle-progress.html">
 <link rel="import" href="../representantes-app/representantes-publica.html">
-<link rel="import" href="../representantes-app/representantes-25capital.html">
+<link rel="import" href="../representantes-app/representantes-percentaje.html">
 <dom-module id="resumen-app">
     <template>
         <style>
@@ -65,7 +65,7 @@
 
             </template>
             <br>
-            <representantes-25capital></representantes-25capital>
+            <representantes-percentaje id_project="{{id_project}}" token="{{token}}"></representantes-percentaje>
 
         </app-header-layout>
     </template>
@@ -106,6 +106,11 @@
                         type: String,
                         reflectToAttribute:true,
                         notify: true
+                    },
+                    id_project:{
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true
                     }
 
                 };
@@ -116,6 +121,7 @@
                     this.token = localStorage.getItem('token');
                     this.id_organization = localStorage.getItem('id_organization');
                     this.user = localStorage.getItem('user');
+                    this.id_project = localStorage.getItem('id_project');
 
                 }
             }

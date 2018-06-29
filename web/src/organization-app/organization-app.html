@@ -3,8 +3,7 @@
 <link rel="import" href="../../bower_components/iron-form/iron-form.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
-<!--link rel="import" href="../../bower_components/app-layout/app-header-layout"-->
-<!--link rel="import" href="../../bower_components/app-layout/app-header"-->
+
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
@@ -51,10 +50,15 @@
                 margin-left: 30px;
                 margin-bottom: 30px;
             }
-            paper-fab {
+            .add{
                 position: fixed;
                 right: 24px;
                 bottom: 24px;
+            }
+            paper-fab {
+                margin-bottom: 10px;
+                margin-left: 10px;
+                margin-right: 10px;
                 --paper-fab-background: #ff4081;
                 --paper-fab-keyboard-focus-background: #DF4448;
             }
@@ -92,8 +96,9 @@
             paper-button {
                 margin-left: 50px;
             }
-            a {
+            .ver {
                 text-decoration: none;
+                float:left;
 
             }
         </style>
@@ -105,16 +110,14 @@
                 content-type="application/json"
                 on-response="handleResponse"
                 ></iron-ajax>
-        <app-location route="{{route}}" use-hash-as-path></app-location>
-        <app-route
-                route="{{route}}"
-                pattern="/:page"
-                data="{{_pageData}}"
-                tail="{{_subRoute}}"></app-route>
-        <app-route
-                route="{{_subRoute}}"
-                pattern="/:id"
-                data="{{_idData}}"></app-route>
+        <iron-ajax
+                method="delete"
+                id="deleteOrganization"
+                url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}"
+                handle-as="json"
+                content-type="application/json"
+                on-response="onDelete"
+                ></iron-ajax>
 
         <app-header-layout>
             <template id="organizationList" is="dom-repeat" items="{{organizaciones}}" mutable-data>
@@ -123,12 +126,17 @@
                         <div class="rate-header">{{item.name}}</div>
                         <div class="rate-name">{{item.code}}</div>
                         <div>{{item.description}}</div>
+                        <div>Miembros:
+                            <template  is="dom-repeat" items="{{item.users}}" mutable-data>
+                                {{item.username}}
+                            </template>
+                        </div>
                     </div>
                     <div class="card-actions">
-                        <a href="#/proyecto/{{item.name}}/resumen" name="ver">
-                            <paper-button  class="custom black" name="ver" dialog-confirm autofocus> Ver</paper-button>
-                        </a>
-                        <paper-button on-click="archivar" data-item$="[[item]]" class="custom black" name="archivar" dialog-confirm autofocus>Archivar</paper-button>
+
+                        <paper-fab class="ver" icon="visibility" title="ver" data-item$="[[item]]" raised on-tap="openDialog"></paper-fab>
+
+                        <paper-fab icon="delete" title="borrar" raised data-item$="[[item]]" on-tap="delete"></paper-fab>
                     </div>
                     <div class="rate-image" style="background: url('../../media/{{item.logo }}')"></div>
                 </paper-card>
@@ -138,10 +146,11 @@
 
             <br>
 
-            <paper-fab icon="add" raised on-tap="openDialog"></paper-fab>
-            <organization-dialog id="myDialog">
+            <paper-fab class="add" icon="add" raised on-tap="openDialog"></paper-fab>
+            <organization-dialog id="myDialog" organization="{{organization}}" token="{{token}}">
 
             </organization-dialog>
+
         </app-header-layout>
     </template>
     <script>
@@ -164,7 +173,14 @@
                     header: Object,
                     token: {
                         type: String,
-                        observer:'onChangeToken'
+                        observer:'onChangeToken',
+                        reflectToAttribute:true,
+                        notify: true,
+                    },
+                    organization: {
+                        type: Object,
+                        reflectToAttribute:true,
+                        notify: true,
                     }
 
                 };
@@ -175,7 +191,12 @@
                 this.$.getOrganizations.generateRequest();
             }
 
-            openDialog() {
+            openDialog(event) {
+                if(event.target.dataset.item){
+                    this.organization=JSON.parse(event.target.dataset.item);
+                }else{
+                    this.organization=null;
+                }
                 var dialog = this.shadowRoot.querySelector('#myDialog');
                 var popUp = dialog.shadowRoot.querySelector('paper-dialog');
                 popUp.toggle();
@@ -185,15 +206,15 @@
                 this.notifyPath('organizaciones');
                 //  this.$.organizationList.render();
             }
-            add(){
-                var d = new Date();
-                var dd = d.getDate();
-                var mm = d.getMonth()+1; //January is 0!
-                var yyyy = d.getFullYear();
-                this.$.addProject.body={"name":this.nombre,"description":this.descripcion, "fecha_creacion":yyyy+'-'+mm+'-'+dd};
-                this.$.addProject.generateRequest();
-                this.$.getProject.generateRequest();
+
+            delete(event){
+                this.organization=JSON.parse(event.target.dataset.item);
+                this.$.deleteOrganization.headers['authorization']='Token '+this.token;
+                this.$.deleteOrganization.url = "http://0.0.0.0:8000/api/v1/organization/"+this.organization.id;
+                this.$.deleteOrganization.generateRequest();
+                this.$.getOrganizations.generateRequest();
             }
+
 
 
 

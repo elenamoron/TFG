@@ -15,7 +15,7 @@
 <link rel="import" href="../resumen-app/resumen-app.html">
 <link rel="import" href="../juridicas-app/juridicas-app.html">
 <link rel="import" href="../representantes-app/representantes-app.html">
-<link rel="import" href="../representantes-app/representantes-25capital.html">
+<link rel="import" href="../representantes-app/representantes-percentaje.html">
 <link rel="import" href="../representantes-app/representantes-publica.html">
 <link rel="import" href="../representantes-app/representantes-sociedad.html">
 <link rel="import" href="../representantes-app/representantes-25control.html">
@@ -89,6 +89,9 @@
             .pink {
                 background-color: var(--paper-pink-400);
             }
+            paper-fab{
+                float:right;
+            }
         </style>
         <firebase-auth id="auth" user="{{user}}" provider="google" >
         </firebase-auth>
@@ -135,7 +138,7 @@
 
                     <app-header fixed>
                         <paper-avatar label="[[user.nombre]]" src="[[user.photoURL]]"></paper-avatar>
-
+                        <paper-fab icon="arrow-back" raised on-tap="volver"></paper-fab>
                         <div class="contact-info">
                             <div class="name">[[user.nombre]]</div>
                             <div class="email">[[user.mail]]</div>
@@ -276,10 +279,12 @@
                     this.id_project = localStorage.getItem('id_project');
 
                 }
-
-                if(!this.user.id){
-                    this.user = JSON.parse(this.user);
+                if(this.user){
+                    if(!this.user.id){
+                        this.user = JSON.parse(this.user);
+                    }
                 }
+
             }
 
             onChangeId(){
@@ -329,6 +334,9 @@
             }
             onlogout(){
                 location='#/landing';
+            }
+            volver(){
+                location='#/home/mis-proyectos';
             }
 
 
