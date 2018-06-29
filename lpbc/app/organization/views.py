@@ -54,10 +54,10 @@ class OrganizationMemberViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         organization = Organization.objects.get(id=self.kwargs['pk'])
-        user = User.objects.filter(id=self.kwargs['uuid'])
+        user = User.objects.get(id=self.kwargs['uuid'])
         organization.users.add(user)
         organization.save()
-        return Response({'User asign to organization'}, status.HTTP_200_OK)
+        return Response({'User assign to organization'}, status.HTTP_200_OK)
 
     def delete(self):
         pass
