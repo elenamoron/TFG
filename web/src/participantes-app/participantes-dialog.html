@@ -9,7 +9,7 @@
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="../../bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
@@ -77,15 +77,18 @@
             paper-dialog{
                 width: 500px;
             }
+            iron-icon{
+                margin-right: 5px;
+            }
         </style>
-            <iron-dropdown id="userDialog" horizontal-align="right" vertical-align="top">
-              <paper-listbox slot="dropdown-content" selected="1">
-                <paper-item>allosaurus</paper-item>
-                <paper-item>brontosaurus</paper-item>
-                <paper-item>carcharodontosaurus</paper-item>
-                <paper-item>diplodocus</paper-item>
-              </paper-listbox>
-            </iron-dropdown>
+        <paper-dialog id="animated">
+            <template  is="dom-repeat" items="{{users}}" mutable-data>
+            <paper-icon-item>
+                <iron-icon icon="account-circle"></iron-icon>
+                    [[item.username]]
+            </paper-icon-item>
+            </template>
+        </paper-dialog>
     </template>
     <script>
         /**
@@ -99,6 +102,11 @@
                     prop1: {
                         type: String,
                         value: 'participantes-dialog'
+                    },
+                    users: {
+                        type: Object,
+                        reflectToAttribute:true,
+                        notify: true,
                     }
 
                 };

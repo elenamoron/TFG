@@ -93,6 +93,23 @@
                 float:left;
 
             }
+            .cortar{
+                width:200px;
+                height:20px;
+                padding:20px;
+                border:1px solid blue;
+                text-overflow:ellipsis;
+                white-space:nowrap;
+                overflow:hidden;
+                float:left;
+                margin-right: 10px;
+            }
+            .cortar:hover {
+                width: auto;
+                white-space: initial;
+                overflow:visible;
+                cursor: pointer;
+            }
         </style>
         <app-location route="{{route}}" use-hash-as-path></app-location>
         <app-route
@@ -137,6 +154,12 @@
                         <div class="rate-header">{{item.name}}</div>
                         <div class="rate-name">{{item.cliente}}</div>
                         <div>{{item.description}}</div>
+                        <div class="cortar">Miembros:
+                            <template  is="dom-repeat" items="{{item.users}}" mutable-data>
+                                {{item.username}}
+                            </template>
+                        </div>
+                        <paper-fab  icon="account-circle" data-item$="[[item.users]]" raised on-tap="addMember"></paper-fab>
                     </div>
                     <div class="card-actions">
                         <a href="#/proyecto/{{item.name}}/resumen" class="ver">

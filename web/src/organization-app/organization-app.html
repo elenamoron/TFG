@@ -15,6 +15,7 @@
 
 <link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
 <link rel="import" href="../organization-app/organization-dialog.html">
+<link rel="import" href="../participantes-app/participantes-dialog.html">
 <dom-module id="organization-app">
     <template>
         <style>
@@ -109,6 +110,8 @@
                 text-overflow:ellipsis;
                 white-space:nowrap;
                 overflow:hidden;
+                float:left;
+                margin-right: 10px;
             }
             .cortar:hover {
                 width: auto;
@@ -146,6 +149,7 @@
                                 {{item.username}}
                             </template>
                         </div>
+                        <paper-fab  icon="account-circle" data-item$="[[item.users]]" raised on-tap="addMember"></paper-fab>
                     </div>
                     <div class="card-actions">
 
@@ -165,6 +169,9 @@
             <organization-dialog id="myDialog" organization="{{organization}}" token="{{token}}">
 
             </organization-dialog>
+            <participantes-dialog id="participantes" users="{{users}}">
+
+            </participantes-dialog>
 
         </app-header-layout>
     </template>
@@ -193,6 +200,11 @@
                         notify: true,
                     },
                     organization: {
+                        type: Object,
+                        reflectToAttribute:true,
+                        notify: true,
+                    },
+                    users: {
                         type: Object,
                         reflectToAttribute:true,
                         notify: true,
@@ -229,13 +241,12 @@
                 this.$.deleteOrganization.generateRequest();
                 this.$.getOrganizations.generateRequest();
             }
-
-
-
-
-
-
-
+            addMember(event){
+                this.users=JSON.parse(event.target.dataset.item);
+                var dialog = this.shadowRoot.querySelector('#participantes');
+                var popUp = dialog.shadowRoot.querySelector('paper-dialog');
+                popUp.toggle();
+            }
 
         }
         window.customElements.define(OrganizationApp.is, OrganizationApp);
