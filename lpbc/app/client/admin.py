@@ -12,13 +12,6 @@ class LegalPersonAdmin(admin.ModelAdmin):
 admin.site.register(LegalPerson, LegalPersonAdmin)
 
 
-class PhysicalPersonAdmin(admin.ModelAdmin):
-    list_display = ('nombre_completo', 'documento_identificativo', 'fecha_caducidad', 'nacionalidad',
-                    'pais_nacionalidad', 'lugar_nacimiento', 'pais_residencia', 'domicilio', 'telefono', 'email')
-
-admin.site.register(PhysicalPerson, PhysicalPersonAdmin)
-
-
 class RelationshipAdmin(admin.ModelAdmin):
     list_display = ('relationship',)
 

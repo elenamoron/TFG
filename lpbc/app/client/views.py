@@ -271,13 +271,13 @@ class PhysicalPersonTypeViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.kwargs['scope'] == 'capital':
-            return PhysicalPerson.objects.filter(project=self.kwargs['pk2'], capital=True)
+            return PhysicalPerson.objects.filter(project=self.kwargs['pk2'], hasCapital=True)
         elif self.kwargs['scope'] == 'control':
-            return PhysicalPerson.objects.filter(project=self.kwargs['pk2'], control=True)
+            return PhysicalPerson.objects.filter(project=self.kwargs['pk2'], hasControl=True)
         elif self.kwargs['scope'] == 'publica':
-            return PhysicalPerson.objects.filter(project=self.kwargs['pk2'], responsabilidad_publica=True)
+            return PhysicalPerson.objects.filter(project=self.kwargs['pk2'], hasPublicResponsability=True)
         elif self.kwargs['scope'] == 'sociedad':
-            return PhysicalPerson.objects.filter(project=self.kwargs['pk2'], controla_sociedad=True)
+            return PhysicalPerson.objects.filter(project=self.kwargs['pk2'], hasSocietyControl=True)
         else:
             return Response({"Error no existe ninguna coincidencia con lo que solicita"}, status=status.HTTP_400_BAD_REQUEST)
 

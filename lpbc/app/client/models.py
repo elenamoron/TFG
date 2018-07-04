@@ -24,22 +24,27 @@ class LegalPerson(models.Model):
 
 class PhysicalPerson(models.Model):
     project = models.ForeignKey(Project, null=True, on_delete=models.CASCADE)
-    nombre_completo = models.CharField(max_length=255, blank=True)
-    documento_identificativo = models.CharField(max_length=255, blank=True)
-    fecha_caducidad = models.DateField(blank=True, null=True)
-    nacionalidad = models.CharField(max_length=255, blank=True)
-    pais_nacionalidad = models.CharField(max_length=255, blank=True)
-    lugar_nacimiento = models.CharField(max_length=255, blank=True)
-    pais_residencia = models.CharField(max_length=255, blank=True)
-    domicilio = models.CharField(max_length=255, blank=True)
-    telefono = models.CharField(max_length=20, blank=True)
+    name = models.CharField(max_length=255, blank=True)
+    identificationDocument = models.CharField(max_length=255, blank=True)
+    deliveryDate = models.DateField(blank=True, null=True)
+    nacionality = models.CharField(max_length=255, blank=True)
+    nacionalityCountry = models.CharField(max_length=255, blank=True)
+    birthplace = models.CharField(max_length=255, blank=True)
+    country = models.CharField(max_length=255, blank=True)
+    address = models.CharField(max_length=255, blank=True)
+    phone = models.CharField(max_length=20, blank=True)
     email = models.CharField(max_length=255, blank=True)
-    capital = models.BooleanField(default=False)
-    responsabilidad_publica = models.BooleanField(default=False)
-    controla_sociedad = models.BooleanField(default=False)
-    control = models.BooleanField(default=False)
-    relacion_negocios = models.BooleanField(default=False)
-
+    hasCapital = models.BooleanField(default=False)
+    hasPublicResponsability = models.BooleanField(default=False)
+    hasSocietyControl = models.BooleanField(default=False)
+    hasControl = models.BooleanField(default=False)
+    hasBussinesRelation = models.BooleanField(default=False)
+    isPublicResponsabilityOtherCountry = models.BooleanField(default=False)
+    publicResponsabilityCountries = models.CharField(max_length=255, blank=True, null=True)
+    relationPublicResponsability = models.CharField(max_length=255, blank=True, null=True)
+    typeSocietyControl = models.CharField(max_length=255, blank=True, null=True)
+    typeControl = models.CharField(max_length=255, blank=True, null=True)
+    typeBussinesRelation = models.CharField(max_length=255, blank=True, null=True)
 
 class Relationship(models.Model):
     relationship = models.CharField(max_length=255, blank=True)
@@ -49,7 +54,6 @@ class Document(models.Model):
     content_type = models.CharField(max_length=255, blank=True)
     length = models.CharField(max_length=255, blank=True)
     file = models.FileField(blank=True, null=True)
-
 
 
 class RelationshipLegalPhysical(models.Model):

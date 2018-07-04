@@ -14,6 +14,7 @@
 <link rel="import" href="../representantes-app/representantes-publica.html">
 <link rel="import" href="../representantes-app/representantes-sociedad.html">
 <link rel="import" href="../representantes-app/representantes-25control.html">
+<link rel="import" href="../representantes-app/representantes-relacion.html">
 <dom-module id="representantes-app">
     <template>
         <style>
@@ -96,58 +97,61 @@
         <div class="content ">
             <template is="dom-if" if="{{physicalPersons}}" restamp>
                 <template is="dom-repeat" id="selectPerson" items="{{physicalPersons}}">
-                    <paper-collapse-item icon="icons:face" header="{{item.nombre_completo}}">
+                    <paper-collapse-item icon="icons:face" header="{{item.name}}">
                         <form>
                             <div class="row">
 
-                                <paper-input value="{{item.nombre_completo}}" placeholder="Nombre y apellidos"></paper-input>
+                                <paper-input value="{{item.name}}" placeholder="Nombre y apellidos"></paper-input>
                                 <p>Tipo de Documento </p>
-                                <paper-radio-group value="{{item.documento_identificativo}}" selected="{{physicalPerson.documento_identificativo}}" allow-empty-selection>
+                                <paper-radio-group value="{{item.identificationDocument}}" selected="{{physicalPerson.documento_identificativo}}" allow-empty-selection>
                                     <paper-radio-button name="nif" >NIF</paper-radio-button>
                                     <paper-radio-button name="pasaporte" >Pasaporte</paper-radio-button>
                                     <paper-radio-button name="t-residencia" >Tarjeta de residencia</paper-radio-button>
                                 </paper-radio-group>
-                                <vaadin-date-picker label="Fecha de caducidad" value="{{item.fecha_caducidad}}"></vaadin-date-picker>
-                                <paper-input value="{{item.lugar_nacimiento}}" placeholder="Lugar de nacimiento"></paper-input>
-                                <paper-input value="{{item.nacionalidad}}" placeholder="Nacionalidad"></paper-input>
-                                <paper-input value="{{item.pais_nacionalidad}}" placeholder="Pais nacionalidad"></paper-input>
-                                <paper-input value="{{item.pais_residencia}}" placeholder="Pais de residencia"></paper-input>
-                                <paper-input value="{{item.domicilio}}" placeholder="Domicilio"></paper-input>
-                                <paper-input value="{{item.telefono}}" placeholder="Tlf"></paper-input>
+                                <vaadin-date-picker label="Fecha de caducidad" value="{{item.deliveryDate}}"></vaadin-date-picker>
+                                <paper-input value="{{item.birthplace}}" placeholder="Lugar de nacimiento"></paper-input>
+                                <paper-input value="{{item.nacionality}}" placeholder="Nacionalidad"></paper-input>
+                                <paper-input value="{{item.nacionalityCountry}}" placeholder="Pais nacionalidad"></paper-input>
+                                <paper-input value="{{item.country}}" placeholder="Pais de residencia"></paper-input>
+                                <paper-input value="{{item.address}}" placeholder="Domicilio"></paper-input>
+                                <paper-input value="{{item.phone}}" placeholder="Tlf"></paper-input>
                                 <paper-input value="{{item.email}}" placeholder="email"></paper-input>
 
                                 <h3>Características adicionales</h3>
                                 <div class="row">
                                     <div class="column">
                                         <p>Más del 25% de capital</p>
-                                        <paper-toggle-button checked="{{item.capital}}" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button checked="{{item.hasCapital}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Responsabilidad pública</p>
-                                        <paper-toggle-button  checked="{{item.responsabilidad_publica}}" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button  checked="{{item.hasPublicResponsability}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Controla la sociedad</p>
-                                        <paper-toggle-button checked="{{item.controla_sociedad}}" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button checked="{{item.hasSocietyControl}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Más del 25% de control</p>
-                                        <paper-toggle-button  checked="{{item.control}}" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button  checked="{{item.hasControl}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Relación de negocios</p>
-                                        <paper-toggle-button checked="{{item.relacion_negocios}}" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button checked="{{item.hasBussinesRelation}}" class="pink"></paper-toggle-button>
                                     </div>
                                 </div>
                                 <br>
-                                <template is="dom-if" if="{{item.responsabilidad_publica}}" restamp>
+                                <template is="dom-if" if="{{item.hasPublicResponsability}}" restamp>
                                     <representantes-publica token="{{token}}"></representantes-publica>
                                 </template>
-                                <template is="dom-if" if="{{item.controla_sociedad}}" restamp>
+                                <template is="dom-if" if="{{item.hasSocietyControl}}" restamp>
                                     <representantes-sociedad token="{{token}}"></representantes-sociedad>
                                 </template>
-                                <template is="dom-if" if="{{item.control}}" restamp>
+                                <template is="dom-if" if="{{item.hasControl}}" restamp>
                                     <representantes-25control token="{{token}}"></representantes-25control>
+                                </template>
+                                <template is="dom-if" if="{{item.hasBussinesRelation}}" restamp>
+                                    <representantes-relacion token="{{token}}"></representantes-relacion>
                                 </template>
                                 <paper-fab icon="create" raised on-tap="add" data-item$="[[item]]"></paper-fab>
                             </div>
@@ -161,54 +165,57 @@
                 <form>
                     <div class="row">
 
-                        <paper-input value="{{physicalPerson.nombre_completo}}" placeholder="Nombre y apellidos"></paper-input>
+                        <paper-input value="{{physicalPerson.name}}" placeholder="Nombre y apellidos"></paper-input>
                         <p>Tipo de Documento </p>
-                        <paper-radio-group value="{{physicalPerson.documento_identificativo}}" selected="{{physicalPerson.documento_identificativo}}" allow-empty-selection>
+                        <paper-radio-group value="{{physicalPerson.identificationDocument}}" selected="{{physicalPerson.documento_identificativo}}" allow-empty-selection>
                             <paper-radio-button name="nif" >NIF</paper-radio-button>
                             <paper-radio-button name="pasaporte" >Pasaporte</paper-radio-button>
                             <paper-radio-button name="t-residencia" >Tarjeta de residencia</paper-radio-button>
                         </paper-radio-group>
-                        <vaadin-date-picker label="Fecha de caducidad" value="{{physicalPerson.fecha_caducidad}}"></vaadin-date-picker>
-                        <paper-input value="{{physicalPerson.lugar_nacimiento}}" placeholder="Lugar de nacimiento"></paper-input>
-                        <paper-input value="{{physicalPerson.nacionalidad}}" placeholder="Nacionalidad"></paper-input>
-                        <paper-input value="{{physicalPerson.pais_nacionalidad}}" placeholder="Pais nacionalidad"></paper-input>
-                        <paper-input value="{{physicalPerson.pais_residencia}}" placeholder="Pais de residencia"></paper-input>
-                        <paper-input value="{{physicalPerson.domicilio}}" placeholder="Domicilio"></paper-input>
-                        <paper-input value="{{physicalPerson.telefono}}" placeholder="Tlf"></paper-input>
+                        <vaadin-date-picker label="Fecha de caducidad" value="{{physicalPerson.deliveryDate}}"></vaadin-date-picker>
+                        <paper-input value="{{physicalPerson.birthplace}}" placeholder="Lugar de nacimiento"></paper-input>
+                        <paper-input value="{{physicalPerson.nacionality}}" placeholder="Nacionalidad"></paper-input>
+                        <paper-input value="{{physicalPerson.nacionalityCountry}}" placeholder="Pais nacionalidad"></paper-input>
+                        <paper-input value="{{physicalPerson.country}}" placeholder="Pais de residencia"></paper-input>
+                        <paper-input value="{{physicalPerson.address}}" placeholder="Domicilio"></paper-input>
+                        <paper-input value="{{physicalPerson.phone}}" placeholder="Tlf"></paper-input>
                         <paper-input value="{{physicalPerson.email}}" placeholder="email"></paper-input>
 
                         <h3>Características adicionales</h3>
                                 <div class="row">
                                     <div class="column">
                                         <p>Más del 25% de capital</p>
-                                        <paper-toggle-button checked="{{physicalPerson.capital}}" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button checked="{{physicalPerson.hasCapital}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Responsabilidad pública</p>
-                                        <paper-toggle-button  checked="{{physicalPerson.responsabilidad_publica}}" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button  checked="{{physicalPerson.hasPublicResponsability}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Controla la sociedad</p>
-                                        <paper-toggle-button checked="{{physicalPerson.controla_sociedad}}" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button checked="{{physicalPerson.hasSocietyControl}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Más del 25% de control</p>
-                                        <paper-toggle-button  checked="{{physicalPerson.control}}" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button  checked="{{physicalPerson.hasControl}}" class="pink"></paper-toggle-button>
                                     </div>
                                     <div class="column">
                                         <p>Relación de negocios</p>
-                                        <paper-toggle-button checked="{{physicalPerson.relacion_negocios}}" class="pink"></paper-toggle-button>
+                                        <paper-toggle-button checked="{{physicalPerson.hasBussinesRelation}}" class="pink"></paper-toggle-button>
                                     </div>
                                 </div>
                                 <br>
-                        <template is="dom-if" if="{{physicalPerson.responsabilidad_publica}}" restamp>
+                        <template is="dom-if" if="{{physicalPerson.hasPublicResponsability}}" restamp>
                             <representantes-publica></representantes-publica>
                         </template>
-                        <template is="dom-if" if="{{physicalPerson.controla_sociedad}}" restamp>
+                        <template is="dom-if" if="{{physicalPerson.hasSocietyControl}}" restamp>
                             <representantes-sociedad></representantes-sociedad>
                         </template>
-                        <template is="dom-if" if="{{physicalPerson.control}}" restamp>
+                        <template is="dom-if" if="{{physicalPerson.hasControl}}" restamp>
                             <representantes-25control></representantes-25control>
+                        </template>
+                        <template is="dom-if" if="{{physicalPerson.hasBussinesRelation}}" restamp>
+                            <representantes-relacion token="{{token}}"></representantes-relacion>
                         </template>
                         <paper-fab icon="save" raised on-tap="add" data-item$="[[physicalPerson]]"></paper-fab>
                     </div>
@@ -294,21 +301,6 @@
                     this.$.addPhysicalPerson.url = "http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/PhysicalPerson/";
                     this.$.addPhysicalPerson.headers['authorization']='Token '+this.token;
                     this.$.addPhysicalPerson.body=Object.assign({}, item);
-                    if(!this.$.addPhysicalPerson.body.capital){
-                        this.$.addPhysicalPerson.body.capital=false;
-                    }
-                    if(!this.$.addPhysicalPerson.body.responsabilidad_publica){
-                        this.$.addPhysicalPerson.body.responsabilidad_publica=false;
-                    }
-                    if(!this.$.addPhysicalPerson.body.controla_sociedad){
-                        this.$.addPhysicalPerson.body.controla_sociedad=false;
-                    }
-                    if(!this.$.addPhysicalPerson.body.control){
-                        this.$.addPhysicalPerson.body.control=false;
-                    }
-                    if(!this.$.addPhysicalPerson.body.relacion_negocios){
-                        this.$.addPhysicalPerson.body.relacion_negocios=false;
-                    }
                     this.$.addPhysicalPerson.generateRequest();
                     this.hasphysicaPerson = true;
                 }

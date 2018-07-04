@@ -14,7 +14,7 @@
 <link rel="import" href="../register-app/register-app.html">
 <link rel="import" href="../home-app/home-app.html">
 <link rel="import" href="../proyectos-app/ver-proyecto.html">
-<dom-module id="representantes-25control">
+<dom-module id="representantes-relación">
     <template>
         <style>
             .content{
@@ -24,11 +24,7 @@
                 background-color: ghostwhite;
                 padding-bottom: 30px;
             }
-            .column {
-                float: left;
-                width: 47%;
-                padding-left: 10px;
-            }
+
 
             /* Clear floats after the columns */
             .row:after {
@@ -67,40 +63,14 @@
                 route="{{_subRoute}}"
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
-        <!--iron-ajax
-            auto
-            method="get"
-            url="http://0.0.0.0:8000/api/v1/client/PhysicalPerson/{{id_project}}/"
-            handle-as="json"
-            content-type="application/json"
-            on-response="handleResponse">
 
-        </iron-ajax>
-        <iron-ajax
-            id="addPhysicalPerson"
-            method="post"
-            url="http://0.0.0.0:8000/api/v1/client/PhysicalPerson/"
-            handle-as="json"
-            content-type="application/json"
-            on-response={{postResponse}}>
-
-        </iron-ajax>
-        <iron-ajax
-            id="putPhysicalPerson"
-            method="put"
-            url="http://0.0.0.0:8000/api/v1/client/PhysicalPerson/{{id_project}}/"
-            handle-as="json"
-            content-type="application/json"
-            on-response={{putResponse}}>
-
-        </iron-ajax-->
 
         <div class="content ">
 
-                <h1>Datos de personas con más del 25% de control</h1>
+                <h1>Indique cuál es la relación de negocios</h1>
                 <form>
                     <div class="row">
-                        <paper-input value="{{physicalPerson.typeControl}}" placeholder="Especifique cual"></paper-input>
+                        <paper-input value="{{physicalPerson.nombre_completo}}" placeholder="Especifique cual"></paper-input>
 
                         <paper-fab icon="add" raised on-tap="add"></paper-fab>
                     </div>
@@ -113,13 +83,13 @@
          * @customElement
          * @polymer
          */
-        class Representantes25controlApp extends Polymer.Element {
-            static get is() { return 'representantes-25control'; }
+        class RepresentantesRelacionApp extends Polymer.Element {
+            static get is() { return 'representantes-relacion'; }
             static get properties() {
                 return {
                     prop1: {
                         type: String,
-                        value: 'representantes-25control'
+                        value: 'representantes-relacion'
                     },
                     physicalPerson: Object,
                     physicalPersons: Object,
@@ -154,6 +124,6 @@
 
         }
 
-        window.customElements.define(Representantes25controlApp.is, Representantes25controlApp);
+        window.customElements.define(RepresentantesRelacionApp.is, RepresentantesRelacionApp);
     </script>
 </dom-module>
