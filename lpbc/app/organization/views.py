@@ -57,7 +57,7 @@ class OrganizationMemberViewSet(viewsets.ModelViewSet):
         user = User.objects.get(id=self.kwargs['uuid'])
         organization.users.add(user)
         organization.save()
-        return Response({'User assign to organization'}, status.HTTP_200_OK)
+        return Response(UserSerializer(user).data, status.HTTP_200_OK)
 
     def delete(self):
         pass
