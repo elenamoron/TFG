@@ -97,17 +97,21 @@
             <paper-dialog id="animated">
                 <template is="dom-if" if="{{!organization}}">
                     <h2>Nueva Organización</h2>
-                </template>
-                <paper-input type="text" name="name" placeholder="nombre " value="{{organization.name}}" required></paper-input>
-                <paper-input type="text" name="descripcion" placeholder="descripcion" value="{{organization.description}}" required></paper-input>
-                <paper-input type="text" name="code" placeholder="código" value="{{organization.code}}" required></paper-input>
-                <paper-input type="text" name="address" placeholder="dirección" value="{{organization.address}}" required></paper-input>
-                <paper-input type="text" name="nif" placeholder="nif" value="{{organization.nif}}" required></paper-input>
-                <template is="dom-if" if="{{!organization}}">
+                    <paper-input type="text" name="name" placeholder="nombre " value="{{name}}" required></paper-input>
+                    <paper-input type="text" name="descripcion" placeholder="descripcion" value="{{description}}" required></paper-input>
+                    <paper-input type="text" name="code" placeholder="código" value="{{code}}" required></paper-input>
+                    <paper-input type="text" name="address" placeholder="dirección" value="{{address}}" required></paper-input>
+                    <paper-input type="text" name="nif" placeholder="nif" value="{{nif}}" required></paper-input>
                     <paper-button on-click="add" class="custom black" name="add" dialog-confirm autofocus>Crear</paper-button>
                 </template>
                 <template is="dom-if" if="{{organization}}">
+                    <paper-input type="text" name="name" placeholder="nombre " value="{{organization.name}}" required></paper-input>
+                    <paper-input type="text" name="descripcion" placeholder="descripcion" value="{{organization.description}}" required></paper-input>
+                    <paper-input type="text" name="code" placeholder="código" value="{{organization.code}}" required></paper-input>
+                    <paper-input type="text" name="address" placeholder="dirección" value="{{organization.address}}" required></paper-input>
+                    <paper-input type="text" name="nif" placeholder="nif" value="{{organization.nif}}" required></paper-input>
                     <paper-fab icon="create" title="actualizar" on-tap="update"></paper-fab>
+
                 </template>
 
             </paper-dialog>
@@ -135,6 +139,11 @@
                         type:Object,
                         reflectToAttribute:true,
                         notify: true
+                    },
+                    organizaciones: {
+                        type:Array,
+                        notify: true,
+                        reflectToAttribute:true,
                     }
 
                 };
@@ -150,6 +159,9 @@
                 var mm = d.getMonth()+1; //January is 0!
                 var yyyy = d.getFullYear();
                 this.$.addOrganization.headers['authorization'] = 'Token '+this.token;
+                if(!this.organization){
+                    this.organization={'name':this.name, 'description':this.description, 'code':this.code, 'address':this.address, 'nif': this.nif};
+                }
                 this.$.addOrganization.body=this.organization;
                 this.$.addOrganization.generateRequest();
             }
@@ -158,6 +170,9 @@
                 this.$.putOrganization.url="http://0.0.0.0:8000/api/v1/organization/"+this.organization.id;
                 this.$.putOrganization.body=this.organization;
                 this.$.putOrganization.generateRequest();
+            }
+            handleResponse(data){
+                this.push('organizaciones',data.detail.response)
             }
 
 

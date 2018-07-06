@@ -113,7 +113,9 @@
                     [[item.username]]
             </paper-icon-item>
             </template>
-            <paper-fab icon="social:person-add" raised on-tap="add" ></paper-fab>
+            <template is="dom-if" if="{{_isEqualTo(page, 'organization')}}" restamp>
+                <paper-fab icon="social:person-add" raised on-tap="add" ></paper-fab>
+            </template>
         </paper-dialog>
     </template>
     <script>

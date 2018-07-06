@@ -166,10 +166,10 @@
             <br>
 
             <paper-fab class="add" icon="add" raised on-tap="openDialog"></paper-fab>
-            <organization-dialog id="myDialog" organization="{{organization}}" token="{{token}}">
+            <organization-dialog id="myDialog" organization="{{organization}}" token="{{token}}" organizaciones="{{organizaciones}}">
 
             </organization-dialog>
-            <participantes-dialog id="participantes" users="{{users}}" page="{{page}}" token="{{token}}" id_organization="{{id_organization}}">
+            <participantes-dialog id="participantes" users="{{users}}" page="{{page}}" token="{{token}}" id_organization="{{id_organization}}" >
 
             </participantes-dialog>
 
@@ -190,7 +190,8 @@
                     },
                     organizaciones: {
                         type:Array,
-                        notify: true
+                        notify: true,
+                        reflectToAttribute:true,
                     },
                     header: Object,
                     token: {
