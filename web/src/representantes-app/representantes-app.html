@@ -69,7 +69,7 @@
         <iron-ajax
             method="get"
             id="getPhysicalPerson"
-            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/PhysicalPerson/"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/physical-person/"
             handle-as="json"
             content-type="application/json"
             on-response="handleResponse">
@@ -78,10 +78,10 @@
         <iron-ajax
             id="addPhysicalPerson"
             method="post"
-            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/PhysicalPerson/"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/physical-person/"
             handle-as="json"
             content-type="application/json"
-            on-response={{postResponse}}>
+            on-response="postResponse">
 
         </iron-ajax>
         <iron-ajax
@@ -90,7 +90,7 @@
             url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/PhysicalPerson/"
             handle-as="json"
             content-type="application/json"
-            on-response={{putResponse}}>
+            on-response="putResponse">
 
         </iron-ajax>
 
@@ -238,8 +238,12 @@
                         value: 'representantes-app'
                     },
                     physicalPerson: Object,
-                    physicalPersons: Object,
-                    hasphysicaPerson: Boolean,
+                    physicalPersons:{
+                        type: Array,
+                        reflectToAttribute:true,
+                        notify: true,
+                    },
+                    hasphysicalPerson: Boolean,
                     id_project:{
                         type: String,
                         reflectToAttribute:true,
@@ -270,7 +274,7 @@
             }
             onChangeIdProject(){
                 if(this.id_project){
-                    this.$.getPhysicalPerson.url = "http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/PhysicalPerson/";
+                    this.$.getPhysicalPerson.url = "http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/physical-person/";
                     this.$.getPhysicalPerson.headers['authorization']='Token '+this.token;
                     this.$.getPhysicalPerson.generateRequest();
                 }
@@ -295,18 +299,20 @@
                     this.$.putPhysicalPerson.headers['authorization']='Token '+this.token;
                     this.$.putPhysicalPerson.body=item;
                     this.$.putPhysicalPerson.generateRequest();
-                    this.$.getPhysicalPerson.headers['authorization']='Token '+this.token;
-                    this.$.getPhysicalPerson.generateRequest();
+
                 }else{
-                    this.$.addPhysicalPerson.url = "http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/PhysicalPerson/";
+                    this.$.addPhysicalPerson.url = "http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/physical-person/";
                     this.$.addPhysicalPerson.headers['authorization']='Token '+this.token;
                     this.$.addPhysicalPerson.body=Object.assign({}, item);
                     this.$.addPhysicalPerson.generateRequest();
-                    this.hasphysicaPerson = true;
+                    this.hasphysicalPerson = true;
                 }
-                this.$.getPhysicalPerson.headers['authorization']='Token '+this.token;
-                this.$.getPhysicalPerson.generateRequest();
 
+
+            }
+            postResponse(data){
+
+                this.push('physicalPersons', data.detail.response);
             }
 
         }

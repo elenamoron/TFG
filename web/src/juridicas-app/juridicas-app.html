@@ -92,7 +92,7 @@
         <iron-ajax
             id="uploadfile"
             method="post"
-            url="http://0.0.0.0:8000/api/v1/client/document/"
+            url="http://0.0.0.0:8000/api/v1/document/"
             handle-as="json"
             content-type=""
             on-response={{upfileResponse}}>
@@ -258,6 +258,7 @@
                 data.append("json",JSON.stringify({"content_type":content_type,"length":length,"project":this.id_project,
                         "persona_juridica":this.legalPerson.id, "tag": "documentación soporte persona jurídica"}));
                 this.$.uploadfile.body=data;
+                this.$.uploadfile.headers['authorization']='Token '+this.token;
                 this.$.uploadfile.contentType = undefined;
                 //this.$.uploadfile.body={"project":this.id_project, "file":this.files, "persona_juridica":this.legalPerson.id};
                 this.$.uploadfile.generateRequest();

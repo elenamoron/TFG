@@ -13,6 +13,7 @@
 
 <link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
 <link rel="import" href="../proyectos-app/ver-proyecto.html">
+<link rel="import" href="../participantes-app/participantes-dialog.html">
 <dom-module id="proyectos-app">
     <template>
         <style>
@@ -198,6 +199,9 @@
                 <paper-button on-click="add" class="custom black" name="add" dialog-confirm autofocus>Añadir</paper-button>
             </paper-dialog>
         </app-header-layout>
+        <participantes-dialog id="participantes" users="{{users}}">
+
+        </participantes-dialog>
 
     </template>
     <script>
@@ -231,7 +235,11 @@
                     },
                     id_project: {
                         type: String,
-                        observer:'onChangeIdProject',
+                        reflectToAttribute:true,
+                        notify: true
+                    },
+                    users: {
+                        type: Object,
                         reflectToAttribute:true,
                         notify: true
                     }
@@ -297,7 +305,12 @@
                 this.id_project = item.id;
                 localStorage.setItem('id_project',this.id_project);
             }
-
+            addMember(event){
+                this.users=JSON.parse(event.target.dataset.item);
+                var dialog = this.shadowRoot.querySelector('#participantes');
+                var popUp = dialog.shadowRoot.querySelector('paper-dialog');
+                popUp.toggle();
+            }
 
 
 

@@ -8,6 +8,7 @@ from client.models import LegalPerson, PhysicalPerson, Document
 from client.serializers import LegalPersonSerializer, PhysicalPersonSerializer, FileSerializer, SupportSerializer
 from organization.models import Project
 import json
+import uuid
 
 
 class LegalPersonViewSet(viewsets.ModelViewSet):
@@ -40,15 +41,8 @@ class LegalPersonViewSet(viewsets.ModelViewSet):
         return LegalPerson.objects.filter(project=self.kwargs['pk2'])
 
     def create(self, request, *args, **kwargs):
-        data = {'denominacion_social': request.data['denominacion_social'], 'CIF': request.data['CIF'],
-                'ubicacion': request.data['ubicacion'], 'fecha_constitucion': request.data['fecha_constitucion'],
-                'sector': request.data['sector'], 'forma_juridica': request.data['forma_juridica'], 'registro':
-                    request.data['registro'], 'numero_inscripciones': request.data['numero_inscripciones'], 'poblacion':
-                    request.data['poblacion'], 'provincia': request.data['provincia'], 'codigo_postal':
-                    request.data['codigo_postal'], 'pais': request.data['pais'], 'telefono': request.data['telefono'],
-                'email': request.data['email']}
 
-        legalPerson = LegalPersonSerializer(data=data)
+        legalPerson = LegalPersonSerializer(data=request.data)
 
         if legalPerson.is_valid():
             newLegalPerson = legalPerson.save()
@@ -238,14 +232,13 @@ class DocumentUploadView(views.APIView):
     queryset = Document.objects.all()
 
     def get(self, *args, **kwargs):
-        qs = super(DocumentUploadView, self).get_queryset(*args, **kwargs)
-        qs = qs.filter(id=1)
-        return qs
+        pass #request.GET
 
     def post(self, request, *args, **kwargs):
         for file in request.FILES:
             data = json.loads(request.data['json'])
             data_document = {}
+            request.FILES[file].name = uuid.uuid4().hex
             data_document['file'] = request.FILES[file]
             data_document['content_type'] = data['content_type']
             data_document['length'] = data['length']

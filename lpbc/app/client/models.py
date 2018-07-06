@@ -1,5 +1,6 @@
 from django.db import models
 from organization.models import Project
+from django.core.files.storage import FileSystemStorage
 
 # Create your models here.
 
@@ -46,8 +47,15 @@ class PhysicalPerson(models.Model):
     typeControl = models.CharField(max_length=255, blank=True, null=True)
     typeBussinesRelation = models.CharField(max_length=255, blank=True, null=True)
 
+    class Meta:
+        ordering = ('name',)
+
+
 class Relationship(models.Model):
     relationship = models.CharField(max_length=255, blank=True)
+
+
+'''fs = FileSystemStorage(location='/media/photos')'''
 
 
 class Document(models.Model):
@@ -62,6 +70,7 @@ class RelationshipLegalPhysical(models.Model):
     tipo_relacion = models.ForeignKey(Relationship, on_delete=models.CASCADE)
     datos_particulares = models.CharField(max_length=255, blank=True)
     #documentos = models.ManyToOneRel(Documento)
+
 
 class SupportDoc(models.Model):
     cod_justificacion = models.CharField(max_length=255, blank=True)
