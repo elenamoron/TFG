@@ -3,9 +3,10 @@ from rest_framework import status, views
 from rest_framework import viewsets
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
-
+from django.contrib.auth.models import User
 from client.models import LegalPerson, PhysicalPerson, Document
 from client.serializers import LegalPersonSerializer, PhysicalPersonSerializer, FileSerializer, SupportSerializer
+from organization.serializers import UserSerializer
 from organization.models import Project
 import json
 import uuid
@@ -274,3 +275,12 @@ class PhysicalPersonTypeViewSet(viewsets.ModelViewSet):
         else:
             return Response({"Error no existe ninguna coincidencia con lo que solicita"}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class UserViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        email = self.kwargs['email']
+        import ipdb
+        ipdb.set_trace()
+        return User.objects.get(email=email)

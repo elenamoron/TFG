@@ -169,7 +169,7 @@
             <organization-dialog id="myDialog" organization="{{organization}}" token="{{token}}">
 
             </organization-dialog>
-            <participantes-dialog id="participantes" users="{{users}}">
+            <participantes-dialog id="participantes" users="{{users}}" page="{{page}}">
 
             </participantes-dialog>
 
@@ -208,7 +208,12 @@
                         type: Object,
                         reflectToAttribute:true,
                         notify: true,
-                    }
+                    },
+                    page: {
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true,
+                    },
 
                 };
             }
@@ -242,6 +247,7 @@
                 this.$.getOrganizations.generateRequest();
             }
             addMember(event){
+                this.page="organization";
                 this.users=JSON.parse(event.target.dataset.item);
                 var dialog = this.shadowRoot.querySelector('#participantes');
                 var popUp = dialog.shadowRoot.querySelector('paper-dialog');

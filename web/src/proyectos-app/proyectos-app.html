@@ -145,7 +145,7 @@
             url="http://0.0.0.0:8000/api/v1/organization/project/{{nombre}}/"
             handle-as="json"
             content-type="application/json"
-            on-response={{postResponse}}>
+            on-response="putResponse">
 
         </iron-ajax>
         <app-header-layout>
@@ -199,7 +199,7 @@
                 <paper-button on-click="add" class="custom black" name="add" dialog-confirm autofocus>Añadir</paper-button>
             </paper-dialog>
         </app-header-layout>
-        <participantes-dialog id="participantes" users="{{users}}">
+        <participantes-dialog id="participantes" users="{{users}}" page="{{page}}">
 
         </participantes-dialog>
 
@@ -242,7 +242,12 @@
                         type: Object,
                         reflectToAttribute:true,
                         notify: true
-                    }
+                    },
+                    page: {
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true,
+                    },
 
                 };
             }
@@ -288,7 +293,6 @@
                 this.$.addProject.headers['authorization']='Token '+this.token;
                 this.$.addProject.body={"name":this.nombre,"description":this.descripcion, "fecha_creacion":yyyy+'-'+mm+'-'+dd};
                 this.$.addProject.generateRequest();
-                this.$.getProject.generateRequest();
             }
             archivar(event){
                 const item = JSON.parse(event.target.dataset.item);
@@ -298,7 +302,6 @@
                 this.$.putProject.headers['authorization']='Token '+this.token;
                 this.$.putProject.body={"activo":false};
                 this.$.putProject.generateRequest();
-                this.$.getProject.generateRequest();
             }
             saveProject(event){
                 const item = JSON.parse(event.target.dataset.item);
@@ -306,6 +309,7 @@
                 localStorage.setItem('id_project',this.id_project);
             }
             addMember(event){
+                this.page="project";
                 this.users=JSON.parse(event.target.dataset.item);
                 var dialog = this.shadowRoot.querySelector('#participantes');
                 var popUp = dialog.shadowRoot.querySelector('paper-dialog');
@@ -313,6 +317,9 @@
             }
             postResponse(data){
                 this.push('proyectos', data.detail.response);
+            }
+            putResponse(data){
+                this.splice('proyectos', data.detail.response, 1);
             }
 
 
