@@ -149,7 +149,7 @@
                                 {{item.username}}
                             </template>
                         </div>
-                        <paper-fab  icon="account-circle" data-item$="[[item.users]]" raised on-tap="addMember"></paper-fab>
+                        <paper-fab  icon="account-circle" data-item$="[[item.users]]" data-org$="[[item.id]]" raised on-tap="addMember"></paper-fab>
                     </div>
                     <div class="card-actions">
 
@@ -169,7 +169,7 @@
             <organization-dialog id="myDialog" organization="{{organization}}" token="{{token}}">
 
             </organization-dialog>
-            <participantes-dialog id="participantes" users="{{users}}" page="{{page}}">
+            <participantes-dialog id="participantes" users="{{users}}" page="{{page}}" token="{{token}}" id_organization="{{id_organization}}">
 
             </participantes-dialog>
 
@@ -214,6 +214,11 @@
                         reflectToAttribute:true,
                         notify: true,
                     },
+                    id_organization: {
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true,
+                    },
 
                 };
             }
@@ -249,6 +254,7 @@
             addMember(event){
                 this.page="organization";
                 this.users=JSON.parse(event.target.dataset.item);
+                this.id_organization=JSON.parse(event.target.dataset.org);
                 var dialog = this.shadowRoot.querySelector('#participantes');
                 var popUp = dialog.shadowRoot.querySelector('paper-dialog');
                 popUp.toggle();

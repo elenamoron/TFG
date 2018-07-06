@@ -81,6 +81,22 @@
                 margin-right: 5px;
             }
         </style>
+        <iron-ajax
+                method="get"
+                id="getUser"
+                url="http://0.0.0.0:8000/api/v1/user/{{email}}/"
+                handle-as="json"
+                content-type="application/json"
+                on-response="handleResponse"
+                ></iron-ajax>
+        <iron-ajax
+                method="post"
+                id="postMember"
+                url="http://0.0.0.0:8000/api/v1/organization/{{id}}/member/{{uuid}}"
+                handle-as="json"
+                content-type="application/json"
+                on-response="onResponse"
+                ></iron-ajax>
         <paper-dialog id="animated">
             <template is="dom-if" if="{{_isEqualTo(page, 'organization')}}" restamp>
                 <paper-input value={{email}} placeholder="email nuevo participante"></paper-input>
@@ -116,6 +132,16 @@
                         type: String,
                         reflectToAttribute:true,
                         notify: true,
+                    },
+                    token: {
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true,
+                    },
+                    id_organization: {
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true
                     }
 
                 };
@@ -125,15 +151,15 @@
             }
 
             add(){
-                var d = new Date();
-                var dd = d.getDate();
-                var mm = d.getMonth()+1; //January is 0!
-                var yyyy = d.getFullYear();
-                this.$.addProject.body={"name":this.nombre,"description":this.descripcion, "fecha_creacion":yyyy+'-'+mm+'-'+dd};
-                this.$.addProject.generateRequest();
-                this.$.getProject.generateRequest();
+                this.$.getUser.url="http://0.0.0.0:8000/api/v1/user/"+this.email+"/";
+                this.$.getUser.headers['authorization'] = 'Token '+this.token;
+                this.$.getUser.generateRequest();
             }
-
+            handleResponse(data){
+                this.$.postMember.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/member/"+data.detail.response.results[0].id;
+                this.$.postMember.headers['authorization'] = 'Token '+this.token;
+                this.$.postMember.generateRequest();
+            }
 
 
 

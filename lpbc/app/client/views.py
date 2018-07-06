@@ -281,6 +281,5 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         email = self.kwargs['email']
-        import ipdb
-        ipdb.set_trace()
-        return User.objects.get(email=email)
+
+        return User.objects.filter(email=email)

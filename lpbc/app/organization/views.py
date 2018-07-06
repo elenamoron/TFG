@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status, views
 from rest_framework import viewsets
 from rest_framework.response import Response
-
+from django.contrib.auth.models import User
 from organization.models import Organization, Profile, Project
 from organization.serializers import OrganizationSerializer, ProfileSerializer, ProjectSerializer, UserSerializer
 
