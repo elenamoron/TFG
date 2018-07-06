@@ -136,7 +136,7 @@
             url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}/project/"
             handle-as="json"
             content-type="application/json"
-            on-response={{postResponse}}>
+            on-response="postResponse">
 
         </iron-ajax>
         <iron-ajax
@@ -311,7 +311,9 @@
                 var popUp = dialog.shadowRoot.querySelector('paper-dialog');
                 popUp.toggle();
             }
-
+            postResponse(data){
+                this.push('proyectos', data.detail.response);
+            }
 
 
 

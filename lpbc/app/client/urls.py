@@ -24,7 +24,7 @@ urlpatterns = [
     path('project/<int:pk2>/LegalPerson/', LegalPersonViewSet.as_view({'get': 'list', 'post': 'create',
                                                                                  'put': 'update'})),
     path('project/<int:pk2>/physical-person/', PhysicalPersonViewSet.as_view({'get': 'list', 'post': 'create'})),
-    path('project/<int:pk2>/PhysicalPerson/<str:scope>', PhysicalPersonTypeViewSet.as_view({'get': 'list'})),
+    path('project/<int:pk2>/physical-person/<str:scope>', PhysicalPersonTypeViewSet.as_view({'get': 'list'})),
     path('project/<int:pk2>/physical-person/<int:id>', SpecificPhysicalPersonViewSet.as_view({'get': 'list',
                                                                                               'put': 'update',
                                                                                               'delete': 'delete'})),

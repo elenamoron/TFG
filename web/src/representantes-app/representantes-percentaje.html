@@ -56,7 +56,7 @@
         <iron-ajax
             method="get"
             id="getPersons"
-            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/PhysicalPerson/"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/physical-person/"
             handle-as="json"
             content-type="application/json"
             on-response="onTotal">
@@ -65,7 +65,7 @@
         <iron-ajax
             method="get"
             id="getPersonWithCapital"
-            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/PhysicalPerson/capital"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/physical-person/capital"
             handle-as="json"
             content-type="application/json"
             on-response="onCapital">
@@ -74,7 +74,7 @@
         <iron-ajax
             id="getPersonWithControl"
             method="get"
-            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/PhysicalPerson/control"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/physical-person/control"
             handle-as="json"
             content-type="application/json"
             on-response="onControl">
@@ -83,7 +83,7 @@
         <iron-ajax
             id="getPersonWithPublica"
             method="get"
-            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/PhysicalPerson/publica"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/physical-person/publica"
             handle-as="json"
             content-type="application/json"
             on-response="onPublica">
@@ -92,7 +92,7 @@
         <iron-ajax
             id="getPersonWithSociedad"
             method="get"
-            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/PhysicalPerson/sociedad"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/physical-person/sociedad"
             handle-as="json"
             content-type="application/json"
             on-response="onSociedad">
@@ -206,19 +206,19 @@
             }
             onChangeIdProject(){
                 if(this.id_project){
-                    this.$.getPersons.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/PhysicalPerson/";
+                    this.$.getPersons.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/physical-person/";
                     this.$.getPersons.headers['authorization']='Token '+this.token;
                     this.$.getPersons.generateRequest();
-                    this.$.getPersonWithCapital.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/PhysicalPerson/capital";
+                    this.$.getPersonWithCapital.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/physical-person/capital";
                     this.$.getPersonWithCapital.headers['authorization']='Token '+this.token;
                     this.$.getPersonWithCapital.generateRequest();
-                    this.$.getPersonWithControl.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/PhysicalPerson/control";
+                    this.$.getPersonWithControl.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/physical-person/control";
                     this.$.getPersonWithControl.headers['authorization']='Token '+this.token;
                     this.$.getPersonWithControl.generateRequest();
-                    this.$.getPersonWithPublica.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/PhysicalPerson/publica";
+                    this.$.getPersonWithPublica.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/physical-person/publica";
                     this.$.getPersonWithPublica.headers['authorization']='Token '+this.token;
                     this.$.getPersonWithPublica.generateRequest();
-                    this.$.getPersonWithSociedad.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/PhysicalPerson/sociedad";
+                    this.$.getPersonWithSociedad.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/physical-person/sociedad";
                     this.$.getPersonWithSociedad.headers['authorization']='Token '+this.token;
                     this.$.getPersonWithSociedad.generateRequest();
                 }

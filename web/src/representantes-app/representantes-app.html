@@ -87,7 +87,7 @@
         <iron-ajax
             id="putPhysicalPerson"
             method="put"
-            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/PhysicalPerson/"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/physical-person/"
             handle-as="json"
             content-type="application/json"
             on-response="putResponse">
@@ -295,7 +295,7 @@
                 const item = JSON.parse(event.target.dataset.item);
                 item.project=this.id_project;
                 if(item.id){
-                    this.$.putPhysicalPerson.url = "http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/PhysicalPerson/"+item.id;
+                    this.$.putPhysicalPerson.url = "http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/physical-person/"+item.id;
                     this.$.putPhysicalPerson.headers['authorization']='Token '+this.token;
                     this.$.putPhysicalPerson.body=item;
                     this.$.putPhysicalPerson.generateRequest();
