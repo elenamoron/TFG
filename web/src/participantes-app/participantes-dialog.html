@@ -106,15 +106,22 @@
                 </div>
             <template is="dom-if" if="{{_isEqualTo(page, 'organization')}}" restamp>
                 <paper-input value={{email}} placeholder="email nuevo participante"></paper-input>
-            </template>
-            <template  id="user-list" is="dom-repeat" items="{{users}}" mutable-data>
-            <paper-icon-item>
-                <iron-icon icon="account-circle"></iron-icon>
-                    [[item.username]]
-            </paper-icon-item>
-            </template>
-            <template is="dom-if" if="{{_isEqualTo(page, 'organization')}}" restamp>
+                <template  id="user-list" is="dom-repeat" items="{{users}}" mutable-data>
+                    <paper-icon-item>
+                        <iron-icon icon="account-circle"></iron-icon>
+                            [[item.username]]
+                    </paper-icon-item>
+                </template>
                 <paper-fab icon="social:person-add" raised on-tap="add" ></paper-fab>
+            </template>
+
+            <template is="dom-if" if="{{_isEqualTo(page, 'project')}}" restamp>
+                <template   is="dom-repeat" items="{{users_organization}}" mutable-data>
+                    <paper-icon-item>
+                        <iron-icon icon="account-circle"></iron-icon>
+                            [[item.username]]
+                    </paper-icon-item>
+                </template>
             </template>
         </paper-dialog>
     </template>
@@ -132,6 +139,11 @@
                         value: 'participantes-dialog'
                     },
                     users: {
+                        type: Object,
+                        reflectToAttribute:true,
+                        notify: true,
+                    },
+                    users_organization: {
                         type: Object,
                         reflectToAttribute:true,
                         notify: true,

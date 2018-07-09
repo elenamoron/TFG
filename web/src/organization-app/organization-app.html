@@ -250,7 +250,6 @@
                 this.$.deleteOrganization.headers['authorization']='Token '+this.token;
                 this.$.deleteOrganization.url = "http://0.0.0.0:8000/api/v1/organization/"+this.organization.id;
                 this.$.deleteOrganization.generateRequest();
-                this.$.getOrganizations.generateRequest();
             }
             addMember(event){
                 this.page="organization";

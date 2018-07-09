@@ -238,6 +238,7 @@
                     var dd = d.getDate();
                     var mm = d.getMonth()+1; //January is 0!
                     var yyyy = d.getFullYear();
+                    debugger;
                     this.id_user = data.detail.response.pk;
                     this.$.postProfile.headers['authorization'] = 'Token '+this.token;
                     this.$.postProfile.body = {"user":this.id_user, "nombre":"", "apellidos":"", "fecha_nacimiento":yyyy+'-'+mm+'-'+dd,

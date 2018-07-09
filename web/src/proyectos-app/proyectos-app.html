@@ -148,6 +148,15 @@
             on-response="putResponse">
 
         </iron-ajax>
+        <iron-ajax
+            id="getOrganization"
+            method="get"
+            url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}/"
+            handle-as="json"
+            content-type="application/json"
+            on-response="OrganizationResponse">
+
+        </iron-ajax>
         <app-header-layout>
             <template is="dom-repeat" items="[[proyectos]]" rendered-item-count="{{renderedCount}}">
                 <paper-card class="rate">
@@ -199,7 +208,7 @@
                 <paper-button on-click="add" class="custom black" name="add" dialog-confirm autofocus>Añadir</paper-button>
             </paper-dialog>
         </app-header-layout>
-        <participantes-dialog id="participantes" users="{{users}}" page="{{page}}" token="{{token}}" id_organization="{{id_organization}}" >
+        <participantes-dialog id="participantes" users="{{users}}" users_organization="{{users_organization}}" page="{{page}}" token="{{token}}" id_organization="{{id_organization}}" >
 
         </participantes-dialog>
 
@@ -243,6 +252,11 @@
                         reflectToAttribute:true,
                         notify: true
                     },
+                    users_organization: {
+                        type: Object,
+                        reflectToAttribute:true,
+                        notify: true
+                    },
                     page: {
                         type: String,
                         reflectToAttribute:true,
@@ -272,8 +286,14 @@
                     this.$.getProject.headers['authorization']='Token '+this.token;
                     this.$.getProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/active";
                     this.$.getProject.generateRequest();
+                    this.$.getOrganization.headers['authorization']='Token '+this.token;
+                    this.$.getOrganization.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization;
+                    this.$.getOrganization.generateRequest();
                 }
 
+            }
+            OrganizationResponse(data){
+                this.users_organization = data.detail.response.users;
             }
             openDialog() {
                 this.$.animated.open();

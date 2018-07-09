@@ -41,3 +41,7 @@ class SupportSerializer(serializers.ModelSerializer):
         model = SupportDoc
         fields = ('project', 'persona_juridica', 'persona_fisica', 'cod_justificacion')
 
+
+class DocumentFilterSerializer(serializers.Serializer):
+    type_person = serializers.CharField()
+

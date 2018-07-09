@@ -1,11 +1,15 @@
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.core import serializers
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, views
 from rest_framework import viewsets
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-from client.models import LegalPerson, PhysicalPerson, Document
-from client.serializers import LegalPersonSerializer, PhysicalPersonSerializer, FileSerializer, SupportSerializer
+from client.models import LegalPerson, PhysicalPerson, Document, SupportDoc
+from client.serializers import LegalPersonSerializer, PhysicalPersonSerializer, DocumentFilterSerializer, FileSerializer,\
+    SupportSerializer
 from organization.serializers import UserSerializer
 from organization.models import Project
 import json
@@ -49,7 +53,7 @@ class LegalPersonViewSet(viewsets.ModelViewSet):
             newLegalPerson = legalPerson.save()
 
             try:
-                project = Project.objects.get(id=self.kwargs['pk2'], organization_id=self.kwargs['pk1'])
+                project = Project.objects.get(id=self.kwargs['pk2'])
                 newLegalPerson.project = project
                 newLegalPerson.save()
                 return Response(legalPerson.data, status=status.HTTP_201_CREATED)
@@ -232,8 +236,23 @@ class DocumentUploadView(views.APIView):
 
     queryset = Document.objects.all()
 
-    def get(self, *args, **kwargs):
-        pass #request.GET
+    @swagger_auto_schema(query_serializer=DocumentFilterSerializer)
+    def get(self, request, *args, **kwargs):
+        type_person = request.GET.get('type_person')
+        id_project = self.kwargs['pk']
+        if type_person == 'legal-person':
+            try:
+                legal_person = LegalPerson.objects.filter(project=id_project)
+                supportDoc = SupportDoc.objects.filter(project=id_project, persona_juridica=legal_person[0].id)
+                kk = serializers.serialize('json', supportDoc)
+                return HttpResponse(kk, content_type='json', status=status.HTTP_200_OK)
+            except ValueError:
+                import ipdb
+                ipdb.set_trace()
+        else:
+            id_person = request.GET.get('id-person')
+            supportDoc = SupportDoc.objects.filter(project=id_project, persona_fisica=id_person)
+            return Document.objects.filter(id=supportDoc.id)
 
     def post(self, request, *args, **kwargs):
         for file in request.FILES:
@@ -243,8 +262,7 @@ class DocumentUploadView(views.APIView):
             data_document['file'] = request.FILES[file]
             data_document['content_type'] = data['content_type']
             data_document['length'] = data['length']
-            data_support = {}
-            data_support['project'] = data['project']
+            data_support = {'project': data['project']}
             if data.get('persona_juridica'):
                 data_support['persona_juridica'] = data['persona_juridica']
             if data.get('persona_fisica'):
@@ -253,8 +271,11 @@ class DocumentUploadView(views.APIView):
             file_serializer = FileSerializer(data=data_document)
             support_serializer = SupportSerializer(data=data_support)
             if file_serializer.is_valid() and support_serializer.is_valid():
-                file_serializer.save()
-                support_serializer.save()
+                document = file_serializer.save()
+                support = support_serializer.save()
+                support.document = document
+                support.save()
+
                 return Response(file_serializer.data, status=status.HTTP_201_CREATED)
             else:
                 return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

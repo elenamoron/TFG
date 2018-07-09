@@ -77,3 +77,6 @@ class SupportDoc(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
     persona_juridica = models.ForeignKey(LegalPerson, null=True, blank=True, on_delete=models.CASCADE)
     persona_fisica = models.ForeignKey(PhysicalPerson, null=True, blank=True, on_delete=models.CASCADE)
+    document = models.ForeignKey(Document, on_delete=models.CASCADE, null=True)
+
+

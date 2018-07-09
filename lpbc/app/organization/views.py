@@ -18,6 +18,11 @@ class OrganizationViewSet(viewsets.ModelViewSet):
         logger_user = self.request.user
         return Organization.objects.filter(users=logger_user)
 
+    def retrieve(self, request, *args, **kwargs):
+        logger_user = self.request.user
+        organization = Organization.objects.get(id=self.kwargs['pk'], users=logger_user)
+        return Response(OrganizationSerializer(organization).data, status=status.HTTP_200_OK)
+
     def create(self, request, *args, **kwargs):
 
         organization = OrganizationSerializer(data=request.data)

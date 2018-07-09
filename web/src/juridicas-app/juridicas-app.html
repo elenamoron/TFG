@@ -65,7 +65,7 @@
         <iron-ajax
             id="getLegalPerson"
             method="get"
-            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/LegalPerson/"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/legal-person/"
             handle-as="json"
             content-type="application/json"
             on-response="handleResponse">
@@ -74,7 +74,7 @@
         <iron-ajax
             id="addLegalPerson"
             method="post"
-            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/LegalPerson/"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/legal-person/"
             handle-as="json"
             content-type="application/json"
             on-response={{postResponse}}>
@@ -83,7 +83,7 @@
         <iron-ajax
             id="putLegalPerson"
             method="put"
-            url="http://0.0.0.0:8000/api/v1/LegalPerson/{{id_project}}/"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/legal-person/"
             handle-as="json"
             content-type="application/json"
             on-response={{putResponse}}>
@@ -92,10 +92,19 @@
         <iron-ajax
             id="uploadfile"
             method="post"
-            url="http://0.0.0.0:8000/api/v1/document/"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}document/"
             handle-as="json"
             content-type=""
             on-response={{upfileResponse}}>
+
+        </iron-ajax>
+        <iron-ajax
+            id="getfile"
+            method="get"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}document/?type-person=legal-person"
+            handle-as="json"
+            content-type=""
+            on-response={{getfileResponse}}>
 
         </iron-ajax>
         <div class="content ">
@@ -137,19 +146,22 @@
                         </paper-radio-group>
                         <paper-input placeholder="Nº de inscripción en el registro correspondiente" value="{{legalPerson.numero_inscripciones}}"></paper-input>
 
-                        <file-drop-zone multiple accept="*" files="{{files}}">
-                            <div slot="drop-zone">
-                                <iron-icon icon="description"></iron-icon>
-                                <h3>Documentación de soporte</h3>
-                            </div>
-                        </file-drop-zone>
-                        <paper-button on-tap="upload">Adjuntar <iron-icon icon="icons:attachment"></iron-icon></paper-button>
+
 
                     </div>
 
 
                     <paper-fab icon="create" raised on-tap="add"></paper-fab>
                 </div>
+                <br>
+
+                <file-drop-zone multiple accept="*" files="{{files}}">
+                    <div slot="drop-zone">
+                        <iron-icon icon="description"></iron-icon>
+                        <h3>Documentación de soporte</h3>
+                    </div>
+                </file-drop-zone>
+                <paper-button on-tap="upload">Adjuntar <iron-icon icon="icons:attachment"></iron-icon></paper-button>
             </form>
         </div>
     </template>
@@ -207,14 +219,14 @@
                 }
 
                 if(!this.legalPerson && this.id_project){
-                    this.$.getLegalPerson.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/LegalPerson/";
+                    this.$.getLegalPerson.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/legal-person/";
                     this.$.getLegalPerson.headers['authorization']='Token '+this.token;
                     this.$.getLegalPerson.generateRequest();
                 }
             }
             onChangeIdProject(){
                 if(this.id_project){
-                    this.$.getLegalPerson.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/LegalPerson/";
+                    this.$.getLegalPerson.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/legal-person/";
                     this.$.getLegalPerson.headers['authorization']='Token '+this.token;
                     this.$.getLegalPerson.generateRequest();
                 }
@@ -225,19 +237,22 @@
                 if(this.legalPerson[0]){
                     this.legalPerson = this.legalPerson[0];
                     this.haslegalPerson = true;
+                    this.$.getfile.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/document/?type-person=legal-person";
+                    this.$.getfile.headers['authorization']='Token '+this.token;
+                    this.$.getfile.generateRequest();
                 }
 
             }
             add(){
                 //this.legalPerson.project=this.id_project;
                 if(!this.haslegalPerson){
-                    this.$.addLegalPerson.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/LegalPerson/";
+                    this.$.addLegalPerson.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/legal-person/";
                     this.$.addLegalPerson.headers['authorization']='Token '+this.token;
                     this.$.addLegalPerson.body=Object.assign({}, this.legalPerson);
                     this.$.addLegalPerson.generateRequest();
                     this.haslegalPerson = true;
                 }else{
-                    this.$.putLegalPerson.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/LegalPerson/";
+                    this.$.putLegalPerson.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/legal-person/";
                     this.$.putLegalPerson.headers['authorization']='Token '+this.token;
                     this.$.putLegalPerson.body=this.legalPerson;
                     this.$.putLegalPerson.generateRequest();
@@ -258,6 +273,7 @@
                 data.append("json",JSON.stringify({"content_type":content_type,"length":length,"project":this.id_project,
                         "persona_juridica":this.legalPerson.id, "tag": "documentación soporte persona jurídica"}));
                 this.$.uploadfile.body=data;
+                this.$.uploadfile.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/document/";
                 this.$.uploadfile.headers['authorization']='Token '+this.token;
                 this.$.uploadfile.contentType = undefined;
                 //this.$.uploadfile.body={"project":this.id_project, "file":this.files, "persona_juridica":this.legalPerson.id};
