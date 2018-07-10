@@ -9,6 +9,7 @@
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
@@ -33,6 +34,7 @@
             paper-fab {
                 float: right;
                 margin-right: 20px;
+                margin-bottom: 20px;
                 --paper-fab-background: #ff4081;
                 --paper-fab-keyboard-focus-background: #DF4448;
             }
@@ -83,6 +85,12 @@
             .errors{
                 color:red;
             }
+            .usuarios{
+                width: 200px;
+            }
+            .select-user{
+                margin-left: 100px;
+            }
         </style>
         <iron-ajax
                 method="get"
@@ -99,6 +107,22 @@
                 handle-as="json"
                 content-type="application/json"
                 on-response="onResponse"
+                ></iron-ajax>
+        <iron-ajax
+                method="post"
+                id="postMemberProject"
+                url="http://0.0.0.0:8000/api/v1/organization/{{id}}/project/{{id_project}}/member/{{uuid}}"
+                handle-as="json"
+                content-type="application/json"
+                on-response="onSuccess"
+                ></iron-ajax>
+        <iron-ajax
+                method="delete"
+                id="deleteMemberProject"
+                url="http://0.0.0.0:8000/api/v1/organization/{{id}}/project/{{id_project}}/member/{{uuid}}"
+                handle-as="json"
+                content-type="application/json"
+                on-response="onDelete"
                 ></iron-ajax>
         <paper-dialog id="animated">
             <div class="errors">
@@ -118,8 +142,13 @@
             <template is="dom-if" if="{{_isEqualTo(page, 'project')}}" restamp>
                 <template   is="dom-repeat" items="{{users_organization}}" mutable-data>
                     <paper-icon-item>
-                        <iron-icon icon="account-circle"></iron-icon>
-                            [[item.username]]
+                        <div class="usuarios">
+                            <iron-icon icon="account-circle"></iron-icon>
+                            <span>[[item.username]]</span>
+                        </div>
+                        <div class="select-user">
+                            <paper-toggle-button id="check" checked="{{_ifUser(item.username)}}" class="pink" data-item$="[[item]]" on-click="_checkBoxClicked"></paper-toggle-button>
+                        </div>
                     </paper-icon-item>
                 </template>
             </template>
@@ -164,13 +193,27 @@
                         notify: true
                     },
                     errors: String,
+                    id_project: {
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true
+                    },
 
                 };
             }
             _isEqualTo(page, string) {
                  return page == string;
             }
+            _ifUser(user){
+                var result= false
+                this.users.forEach(function(elem){
+                   if(elem.username === user){
+                       result = true;
 
+                   }
+                });
+                return result;
+            }
             add(){
                 this.$.getUser.url="http://0.0.0.0:8000/api/v1/user/"+this.email+"/";
                 this.$.getUser.headers['authorization'] = 'Token '+this.token;
@@ -188,6 +231,19 @@
             }
             onResponse(data){
                 this.push('users', data.detail.response)
+            }
+            _checkBoxClicked(event){
+                const item = JSON.parse(event.target.dataset.item);
+                if(event.target.checked){
+                    this.$.postMemberProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/"+this.id_project+"/member/"+item.id;
+                    this.$.postMemberProject.headers['authorization'] = 'Token '+this.token;
+                    this.$.postMemberProject.generateRequest();
+                } else {
+                    this.$.deleteMemberProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/"+this.id_project+"/member/"+item.id;
+                    this.$.deleteMemberProject.headers['authorization'] = 'Token '+this.token;
+                    this.$.deleteMemberProject.generateRequest();
+                }
+
             }
 
 

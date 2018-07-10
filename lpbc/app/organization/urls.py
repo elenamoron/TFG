@@ -18,7 +18,7 @@ from django.urls import re_path
 from rest_framework import routers
 from django.conf.urls import url
 from organization.views import OrganizationViewSet, ProfileViewSet, ProjectViewSet, ProjectDetailView, ProjectsViewSet,\
-    OrganizationMemberViewSet
+    OrganizationMemberViewSet, ProjectMemberlView
 
 
 urlpatterns = [
@@ -30,7 +30,10 @@ urlpatterns = [
     path('profile/<int:pk>', ProfileViewSet.as_view({'get': 'list', 'put': 'update'})),
     path('<int:pk>/project/', ProjectViewSet.as_view({'post': 'create'})),
     path('<int:pk>/project/<str:scope>', ProjectsViewSet.as_view({'get': 'list'})),
-    path('<int:pk1>/project/<int:pk2>/', ProjectDetailView.as_view({'get': 'list', 'put': 'update', 'delete': 'delete'})),
+    path('<int:pk1>/project/<int:pk2>/', ProjectDetailView.as_view({'get': 'list', 'put': 'update', 'delete': 'delete'})
+         ),
+    path('<int:pk1>/project/<int:pk2>/member/<int:uuid>', ProjectMemberlView.as_view({'post': 'create',
+                                                                                     'delete': 'delete'})),
 ]
 
 

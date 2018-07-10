@@ -169,7 +169,7 @@
                                 {{item.username}}
                             </template>
                         </div>
-                        <paper-fab  icon="account-circle" data-item$="[[item.users]]" raised on-tap="addMember"></paper-fab>
+                        <paper-fab  icon="account-circle" data-item$="[[item.users]]" data-project$="[[item.id]]" raised on-tap="addMember"></paper-fab>
                     </div>
                     <div class="card-actions">
                         <a href="#/proyecto/{{item.name}}/resumen" class="ver">
@@ -208,7 +208,7 @@
                 <paper-button on-click="add" class="custom black" name="add" dialog-confirm autofocus>Añadir</paper-button>
             </paper-dialog>
         </app-header-layout>
-        <participantes-dialog id="participantes" users="{{users}}" users_organization="{{users_organization}}" page="{{page}}" token="{{token}}" id_organization="{{id_organization}}" >
+        <participantes-dialog id="participantes" users="{{users}}" users_organization="{{users_organization}}" page="{{page}}" token="{{token}}" id_organization="{{id_organization}}" id_project="{{id_project}}" >
 
         </participantes-dialog>
 
@@ -293,6 +293,10 @@
 
             }
             OrganizationResponse(data){
+                if(data.detail.response.count){
+                    this.id_organization = data.detail.response.results[0].id;
+                    this.users_organization = data.detail.response.results[0].users;
+                }
                 this.users_organization = data.detail.response.users;
             }
             openDialog() {
@@ -331,6 +335,7 @@
             addMember(event){
                 this.page="project";
                 this.users=JSON.parse(event.target.dataset.item);
+                this.id_project=JSON.parse(event.target.dataset.project);
                 var dialog = this.shadowRoot.querySelector('#participantes');
                 var popUp = dialog.shadowRoot.querySelector('paper-dialog');
                 popUp.toggle();

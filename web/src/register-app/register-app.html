@@ -92,7 +92,7 @@
         <iron-ajax
                 method="post"
                 id="postProfile"
-                url="http://0.0.0.0:8000/api/v1/organization/profile"
+                url="http://0.0.0.0:8000/api/v1/organization/profile/"
                 handle-as="json"
                 content-type="application/json"
                 on-response="resultProfile"
@@ -212,7 +212,7 @@
                 localStorage.setItem('id_organization',this.id_organization);
             }
             resultOrganization(data){
-                if(data.detail.response.count==1){
+                if(data.detail.response.count >= 1){
                     this.id_organization = data.detail.response.results[0].id;
                     localStorage.setItem('id_organization',this.id_organization);
                 }
@@ -230,7 +230,7 @@
             resultProfile(data){
                 this.user = data.detail.response.results[0];
                 localStorage.setItem('user',JSON.stringify(this.user));
-                location="#/home/mis-proyectos";
+              //  location="#/home/mis-proyectos";
             }
             onResponseGetProfile(data){
                 if(data.detail.response.count == 0){
@@ -238,7 +238,6 @@
                     var dd = d.getDate();
                     var mm = d.getMonth()+1; //January is 0!
                     var yyyy = d.getFullYear();
-                    debugger;
                     this.id_user = data.detail.response.pk;
                     this.$.postProfile.headers['authorization'] = 'Token '+this.token;
                     this.$.postProfile.body = {"user":this.id_user, "nombre":"", "apellidos":"", "fecha_nacimiento":yyyy+'-'+mm+'-'+dd,

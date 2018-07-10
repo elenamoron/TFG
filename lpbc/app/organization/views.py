@@ -155,6 +155,7 @@ class ProjectDetailView(viewsets.ModelViewSet):
     def get_queryset(self):
         return Project.objects.filter(organization=self.kwargs['pk1'], id=self.kwargs['pk2'])
 
+
     def delete(self, request, *args, **kwargs):
         project = Project.objects.filter(organization=self.kwargs['pk1'], id=self.kwargs['pk2'])
         project.delete()
@@ -168,3 +169,26 @@ class ProjectDetailView(viewsets.ModelViewSet):
         serializer.save()
         response_serializer = ProjectSerializer(project)
         return Response(response_serializer.data, status.HTTP_202_ACCEPTED)
+
+
+class ProjectMemberlView(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+
+    def get_queryset(self):
+        return Project.objects.filter(organization=self.kwargs['pk1'], id=self.kwargs['pk2'])
+
+    def create(self, request, *args, **kwargs):
+        project = Project.objects.get(organization=self.kwargs['pk1'],id=self.kwargs['pk2'])
+        user = User.objects.get(id=self.kwargs['uuid'])
+        project.users.add(user)
+        project.save()
+        return Response(UserSerializer(user).data, status.HTTP_200_OK)
+
+    def delete(self, request, *args, **kwargs):
+        project = Project.objects.get(organization=self.kwargs['pk1'], id=self.kwargs['pk2'])
+        user = User.objects.get(id=self.kwargs['uuid'])
+        project.users.remove(user)
+        project.save()
+        return Response(UserSerializer(user).data, status.HTTP_200_OK)
+

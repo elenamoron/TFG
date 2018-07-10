@@ -237,7 +237,7 @@
                 if(this.legalPerson[0]){
                     this.legalPerson = this.legalPerson[0];
                     this.haslegalPerson = true;
-                    this.$.getfile.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/document/?type-person=legal-person";
+                    this.$.getfile.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/document/?type_person=legal-person";
                     this.$.getfile.headers['authorization']='Token '+this.token;
                     this.$.getfile.generateRequest();
                 }
