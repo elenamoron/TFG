@@ -39,7 +39,7 @@ class SupportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SupportDoc
-        fields = ('project', 'persona_juridica', 'persona_fisica', 'cod_justificacion')
+        fields = ('project', 'persona_juridica', 'persona_fisica', 'cod_justificacion', 'name')
 
 
 class DocumentFilterSerializer(serializers.Serializer):

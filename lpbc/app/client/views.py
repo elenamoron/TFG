@@ -258,11 +258,12 @@ class DocumentUploadView(views.APIView):
         for file in request.FILES:
             data = json.loads(request.data['json'])
             data_document = {}
+            data_support = {'name': request.FILES[file].name}
             request.FILES[file].name = uuid.uuid4().hex
             data_document['file'] = request.FILES[file]
             data_document['content_type'] = data['content_type']
             data_document['length'] = data['length']
-            data_support = {'project': data['project']}
+            data_support['project'] = data['project']
             if data.get('persona_juridica'):
                 data_support['persona_juridica'] = data['persona_juridica']
             if data.get('persona_fisica'):

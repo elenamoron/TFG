@@ -38,7 +38,6 @@
                 clear: both;
             }
             paper-fab {
-                position: fixed;
                 right: 24px;
                 bottom: 24px;
                 --paper-fab-background: #ff4081;
@@ -48,6 +47,15 @@
                 background-color: plum;
                 border-radius: 50%;
             }
+            .add{
+                position: fixed;
+            }
+            .doc{
+                float:left;
+                margin-right: 20px;
+                margin-top: 20px;
+            }
+
             @media only screen and (max-width: 600px) {
                 .content {
                     padding-left: 30px;
@@ -104,7 +112,7 @@
             url="http://0.0.0.0:8000/api/v1/project/{{id_project}}document/?type-person=legal-person"
             handle-as="json"
             content-type=""
-            on-response={{getfileResponse}}>
+            on-response="getfileResponse">
 
         </iron-ajax>
         <div class="content ">
@@ -151,7 +159,7 @@
                     </div>
 
 
-                    <paper-fab icon="create" raised on-tap="add"></paper-fab>
+                    <paper-fab class="add" icon="create" raised on-tap="add"></paper-fab>
                 </div>
                 <br>
 
@@ -162,6 +170,15 @@
                     </div>
                 </file-drop-zone>
                 <paper-button on-tap="upload">Adjuntar <iron-icon icon="icons:attachment"></iron-icon></paper-button>
+                <h3> Documentos aportados</h3>
+                <template id="repeat-document" is="dom-repeat" items="[[documents]]">
+                    <template is="dom-if" if="{{item.fields}}" restamp>
+                        <div class="doc">
+                            <paper-fab  icon="description" raised on-tap="add"></paper-fab>
+                            <span>[[item.fields.name]]</span>
+                        </div>
+                    </template>
+                </template>
             </form>
         </div>
     </template>
@@ -204,6 +221,10 @@
                         observer:'onChangeUser',
                         reflectToAttribute:true,
                         notify: true
+                    },
+                    documents: {
+                        type: Object,
+                        reflectToAttribute:true
                     }
 
                 };
@@ -237,9 +258,12 @@
                 if(this.legalPerson[0]){
                     this.legalPerson = this.legalPerson[0];
                     this.haslegalPerson = true;
-                    this.$.getfile.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/document/?type_person=legal-person";
-                    this.$.getfile.headers['authorization']='Token '+this.token;
-                    this.$.getfile.generateRequest();
+                    if(!this.documents){
+                        this.$.getfile.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/document/?type_person=legal-person";
+                        this.$.getfile.headers['authorization']='Token '+this.token;
+                        this.$.getfile.generateRequest();
+                    }
+
                 }
 
             }
@@ -271,13 +295,20 @@
                     num++;
                 });
                 data.append("json",JSON.stringify({"content_type":content_type,"length":length,"project":this.id_project,
-                        "persona_juridica":this.legalPerson.id, "tag": "documentación soporte persona jurídica"}));
+                        "persona_juridica":this.legalPerson.id, "tag": "persona_jurídica"}));
                 this.$.uploadfile.body=data;
                 this.$.uploadfile.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/document/";
                 this.$.uploadfile.headers['authorization']='Token '+this.token;
                 this.$.uploadfile.contentType = undefined;
                 //this.$.uploadfile.body={"project":this.id_project, "file":this.files, "persona_juridica":this.legalPerson.id};
                 this.$.uploadfile.generateRequest();
+            }
+            getfileResponse(data){
+                if(!this.documents){
+                    this.documents = data.detail.response;
+                    this.push('documents', data.detail.response);
+                }
+
             }
 
         }

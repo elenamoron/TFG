@@ -78,5 +78,6 @@ class SupportDoc(models.Model):
     persona_juridica = models.ForeignKey(LegalPerson, null=True, blank=True, on_delete=models.CASCADE)
     persona_fisica = models.ForeignKey(PhysicalPerson, null=True, blank=True, on_delete=models.CASCADE)
     document = models.ForeignKey(Document, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=255, blank=True)
 
 
