@@ -103,16 +103,25 @@
             url="http://0.0.0.0:8000/api/v1/project/{{id_project}}document/"
             handle-as="json"
             content-type=""
-            on-response={{upfileResponse}}>
+            on-response="upfileResponse">
 
         </iron-ajax>
         <iron-ajax
             id="getfile"
             method="get"
-            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}document/?type-person=legal-person"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}/document/?type-person=legal-person"
             handle-as="json"
             content-type=""
             on-response="getfileResponse">
+
+        </iron-ajax>
+        <iron-ajax
+            id="getDoc"
+            method="get"
+            url="http://0.0.0.0:8000/api/v1/document/{{id}}"
+            handle-as="json"
+            content-type=""
+            on-response="getdocResponse">
 
         </iron-ajax>
         <div class="content ">
@@ -174,7 +183,7 @@
                 <template id="repeat-document" is="dom-repeat" items="[[documents]]">
                     <template is="dom-if" if="{{item.fields}}" restamp>
                         <div class="doc">
-                            <paper-fab  icon="description" raised on-tap="add"></paper-fab>
+                            <iron-icon  icon="description" raised data-item$="[[item.fields.document]]" on-tap="download"></iron-icon>
                             <span>[[item.fields.name]]</span>
                         </div>
                     </template>
@@ -296,12 +305,17 @@
                 });
                 data.append("json",JSON.stringify({"content_type":content_type,"length":length,"project":this.id_project,
                         "persona_juridica":this.legalPerson.id, "tag": "persona_jurídica"}));
-                this.$.uploadfile.body=data;
-                this.$.uploadfile.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/document/";
-                this.$.uploadfile.headers['authorization']='Token '+this.token;
-                this.$.uploadfile.contentType = undefined;
-                //this.$.uploadfile.body={"project":this.id_project, "file":this.files, "persona_juridica":this.legalPerson.id};
-                this.$.uploadfile.generateRequest();
+                if(this.legalPerson){
+                    this.$.uploadfile.body=data;
+                    this.$.uploadfile.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/document/";
+                    this.$.uploadfile.headers['authorization']='Token '+this.token;
+                    this.$.uploadfile.contentType = undefined;
+                    //this.$.uploadfile.body={"project":this.id_project, "file":this.files, "persona_juridica":this.legalPerson.id};
+                    this.$.uploadfile.generateRequest();
+                }else{
+                    alert('No tiene ningun registro de persona jurídica');
+                }
+
             }
             getfileResponse(data){
                 if(!this.documents){
@@ -310,7 +324,21 @@
                 }
 
             }
+            download(event){
+                var id = JSON.parse(event.target.dataset.item);
+                this.$.getDoc.url="http://0.0.0.0:8000/api/v1/document/"+id;
+                this.$.getDoc.headers['authorization']='Token '+this.token;
+                this.$.getDoc.generateRequest();
+            }
+            upfileResponse(data){
+                if(!this.documents){
+                    this.documents = data.detail.response;
+                }
+                this.push('documents', data.detail.response);
+            }
+            getdocResponse(data){
 
+            }
         }
 
         window.customElements.define(JuridicasApp.is, JuridicasApp);

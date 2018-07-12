@@ -18,7 +18,7 @@ from django.urls import re_path
 from rest_framework import routers
 from django.conf.urls import url
 from client.views import LegalPersonViewSet, PhysicalPersonViewSet, SpecificPhysicalPersonViewSet, DocumentUploadView,\
-    PhysicalPersonTypeViewSet, UserViewSet
+    PhysicalPersonTypeViewSet, UserViewSet, DocumentDownloadView
 
 urlpatterns = [
     path('project/<int:pk2>/legal-person/', LegalPersonViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update'
@@ -29,8 +29,8 @@ urlpatterns = [
                                                                                               'put': 'update',
                                                                                               'delete': 'delete'})),
     path('project/<int:pk>/document/', DocumentUploadView.as_view()),
-    path('user/<str:email>/', UserViewSet.as_view({'get': 'list'}))
-    #path('document/<int:id>', DocumentUploadView.as_view({'get': 'list'}))
+    path('user/<str:email>/', UserViewSet.as_view({'get': 'list'})),
+    path('document/<int:pk>', DocumentDownloadView.as_view())
 ]
 
 

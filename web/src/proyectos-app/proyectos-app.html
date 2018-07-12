@@ -111,6 +111,18 @@
                 overflow:visible;
                 cursor: pointer;
             }
+            iron-icon{
+                margin-right: 5px;
+            }
+            .errors{
+                color:red;
+            }
+            .usuarios{
+                width: 200px;
+            }
+            .select-user{
+                margin-left: 100px;
+            }
         </style>
         <app-location route="{{route}}" use-hash-as-path></app-location>
         <app-route
@@ -164,12 +176,20 @@
                         <div class="rate-header">{{item.name}}</div>
                         <div class="rate-name">{{item.cliente}}</div>
                         <div>{{item.description}}</div>
-                        <div class="cortar">Miembros:
-                            <template  is="dom-repeat" items="{{item.users}}" mutable-data>
-                                {{item.username}}
+                        <paper-collapse-item icon="account-circle">
+                            <template   is="dom-repeat" items="{{users_organization}}" mutable-data>
+                                <paper-icon-item>
+                                    <div class="usuarios">
+                                        <iron-icon icon="account-circle"></iron-icon>
+                                        <span>[[item.username]]</span>
+                                    </div>
+                                    <div class="select-user">
+                                        <paper-toggle-button id="check" checked="{{_ifUser(item.username)}}" class="pink" data-item$="[[item]]" on-click="_checkBoxClicked"></paper-toggle-button>
+                                    </div>
+                                </paper-icon-item>
                             </template>
-                        </div>
-                        <paper-fab  icon="account-circle" data-item$="[[item.users]]" data-project$="[[item.id]]" raised on-tap="addMember"></paper-fab>
+                        </paper-collapse-item>
+
                     </div>
                     <div class="card-actions">
                         <a href="#/proyecto/{{item.name}}/resumen" class="ver">
@@ -208,9 +228,7 @@
                 <paper-button on-click="add" class="custom black" name="add" dialog-confirm autofocus>Añadir</paper-button>
             </paper-dialog>
         </app-header-layout>
-        <participantes-dialog id="participantes" users="{{users}}" users_organization="{{users_organization}}" page="{{page}}" token="{{token}}" id_organization="{{id_organization}}" id_project="{{id_project}}" >
 
-        </participantes-dialog>
 
     </template>
     <script>
@@ -279,6 +297,16 @@
                     this.$.getProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/active";
                     this.$.getProject.generateRequest();
                 }
+            }
+            _ifUser(user){
+                var result= false
+                this.users.forEach(function(elem){
+                   if(elem.username === user){
+                       result = true;
+
+                   }
+                });
+                return result;
             }
             onChangeId(){
                 if(this.id_organization){

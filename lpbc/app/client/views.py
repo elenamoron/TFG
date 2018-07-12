@@ -14,6 +14,8 @@ from organization.serializers import UserSerializer
 from organization.models import Project
 import json
 import uuid
+import os
+from django.conf import settings
 
 
 class LegalPersonViewSet(viewsets.ModelViewSet):
@@ -277,9 +279,22 @@ class DocumentUploadView(views.APIView):
                 support.document = document
                 support.save()
 
-                return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+                return Response(support_serializer.data, status=status.HTTP_201_CREATED)
             else:
                 return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DocumentDownloadView(views.APIView):
+
+    def get(self, request, *args, **kwargs):
+        document = Document.objects.get(id=self.kwargs['pk'])
+        file_path = os.path.join(settings.MEDIA_ROOT, document.file.name)
+
+        if os.path.exists(file_path):
+            with open(file_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type=document.content_type)
+                response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+                return response
 
 
 class PhysicalPersonTypeViewSet(viewsets.ModelViewSet):

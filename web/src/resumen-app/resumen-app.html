@@ -119,11 +119,13 @@
                 super.ready();
                 if(!this.token && localStorage.getItem('token')!=null){
                     this.token = localStorage.getItem('token');
-                    this.id_organization = localStorage.getItem('id_organization');
                     this.user = localStorage.getItem('user');
                     this.id_project = localStorage.getItem('id_project');
-
                 }
+                if(!this.id_organization){
+                    this.id_organization = localStorage.getItem('id_organization');
+                }
+
             }
             update(event){
                 const item = JSON.parse(event.target.dataset.item);
