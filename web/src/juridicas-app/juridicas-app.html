@@ -115,13 +115,6 @@
             on-response="getfileResponse">
 
         </iron-ajax>
-        <iron-ajax
-            id="getDoc"
-            method="get"
-            url="http://0.0.0.0:8000/api/v1/document/{{id}}"
-            handle-as="json"
-            content-type=""
-            on-response="getdocResponse">
 
         </iron-ajax>
         <div class="content ">
@@ -184,7 +177,7 @@
                     <template is="dom-if" if="{{item.fields}}" restamp>
                         <div class="doc">
                             <iron-icon  icon="description" raised data-item$="[[item.fields.document]]" on-tap="download"></iron-icon>
-                            <span>[[item.fields.name]]</span>
+                            <a href="http://0.0.0.0:8000/api/v1/document/[[item.fields.document]]"><span>[[item.fields.name]]</span></a>
                         </div>
                     </template>
                 </template>
@@ -324,21 +317,15 @@
                 }
 
             }
-            download(event){
-                var id = JSON.parse(event.target.dataset.item);
-                this.$.getDoc.url="http://0.0.0.0:8000/api/v1/document/"+id;
-                this.$.getDoc.headers['authorization']='Token '+this.token;
-                this.$.getDoc.generateRequest();
-            }
+
             upfileResponse(data){
-                if(!this.documents){
+                location.reload();
+                /*if(!this.documents){
                     this.documents = data.detail.response;
                 }
-                this.push('documents', data.detail.response);
+                this.push('documents', data.detail.response);*/
             }
-            getdocResponse(data){
 
-            }
         }
 
         window.customElements.define(JuridicasApp.is, JuridicasApp);
