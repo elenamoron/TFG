@@ -169,22 +169,38 @@
             on-response="OrganizationResponse">
 
         </iron-ajax>
+        <iron-ajax
+                method="post"
+                id="postMemberProject"
+                url="http://0.0.0.0:8000/api/v1/organization/{{id}}/project/{{id_project}}/member/{{uuid}}"
+                handle-as="json"
+                content-type="application/json"
+                on-response="onSuccess"
+                ></iron-ajax>
+        <iron-ajax
+                method="delete"
+                id="deleteMemberProject"
+                url="http://0.0.0.0:8000/api/v1/organization/{{id}}/project/{{id_project}}/member/{{uuid}}"
+                handle-as="json"
+                content-type="application/json"
+                on-response="onDelete"
+                ></iron-ajax>
         <app-header-layout>
-            <template is="dom-repeat" items="[[proyectos]]" rendered-item-count="{{renderedCount}}">
+            <template id="list_projects" is="dom-repeat" items="[[proyectos]]" as="project" rendered-item-count="{{renderedCount}}">
                 <paper-card class="rate">
                     <div class="card-content">
-                        <div class="rate-header">{{item.name}}</div>
-                        <div class="rate-name">{{item.cliente}}</div>
-                        <div>{{item.description}}</div>
+                        <div class="rate-header">{{project.name}}</div>
+                        <div class="rate-name">{{project.cliente}}</div>
+                        <div>{{project.description}}</div>
                         <paper-collapse-item icon="account-circle">
-                            <template   is="dom-repeat" items="{{users_organization}}" mutable-data>
+                            <template  id="list_users" is="dom-repeat" items="{{users_organization}}" mutable-data>
                                 <paper-icon-item>
                                     <div class="usuarios">
                                         <iron-icon icon="account-circle"></iron-icon>
                                         <span>[[item.username]]</span>
                                     </div>
                                     <div class="select-user">
-                                        <paper-toggle-button id="check" checked="{{_ifUser(item.username)}}" class="pink" data-item$="[[item]]" on-click="_checkBoxClicked"></paper-toggle-button>
+                                        <paper-toggle-button id="check" checked="{{_ifUser(item.username, project)}}" class="pink" data-item$="[[item]]" on-click="_checkBoxClicked"></paper-toggle-button>
                                     </div>
                                 </paper-icon-item>
                             </template>
@@ -298,9 +314,9 @@
                     this.$.getProject.generateRequest();
                 }
             }
-            _ifUser(user){
-                var result= false
-                this.users.forEach(function(elem){
+            _ifUser(user, project){
+                var result= false;
+                project.users.forEach(function(elem){
                    if(elem.username === user){
                        result = true;
 
@@ -373,6 +389,18 @@
             }
             putResponse(data){
                 this.splice('proyectos', data.detail.response, 1);
+            }
+            _checkBoxClicked(event){
+                const item = JSON.parse(event.target.dataset.item);
+                if(event.target.checked){
+                    this.$.postMemberProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/"+this.id_project+"/member/"+item.id;
+                    this.$.postMemberProject.headers['authorization'] = 'Token '+this.token;
+                    this.$.postMemberProject.generateRequest();
+                } else {
+                    this.$.deleteMemberProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/"+this.id_project+"/member/"+item.id;
+                    this.$.deleteMemberProject.headers['authorization'] = 'Token '+this.token;
+                    this.$.deleteMemberProject.generateRequest();
+                }
             }
 
 

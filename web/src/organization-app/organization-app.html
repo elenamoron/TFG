@@ -113,11 +113,9 @@
                 float:left;
                 margin-right: 10px;
             }
-            .cortar:hover {
-                width: auto;
-                white-space: initial;
-                overflow:visible;
-                cursor: pointer;
+
+            .errors{
+                color:red;
             }
         </style>
         <iron-ajax
@@ -136,7 +134,22 @@
                 content-type="application/json"
                 on-response="onDelete"
                 ></iron-ajax>
-
+        <iron-ajax
+                method="get"
+                id="getUser"
+                url="http://0.0.0.0:8000/api/v1/user/{{email}}/"
+                handle-as="json"
+                content-type="application/json"
+                on-response="getUserResponse"
+                ></iron-ajax>
+        <iron-ajax
+                method="post"
+                id="postMember"
+                url="http://0.0.0.0:8000/api/v1/organization/{{id}}/member/{{uuid}}"
+                handle-as="json"
+                content-type="application/json"
+                on-response="onResponse"
+                ></iron-ajax>
         <app-header-layout>
             <template id="organizationList" is="dom-repeat" items="{{organizaciones}}" mutable-data>
                 <paper-card class="rate">
@@ -144,12 +157,20 @@
                         <div class="rate-header">{{item.name}}</div>
                         <div class="rate-name">{{item.code}}</div>
                         <div>{{item.description}}</div>
-                        <div class="cortar">Miembros:
-                            <template  is="dom-repeat" items="{{item.users}}" mutable-data>
-                                {{item.username}}
+
+                        <paper-collapse-item icon="account-circle">
+                            <div class="errors">
+                                [[errors]]
+                            </div>
+                            <paper-input value={{email}} placeholder="email nuevo participante"></paper-input>
+                            <template  id="user-list" is="dom-repeat" items="{{item.users}}" mutable-data>
+                                <paper-icon-item>
+                                    <iron-icon icon="account-circle"></iron-icon>
+                                        [[item.username]]
+                                </paper-icon-item>
                             </template>
-                        </div>
-                        <paper-fab  icon="account-circle" data-item$="[[item.users]]" data-org$="[[item.id]]" raised on-tap="addMember"></paper-fab>
+                            <paper-fab icon="social:person-add" raised on-tap="addMember" ></paper-fab>
+                        </paper-collapse-item>
                     </div>
                     <div class="card-actions">
 
@@ -220,6 +241,7 @@
                         reflectToAttribute:true,
                         notify: true,
                     },
+                    errors: String,
 
                 };
             }
@@ -251,13 +273,24 @@
                 this.$.deleteOrganization.url = "http://0.0.0.0:8000/api/v1/organization/"+this.organization.id;
                 this.$.deleteOrganization.generateRequest();
             }
-            addMember(event){
-                this.page="organization";
-                this.users=JSON.parse(event.target.dataset.item);
-                this.id_organization=JSON.parse(event.target.dataset.org);
-                var dialog = this.shadowRoot.querySelector('#participantes');
-                var popUp = dialog.shadowRoot.querySelector('paper-dialog');
-                popUp.toggle();
+            addMember(){
+                this.$.getUser.url="http://0.0.0.0:8000/api/v1/user/"+this.email+"/";
+                this.$.getUser.headers['authorization'] = 'Token '+this.token;
+                this.$.getUser.generateRequest();
+
+            }
+            getUserResponse(data){
+                if(data.detail.response.count > 0){
+                    this.$.postMember.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/member/"+data.detail.response.results[0].id;
+                    this.$.postMember.headers['authorization'] = 'Token '+this.token;
+                    this.$.postMember.generateRequest();
+                }else{
+                    this.errors = "En nuestro sistema no se encuentra ningun usuario con ese email";
+                }
+
+            }
+            onResponse(data){
+                this.push('users', data.detail.response)
             }
 
         }
