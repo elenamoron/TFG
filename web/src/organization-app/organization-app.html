@@ -163,7 +163,7 @@
                                 [[errors]]
                             </div>
                             <paper-input value={{email}} placeholder="email nuevo participante"></paper-input>
-                            <template  id="user-list" is="dom-repeat" items="{{item.users}}" mutable-data>
+                            <template  id="user_list" is="dom-repeat" items="{{item.users}}" mutable-data>
                                 <paper-icon-item>
                                     <iron-icon icon="account-circle"></iron-icon>
                                         [[item.username]]
@@ -290,6 +290,7 @@
 
             }
             onResponse(data){
+                this.$.user_list.items
                 this.push('users', data.detail.response)
             }
 
