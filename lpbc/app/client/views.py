@@ -287,6 +287,10 @@ class DocumentUploadView(views.APIView):
 class DocumentDownloadView(views.APIView):
 
     def get(self, request, *args, **kwargs):
+        ''''support = SupportDoc.objects.get(document=self.kwargs['pk'])
+        project = Project.objects.get(id=support.project.id, users=request.user)
+        if project:
+         '''
         document = Document.objects.get(id=self.kwargs['pk'])
         file_path = os.path.join(settings.MEDIA_ROOT, document.file.name)
 

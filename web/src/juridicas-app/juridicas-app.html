@@ -55,6 +55,9 @@
                 margin-right: 20px;
                 margin-top: 20px;
             }
+            .doc iron-icon{
+                cursor: pointer;
+            }
 
             @media only screen and (max-width: 600px) {
                 .content {
@@ -225,7 +228,7 @@
                         notify: true
                     },
                     documents: {
-                        type: Object,
+                        type: Array,
                         reflectToAttribute:true
                     }
 
@@ -310,20 +313,12 @@
                 }
 
             }
-            getfileResponse(data){
-                if(!this.documents){
-                    this.documents = data.detail.response;
-                    this.push('documents', data.detail.response);
-                }
-
+            getfileResponse(data){ 
+                this.documents = data.detail.response;
             }
 
             upfileResponse(data){
-                location.reload();
-                /*if(!this.documents){
-                    this.documents = data.detail.response;
-                }
-                this.push('documents', data.detail.response);*/
+                this.push('documents', {'fields':data.detail.response});
             }
 
         }
