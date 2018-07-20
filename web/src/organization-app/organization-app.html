@@ -157,13 +157,13 @@
                         <div class="rate-header">{{item.name}}</div>
                         <div class="rate-name">{{item.code}}</div>
                         <div>{{item.description}}</div>
-
-                        <paper-collapse-item icon="account-circle">
+                        <br>
+                        <paper-collapse-item icon="account-circle" header="Listado de usuarios">
                             <div class="errors">
                                 [[errors]]
                             </div>
                             <paper-input value={{email}} placeholder="email nuevo participante"></paper-input>
-                            <template  id="user_list" is="dom-repeat" items="{{item.users}}" mutable-data>
+                            <template  id="userList" is="dom-repeat" items="{{item.users}}" mutable-data>
                                 <paper-icon-item>
                                     <iron-icon icon="account-circle"></iron-icon>
                                         [[item.username]]

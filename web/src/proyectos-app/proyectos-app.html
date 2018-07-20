@@ -191,8 +191,8 @@
                     <div class="card-content">
                         <div class="rate-header">{{project.name}}</div>
                         <div class="rate-name">{{project.cliente}}</div>
-                        <div>{{project.description}}</div>
-                        <paper-collapse-item icon="account-circle">
+                        <div>{{project.description}}</div><br>
+                        <paper-collapse-item icon="account-circle" header="Listado de usuarios">
                             <template  id="list_users" is="dom-repeat" items="{{users_organization}}" mutable-data>
                                 <paper-icon-item>
                                     <div class="usuarios">
