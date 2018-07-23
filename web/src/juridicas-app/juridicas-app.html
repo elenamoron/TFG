@@ -106,7 +106,9 @@
             url="http://0.0.0.0:8000/api/v1/project/{{id_project}}document/"
             handle-as="json"
             content-type=""
-            on-response="upfileResponse">
+            on-response="upfileResponse"
+            on-error="failUpload"
+        >
 
         </iron-ajax>
         <iron-ajax
@@ -317,6 +319,9 @@
 
             upfileResponse(data){
                 this.push('documents', {'fields':data.detail.response});
+            }
+            failUpload(data){
+                alert('Ha ocurrido algo')
             }
 
         }

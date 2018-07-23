@@ -60,7 +60,9 @@
                         <div class=""><paper-input value="{{item.name}}" placeholder="Nombre del proyecto"></paper-input></div><br>
                         <div class=""><paper-input value="{{item.cliente}}" placeholder="Cliente"></paper-input></div><br>
                         <div class=""><paper-input value="{{item.description}}" placeholder="Descripción del proyecto"></paper-input></div><br>
-                        <paper-fab icon="create" raised on-tap="update" data-item$="[[item]]"></paper-fab>
+                        <template is="dom-if" if="{{_isTrue()}}" restamp>
+                            <paper-fab icon="create" raised on-tap="update" data-item$="[[item]]"></paper-fab>
+                        </template>
                 </div>
 
             </template>
@@ -86,19 +88,16 @@
                     proyecto : Object,
                     token: {
                         type: String,
-                        observer:'onChangeToken',
                         reflectToAttribute:true,
                         notify: true
                     },
                     id_organization: {
                         type: String,
-                        observer:'onChangeId',
                         reflectToAttribute:true,
                         notify: true
                     },
                     user: {
                         type: Object,
-                        observer:'onChangeUser',
                         reflectToAttribute:true,
                         notify: true
                     },
@@ -114,6 +113,9 @@
                     }
 
                 };
+            }
+            _isTrue(){
+                return !JSON.parse(localStorage.getItem('archivado'));
             }
             ready(){
                 super.ready();

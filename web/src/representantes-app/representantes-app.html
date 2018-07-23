@@ -38,11 +38,14 @@
                 clear: both;
             }
             paper-fab {
+
+                --paper-fab-background: #ff4081;
+                --paper-fab-keyboard-focus-background: #DF4448;
+            }
+            .fly-fab{
                 position: fixed;
                 right: 24px;
                 bottom: 24px;
-                --paper-fab-background: #ff4081;
-                --paper-fab-keyboard-focus-background: #DF4448;
             }
             paper-toggle-button.pink {
                 --paper-toggle-button-checked-bar-color: var(--paper-pink-500);
@@ -93,7 +96,15 @@
             on-response="putResponse">
 
         </iron-ajax>
+         <iron-ajax
+            id="uploadfile"
+            method="post"
+            url="http://0.0.0.0:8000/api/v1/project/{{id_project}}document/"
+            handle-as="json"
+            content-type=""
+            on-response="upfileResponse">
 
+        </iron-ajax>
         <div class="content ">
             <template is="dom-if" if="{{physicalPersons}}" restamp>
                 <template is="dom-repeat" id="selectPerson" items="{{physicalPersons}}">
@@ -116,7 +127,23 @@
                                 <paper-input value="{{item.address}}" placeholder="Domicilio"></paper-input>
                                 <paper-input value="{{item.phone}}" placeholder="Tlf"></paper-input>
                                 <paper-input value="{{item.email}}" placeholder="email"></paper-input>
-
+                                <h3>Documentación</h3>
+                                <file-drop-zone multiple accept="*" files="{{files}}">
+                                    <div slot="drop-zone">
+                                        <iron-icon icon="description"></iron-icon>
+                                        <h3>Documentación de soporte</h3>
+                                    </div>
+                                </file-drop-zone>
+                                <paper-fab on-tap="upload" icon="icons:attachment"></paper-fab>
+                                <h3> Documentos aportados</h3>
+                                <template  is="dom-repeat" items="[[documents]]">
+                                    <template is="dom-if" if="{{item.fields}}" restamp>
+                                        <div class="doc">
+                                            <iron-icon  icon="description" raised data-item$="[[item.fields.document]]" ></iron-icon>
+                                            <a href="http://0.0.0.0:8000/api/v1/document/[[item.fields.document]]"><span>[[item.fields.name]]</span></a>
+                                        </div>
+                                    </template>
+                                </template>
                                 <h3>Características adicionales</h3>
                                 <div class="row">
                                     <div class="column">
@@ -153,7 +180,7 @@
                                 <template is="dom-if" if="{{item.hasBussinesRelation}}" restamp>
                                     <representantes-relacion token="{{token}}"></representantes-relacion>
                                 </template>
-                                <paper-fab icon="create" raised on-tap="add" data-item$="[[item]]"></paper-fab>
+                                <paper-fab class="fly-fab" icon="create" raised on-tap="add" data-item$="[[item]]"></paper-fab>
                             </div>
                         </form>
                     </paper-collapse-item>
@@ -181,6 +208,23 @@
                         <paper-input value="{{physicalPerson.phone}}" placeholder="Tlf"></paper-input>
                         <paper-input value="{{physicalPerson.email}}" placeholder="email"></paper-input>
 
+                        <h3>Documentación</h3>
+                        <file-drop-zone multiple accept="*" files="{{files}}">
+                            <div slot="drop-zone">
+                                <iron-icon icon="description"></iron-icon>
+                                <h3>Documentación de soporte</h3>
+                            </div>
+                        </file-drop-zone>
+                        <paper-fab on-tap="upload" icon="icons:attachment"></paper-fab>
+                        <h3> Documentos aportados</h3>
+                        <template id="repeat-document" is="dom-repeat" items="[[documents]]">
+                            <template is="dom-if" if="{{item.fields}}" restamp>
+                                <div class="doc">
+                                    <iron-icon  icon="description" raised data-item$="[[item.fields.document]]" ></iron-icon>
+                                    <a href="http://0.0.0.0:8000/api/v1/document/[[item.fields.document]]"><span>[[item.fields.name]]</span></a>
+                                </div>
+                            </template>
+                        </template>
                         <h3>Características adicionales</h3>
                                 <div class="row">
                                     <div class="column">
@@ -217,7 +261,7 @@
                         <template is="dom-if" if="{{physicalPerson.hasBussinesRelation}}" restamp>
                             <representantes-relacion token="{{token}}"></representantes-relacion>
                         </template>
-                        <paper-fab icon="save" raised on-tap="add" data-item$="[[physicalPerson]]"></paper-fab>
+                        <paper-fab class="fly-fab" icon="save" raised on-tap="add" data-item$="[[physicalPerson]]"></paper-fab>
                     </div>
                 </form>
             </paper-collapse-item>
@@ -313,6 +357,37 @@
             postResponse(data){
 
                 this.push('physicalPersons', data.detail.response);
+            }
+            upload(){
+                var data = new FormData();
+                var content_type;
+                var length;
+                if(this.files) {
+                    this.files.forEach(function(i){
+                        var num=1;
+                        data.append("document"+num,i);
+                        content_type=i.type;
+                        length=i.size;
+                        num++;
+                    });
+                    if(this.legalPerson){
+                        data.append("json",JSON.stringify({"content_type":content_type,"length":length,"project":this.id_project,
+                            "persona_fisica":this.legalPerson.id, "tag": "persona_fisica"}));
+
+                        this.$.uploadfile.body=data;
+                        this.$.uploadfile.url="http://0.0.0.0:8000/api/v1/project/"+this.id_project+"/document/";
+                        this.$.uploadfile.headers['authorization']='Token '+this.token;
+                        this.$.uploadfile.contentType = undefined;
+                        //this.$.uploadfile.body={"project":this.id_project, "file":this.files, "persona_juridica":this.legalPerson.id};
+                        this.$.uploadfile.generateRequest();
+                    }else{
+                        alert('No tiene ningun registro de persona jurídica');
+                    }
+                }else {
+                    alert('No hay documentos');
+                }
+
+
             }
 
         }

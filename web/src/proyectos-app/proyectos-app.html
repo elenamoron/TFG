@@ -211,7 +211,7 @@
                         <a href="#/proyecto/{{project.name}}/resumen" class="ver">
                             <paper-fab icon="visibility" raised title="ver" data-item$="[[project]]" on-tap="saveProject"></paper-fab>
                         </a>
-                        <paper-fab icon="save" raised title="archivar" data-item$="[[item]]" on-tap="archivar"></paper-fab>
+                        <paper-fab icon="save" raised title="archivar" data-item$="[[project]]" on-tap="archivar"></paper-fab>
                     </div>
                     <div class="rate-image" style="background: url('../../media/{{item.logo }}')"></div>
                 </paper-card>
@@ -229,7 +229,7 @@
                 attr-for-selected="name"
                 selected-attribute="visible"
             >
-                  <ver-proyecto name="proyecto" route="{{subroute}}" token="{{token}}" id_organization="{{id_organization}}" id_project="{{id_project}}" user="{{user}}">
+                  <ver-proyecto name="proyecto" route="{{subroute}}" token="{{token}}" id_organization="{{id_organization}}" id_project="{{id_project}}" user="{{user}}" proyecto="{{proyecto}}">
 
                   </ver-proyecto>
 
@@ -293,6 +293,11 @@
                     },
                     page: {
                         type: String,
+                        reflectToAttribute:true,
+                        notify: true,
+                    },
+                    proyecto: {
+                        type: Array,
                         reflectToAttribute:true,
                         notify: true,
                     },
@@ -373,8 +378,10 @@
             }
             saveProject(event){
                 const item = JSON.parse(event.target.dataset.item);
+                this.proyecto = item;
                 this.id_project = item.id;
                 localStorage.setItem('id_project',this.id_project);
+                localStorage.setItem('archivado',false)
             }
             addMember(event){
                 this.page="project";

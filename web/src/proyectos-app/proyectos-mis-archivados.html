@@ -78,7 +78,7 @@
                 attr-for-selected="name"
                 selected-attribute="visible"
             >
-                  <ver-proyecto name="proyecto" route="{{subroute}}" token="{{token}}" id_organization="{{id_organization}}"></ver-proyecto>
+                  <ver-proyecto name="proyecto" route="{{subroute}}" token="{{token}}" id_organization="{{id_organization}}" id_project="{{id_project}}" proyecto="{{proyecto}}"></ver-proyecto>
 
 
             </iron-pages>
@@ -115,7 +115,12 @@
                         observer:'onChangeIdProject',
                         reflectToAttribute:true,
                         notify: true
-                    }
+                    },
+                    proyecto: {
+                        type: Array,
+                        reflectToAttribute:true,
+                        notify: true,
+                    },
 
                 };
             }
@@ -135,6 +140,13 @@
             }
             handleResponse (data) {
                 this.set('proyectos',data.detail.response.results);
+            }
+            saveProject(event){
+                const item = JSON.parse(event.target.dataset.item);
+                this.proyecto = item;
+                this.id_project = item.id;
+                localStorage.setItem('id_project',this.id_project);
+                localStorage.setItem('archivado',true);
             }
 
         }
