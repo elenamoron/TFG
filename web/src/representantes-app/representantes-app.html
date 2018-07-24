@@ -127,14 +127,16 @@
                                 <paper-input value="{{item.address}}" placeholder="Domicilio"></paper-input>
                                 <paper-input value="{{item.phone}}" placeholder="Tlf"></paper-input>
                                 <paper-input value="{{item.email}}" placeholder="email"></paper-input>
-                                <h3>Documentación</h3>
-                                <file-drop-zone multiple accept="*" files="{{files}}">
-                                    <div slot="drop-zone">
-                                        <iron-icon icon="description"></iron-icon>
-                                        <h3>Documentación de soporte</h3>
-                                    </div>
-                                </file-drop-zone>
-                                <paper-fab on-tap="upload" icon="icons:attachment"></paper-fab>
+                                <template is="dom-if" if="{{_isTrue()}}" restamp>
+                                    <h3>Documentación</h3>
+                                    <file-drop-zone multiple accept="*" files="{{files}}">
+                                        <div slot="drop-zone">
+                                            <iron-icon icon="description"></iron-icon>
+                                            <h3>Documentación de soporte</h3>
+                                        </div>
+                                    </file-drop-zone>
+                                    <paper-fab on-tap="upload" icon="icons:attachment"></paper-fab>
+                                </template>
                                 <h3> Documentos aportados</h3>
                                 <template  is="dom-repeat" items="[[documents]]">
                                     <template is="dom-if" if="{{item.fields}}" restamp>
@@ -180,14 +182,17 @@
                                 <template is="dom-if" if="{{item.hasBussinesRelation}}" restamp>
                                     <representantes-relacion token="{{token}}"></representantes-relacion>
                                 </template>
-                                <paper-fab class="fly-fab" icon="create" raised on-tap="add" data-item$="[[item]]"></paper-fab>
+                                <template is="dom-if" if="{{_isTrue()}}" restamp>
+                                    <paper-fab class="fly-fab" icon="create" raised on-tap="add" data-item$="[[item]]"></paper-fab>
+                                </template>
                             </div>
                         </form>
                     </paper-collapse-item>
 
                 </template>
             </template>
-            <paper-collapse-item icon="icons:add-box" header="Añadir representante">
+            <template is="dom-if" if="{{_isTrue()}}" restamp>
+                <paper-collapse-item icon="icons:add-box" header="Añadir representante">
                 <h1>Datos de representantes autorizados</h1>
                 <form>
                     <div class="row">
@@ -265,6 +270,7 @@
                     </div>
                 </form>
             </paper-collapse-item>
+            </template>
         </div>
     </template>
 
@@ -299,7 +305,6 @@
                     },
                     user: {
                         type: Object,
-                        observer:'onChangeUser',
                         reflectToAttribute:true,
                         notify: true
                     }
@@ -315,6 +320,9 @@
                     this.id_project = localStorage.getItem('id_project');
 
                 }
+            }
+            _isTrue(){
+                return !JSON.parse(localStorage.getItem('archivado'));
             }
             onChangeIdProject(){
                 if(this.id_project){

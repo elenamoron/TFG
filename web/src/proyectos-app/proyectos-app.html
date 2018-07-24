@@ -135,7 +135,7 @@
                 pattern="/:id"
                 data="{{_idData}}"></app-route>
         <iron-ajax
-                   id="getProject"
+                       id="getProject"
                    url="http://0.0.0.0:8000/api/v1/organization/{{id_organization}}/project/active"
                    handle-as="json"
                    on-response="handleResponse"
@@ -395,7 +395,8 @@
                 this.push('proyectos', data.detail.response);
             }
             putResponse(data){
-                this.splice('proyectos', data.detail.response, 1);
+                this.shift('proyectos', data.detail.response);
+                //this.splice('proyectos', data.detail.response, 1);
             }
             _checkBoxClicked(event){
                 const item = JSON.parse(event.target.dataset.item);

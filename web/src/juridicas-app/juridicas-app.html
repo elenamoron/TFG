@@ -165,18 +165,20 @@
 
                     </div>
 
-
-                    <paper-fab class="add" icon="create" raised on-tap="add"></paper-fab>
+                    <template is="dom-if" if="{{_isTrue()}}" restamp>
+                        <paper-fab class="add" icon="create" raised on-tap="add"></paper-fab>
+                    </template>
                 </div>
                 <br>
-
-                <file-drop-zone multiple accept="*" files="{{files}}">
-                    <div slot="drop-zone">
-                        <iron-icon icon="description"></iron-icon>
-                        <h3>Documentación de soporte</h3>
-                    </div>
-                </file-drop-zone>
-                <paper-button on-tap="upload">Adjuntar <iron-icon icon="icons:attachment"></iron-icon></paper-button>
+                <template is="dom-if" if="{{_isTrue()}}" restamp>
+                    <file-drop-zone multiple accept="*" files="{{files}}">
+                        <div slot="drop-zone">
+                            <iron-icon icon="description"></iron-icon>
+                            <h3>Documentación de soporte</h3>
+                        </div>
+                    </file-drop-zone>
+                    <paper-button on-tap="upload">Adjuntar <iron-icon icon="icons:attachment"></iron-icon></paper-button>
+                </template>
                 <h3> Documentos aportados</h3>
                 <template id="repeat-document" is="dom-repeat" items="[[documents]]">
                     <template is="dom-if" if="{{item.fields}}" restamp>
@@ -249,6 +251,9 @@
                     this.$.getLegalPerson.headers['authorization']='Token '+this.token;
                     this.$.getLegalPerson.generateRequest();
                 }
+            }
+            _isTrue(){
+                return !JSON.parse(localStorage.getItem('archivado'));
             }
             onChangeIdProject(){
                 if(this.id_project){

@@ -102,20 +102,15 @@
                 float:left;
 
             }
-            .cortar{
-                width:200px;
-                height:20px;
-                padding:20px;
-                border:1px solid blue;
-                text-overflow:ellipsis;
-                white-space:nowrap;
-                overflow:hidden;
-                float:left;
-                margin-right: 10px;
+            .delete-pap{
+                margin-left:100px;
             }
 
             .errors{
                 color:red;
+            }
+            .usuarios{
+                width:200px;
             }
         </style>
         <iron-ajax
@@ -165,8 +160,13 @@
                             <paper-input value={{email}} placeholder="email nuevo participante"></paper-input>
                             <template  id="userList" is="dom-repeat" items="{{item.users}}" mutable-data>
                                 <paper-icon-item>
+                                    <div class="usuarios">
                                     <iron-icon icon="account-circle"></iron-icon>
                                         [[item.username]]
+                                    </div>
+                                    <div class="delete-pap">
+                                        <iron-icon  icon="delete"></iron-icon>
+                                    </div>
                                 </paper-icon-item>
                             </template>
                             <paper-fab icon="social:person-add" raised on-tap="addMember" ></paper-fab>
@@ -290,8 +290,11 @@
 
             }
             onResponse(data){
-                this.$.user_list.items
+                this.$.user_list.items;
                 this.push('users', data.detail.response)
+            }
+            onDelete(data){
+                this.splice('organizaciones', this.organization, 1);
             }
 
         }

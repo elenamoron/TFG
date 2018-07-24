@@ -52,7 +52,7 @@
 
         </iron-ajax>
         <app-header-layout>
-            <template is="dom-repeat" items="{{proyecto}}">
+            <template is="dom-repeat" id="data_project" items="{{proyecto}}">
 
                 <paper-avatar label="[[item.name]]" src="[[item.logo]]"></paper-avatar>
                 <div class="resumen">
@@ -85,7 +85,12 @@
                         type: String,
                         value: 'resumen-app'
                     },
-                    proyecto : Object,
+                    proyecto :{
+                        type: Object,
+                        reflectToAttribute:true,
+                        notify: true,
+                        observer: 'onChangeProject'
+                    } ,
                     token: {
                         type: String,
                         reflectToAttribute:true,
@@ -128,6 +133,10 @@
                     this.id_organization = localStorage.getItem('id_organization');
                 }
 
+            }
+            onChangeProject(){
+                this.splice('proyecto', 1);
+                this.push('proyecto', this.proyecto);
             }
             update(event){
                 const item = JSON.parse(event.target.dataset.item);
