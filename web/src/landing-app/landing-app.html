@@ -163,60 +163,6 @@
                 };
             }
 
-            abrirVentanaLogin(){
-                /*this.$.auth.signInWithPopup()
-                        .then(function(response){
-                                    //crear user y organización
-                                    var result = $.ajax({
-                                        type:"POST", // la variable type guarda el tipo de la peticion GET,POST,..
-                                        url:"http://0.0.0.0:8000/api/v1/user/", //url guarda la ruta hacia donde se hace la peticion
-                                        data:{"email":response.user.email, "password":""}, // data recive un objeto con la informacion que se enviara al servidor
-                                        success:function(datos){ //success es una funcion que se utiliza si el servidor retorna informacion
-                                             location="#/home/mis-proyectos";
-                                         },
-                                        error: function (data) {
-                                            if(data.status!=400){
-                                                alert("Se ha producido un error vuelve a intentarlo");
-                                            }
-                                        },
-                                        dataType: "json" // El tipo de datos esperados del servidor. Valor predeterminado: Intelligent Guess (xml, json, script, text, html).
-                                    });
-
-                                    var result_org = $.ajax({
-                                        type:"POST",
-                                        url:"http://0.0.0.0:8000/api/v1/organization/",
-                                        data:{ users:[{"email":response.user.email, "password":""}],
-                                               name: "Organization "+response.user.displayName,
-                                               description: "Mi organización",
-                                               code: "ORG-1",
-                                               created: "2018-06-02",
-                                               address: "",
-                                               nif: ""
-
-                                        }, // data recive un objeto con la informacion que se enviara al servidor
-                                        success:function(datos){ //success es una funcion que se utiliza si el servidor retorna informacion
-                                            location="#/home/mis-proyectos";
-                                         },
-                                        error: function (data) {
-                                            debugger;
-                                            if(data.status==400){
-                                                location="#/home/mis-proyectos";
-                                            }else{
-                                                location="#/home/mis-proyectos";
-                                                alert("Se ha producido un error vuelve a intentarlo");
-                                            }
-                                        },
-                                        dataType: "json" // El tipo de datos esperados del servidor. Valor predeterminado: Intelligent Guess (xml, json, script, text, html).
-                                    });
-
-                                }
-
-                        )
-                        .catch(function(error) {
-                            console.log(error);
-                        });*/
-
-            }
             _onTapAnchor(e) {
                 e.preventDefault();
                 var anchor = e.target.attributes.href.value;
