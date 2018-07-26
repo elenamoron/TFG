@@ -52,20 +52,19 @@
 
         </iron-ajax>
         <app-header-layout>
-            <template is="dom-repeat" id="data_project" items="{{proyecto}}">
+            <!--template is="dom-repeat" id="data_project" items="{{proyecto}}" as="proyecto"-->
 
-                <paper-avatar label="[[item.name]]" src="[[item.logo]]"></paper-avatar>
+                <paper-avatar label="[[proyecto.name]]" src="[[proyecto.logo]]"></paper-avatar>
                 <div class="resumen">
-
-                        <div class=""><paper-input value="{{item.name}}" placeholder="Nombre del proyecto"></paper-input></div><br>
-                        <div class=""><paper-input value="{{item.cliente}}" placeholder="Cliente"></paper-input></div><br>
-                        <div class=""><paper-input value="{{item.description}}" placeholder="Descripción del proyecto"></paper-input></div><br>
-                        <template is="dom-if" if="{{_isTrue()}}" restamp>
-                            <paper-fab icon="create" raised on-tap="update" data-item$="[[item]]"></paper-fab>
-                        </template>
+                    <div class=""><paper-input value="{{proyecto.name}}" placeholder="Nombre del proyecto"></paper-input></div><br>
+                    <div class=""><paper-input value="{{proyecto.cliente}}" placeholder="Cliente"></paper-input></div><br>
+                    <div class=""><paper-input value="{{proyecto.description}}" placeholder="Descripción del proyecto"></paper-input></div><br>
+                    <template is="dom-if" if="{{_isTrue()}}" restamp>
+                        <paper-fab icon="create" raised on-tap="update" data-item$="[[proyecto]]"></paper-fab>
+                    </template>
                 </div>
 
-            </template>
+            <!--/template-->
             <br>
             <representantes-percentaje id_project="{{id_project}}" token="{{token}}"></representantes-percentaje>
 
@@ -135,8 +134,7 @@
 
             }
             onChangeProject(){
-                this.splice('proyecto', 1);
-                this.push('proyecto', this.proyecto);
+             //this.$.data_project.items = this.proyecto;
             }
             update(event){
                 const item = JSON.parse(event.target.dataset.item);

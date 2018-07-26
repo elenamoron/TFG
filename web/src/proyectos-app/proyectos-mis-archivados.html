@@ -5,7 +5,7 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../proyectos-app/ver-proyecto.html">
+
 <dom-module id="proyectos-mis-archivados">
     <template>
         <style>
@@ -73,15 +73,7 @@
                 </paper-card>
             </template>
             <br>
-            <iron-pages
-                selected="[[_pageData.page]]"
-                attr-for-selected="name"
-                selected-attribute="visible"
-            >
-                  <ver-proyecto name="proyecto" route="{{subroute}}" token="{{token}}" id_organization="{{id_organization}}" id_project="{{id_project}}" proyecto="{{proyecto}}"></ver-proyecto>
 
-
-            </iron-pages>
 
         </app-header-layout>
     </template>
@@ -112,7 +104,6 @@
                     },
                     id_project: {
                         type: String,
-                        observer:'onChangeIdProject',
                         reflectToAttribute:true,
                         notify: true
                     },

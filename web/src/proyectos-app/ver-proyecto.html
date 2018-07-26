@@ -93,18 +93,24 @@
                 float:right;
             }
         </style>
-        <firebase-auth id="auth" user="{{user}}" provider="google" >
-        </firebase-auth>
+
         <app-location route="{{route}}" use-hash-as-path></app-location>
         <app-route
                 route="{{route}}"
-                pattern="/proyecto/:page"
+                pattern="/proyecto"
                 data="{{_pageData}}"
                 tail="{{_subRoute}}"></app-route>
         <app-route
                 route="{{_subRoute}}"
                 pattern="/:id"
-                data="{{_idData}}"></app-route>
+                data="{{_idData}}"
+                tail="{{_tail}}"
+        ></app-route>
+        <app-route
+                route="{{_tail}}"
+                pattern="/:page"
+                data="{{_data}}"
+        ></app-route>
         <iron-ajax
                 method="post"
                 id="logout"
@@ -126,7 +132,9 @@
             <app-header-layout>
                 <app-header slot="header">
                     <app-toolbar>
+
                         <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+                        <paper-icon-button icon="home" raised on-tap="volver"></paper-icon-button>
                         <div main-title>{{nombre}}  </div>
                         <paper-icon-button icon="settings-power" raised on-click="desconectar"></paper-icon-button>
                     </app-toolbar>
@@ -138,7 +146,7 @@
 
                     <app-header fixed>
                         <paper-avatar label="[[user.nombre]]" src="[[user.photoURL]]"></paper-avatar>
-                        <paper-fab icon="arrow-back" raised on-tap="volver"></paper-fab>
+
                         <div class="contact-info">
                             <div class="name">[[user.nombre]]</div>
                             <div class="email">[[user.mail]]</div>
@@ -147,7 +155,7 @@
                     </app-header>
 
                     <paper-listbox
-                            selected="{{_idData.id}}"
+                            selected="{{_pageData.page}}"
                             attr-for-selected="name"
                             on-iron-activate="_drawerSelected">
                         <paper-item name="resumen">Resumen
@@ -188,9 +196,9 @@
                 </app-header-layout>
 
             </app-drawer>
-            <iron-pages selected="[[_subRoute.path]]" attr-for-selected="name">
+            <iron-pages selected="[[_data.page]]" attr-for-selected="name">
                 <resumen-app
-                        name="/resumen"
+                        name="resumen"
                         route="{{_subRoute}}"
                         proyecto="{{proyecto}}"
                         nombre="{{nombre}}"
@@ -199,7 +207,7 @@
                 >
                 </resumen-app>
                 <juridicas-app
-                    name="/juridica"
+                    name="juridica"
                     route="{{_subRoute}}"
                     token="{{token}}"
                     user="{{user}}"
@@ -207,7 +215,7 @@
 
                 </juridicas-app>
                 <representantes-app
-                    name="/representantes"
+                    name="representantes"
                     route="{{_subRoute}}"
                     token="{{token}}"
                     user="{{user}}"
@@ -235,7 +243,6 @@
                     },
                     user: {
                         type: Object,
-                        observer:'onChangeUser',
                         reflectToAttribute:true,
                         notify: true
                     },
@@ -251,7 +258,6 @@
                     },
                     token: {
                         type: String,
-                        observer:'onChangeToken',
                         reflectToAttribute:true,
                         notify: true
                     },
@@ -260,18 +266,27 @@
                         reflectToAttribute:true,
                         notify: true
                     },
-                    id_project: {
+                    id_project2: {
+                        type: String,
+                        reflectToAttribute:true,
+                        notify: true,
+                        observer:'onChangeIdProject',
+                    },
+                    _idData: {
                         type: String,
                         reflectToAttribute:true,
                         notify: true,
                         observer:'onChangeId',
+                    },
+                    currentProject:{
+                        type:Number,
+                        value:-1
                     }
 
                 };
             }
             ready(){
                 super.ready();
-
                 if(!this.token && localStorage.getItem('token')!=null){
                     this.token = localStorage.getItem('token');
                     this.id_organization = localStorage.getItem('id_organization');
@@ -288,30 +303,32 @@
             }
 
             onChangeId(){
-                if(this.id_project){
+                if(this.currentProject != this._idData.id){
+                    console.log('llamada ajax ');
+                    this.currentProject = this._idData.id;
                     if(!this.id_organization){
                         this.id_organization = localStorage.getItem('id_organization');
                     }
-                    this.$.getProject.url = "http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/"+this.id_project+"/";
+                    this.$.getProject.url = "http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/"+this.currentProject+"/";
                     this.$.getProject.headers['authorization']='Token '+this.token;
                     this.$.getProject.generateRequest();
                 }
 
             }
-            _drawerSelected() {
-                if (!this.$.drawer.persistent) this.$.drawer.close();
+            onChangeIdProject(){
+                console.log('onchange odProject2');
             }
 
             handleResponse (data) {
-                this.proyecto = data.detail.response.results;
-                if(this.proyecto[0]){
-                    this.nombre = this.proyecto[0].name;
+                this.proyecto = data.detail.response.results[0];
+                if(this.proyecto){
+                    this.nombre = this.proyecto.name;
                     if(localStorage.getItem('id_project')){
-                        if(localStorage.getItem('id_project')!=this.proyecto[0].id){
-                            localStorage.setItem('id_project', this.proyecto[0].id)
+                        if(localStorage.getItem('id_project')!=this.proyecto.id){
+                            localStorage.setItem('id_project', this.proyecto.id)
                         }
                     }else{
-                        localStorage.setItem('id_project', this.proyecto[0].id)
+                        localStorage.setItem('id_project', this.proyecto.id)
                     }
 
                 }
@@ -321,16 +338,6 @@
                 this.$.logout.headers['authorization'] = 'Token '+this.token;
                 this.$.logout.generateRequest();
                 localStorage.clear();
-                /*this.$.auth.signOut()
-                        .then(function(response){
-                            location="#/landing";
-                        }
-
-                )
-                        .catch(function(error) {
-                            console.log(error);
-                        });
-            */
             }
             onlogout(){
                 location='#/landing';

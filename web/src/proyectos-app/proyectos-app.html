@@ -12,8 +12,7 @@
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 
 <link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
-<link rel="import" href="../proyectos-app/ver-proyecto.html">
-<link rel="import" href="../participantes-app/participantes-dialog.html">
+
 <dom-module id="proyectos-app">
     <template>
         <style>
@@ -208,7 +207,7 @@
 
                     </div>
                     <div class="card-actions">
-                        <a href="#/proyecto/{{project.name}}/resumen" class="ver">
+                        <a href="#/proyecto/{{project.id}}/resumen" class="ver">
                             <paper-fab icon="visibility" raised title="ver" data-item$="[[project]]" on-tap="saveProject"></paper-fab>
                         </a>
                         <paper-fab icon="save" raised title="archivar" data-item$="[[project]]" on-tap="archivar"></paper-fab>
@@ -224,17 +223,7 @@
                 </paper-card>
             </template>
             <br>
-            <iron-pages
-                selected="[[_pageData.page]]"
-                attr-for-selected="name"
-                selected-attribute="visible"
-            >
-                  <ver-proyecto name="proyecto" route="{{subroute}}" token="{{token}}" id_organization="{{id_organization}}" id_project="{{id_project}}" user="{{user}}" proyecto="{{proyecto}}">
 
-                  </ver-proyecto>
-
-
-            </iron-pages>
             <paper-fab class="add" icon="add" raised on-tap="openDialog"></paper-fab>
             <paper-dialog id="animated">
                 <h2>Nuevo proyecto</h2>
@@ -395,7 +384,10 @@
                 this.push('proyectos', data.detail.response);
             }
             putResponse(data){
-                this.shift('proyectos', data.detail.response);
+                var project = data.detail.response;
+                var myarray=this.$.list_projects.items;
+                var newl=myarray.filter(function(i){return i.id!=project.id});
+                this.$.list_projects.items=newl;
                 //this.splice('proyectos', data.detail.response, 1);
             }
             _checkBoxClicked(event){

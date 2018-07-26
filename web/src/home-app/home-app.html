@@ -77,8 +77,7 @@
                 content-type="application/json"
                 on-response="handleResponse"
                 ></iron-ajax>
-        <firebase-auth id="auth" user="{{user}}" provider="google" >
-        </firebase-auth>
+
         <app-location route="{{route}}" use-hash-as-path></app-location>
         <app-route
                 route="{{route}}"
@@ -163,6 +162,7 @@
                         id_organization="{{id_organization}}"
                 >
                 </organization-app>
+
             </iron-pages>
 
         </app-drawer-layout>
@@ -184,20 +184,17 @@
                     },
                     user:{
                         type: Object,
-                        observer: 'onChangeId',
                         reflectToAttribute:true,
                         notify: true
                     },
                     _idData: Object,
                     token: {
                         type: String,
-                        observer:'onChangeToken',
                         reflectToAttribute:true,
                         notify: true
                     },
                     id_organization: {
                         type:String,
-                        observer: 'onChangeId',
                         reflectToAttribute:true,
                         notify: true
                     },

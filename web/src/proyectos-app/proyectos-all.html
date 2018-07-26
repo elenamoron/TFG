@@ -7,7 +7,7 @@
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/file-drop-zone/file-drop-zone.html">
 
-<link rel="import" href="../proyectos-app/ver-proyecto.html">
+
 <dom-module id="proyectos-all">
     <template>
         <style>
@@ -130,15 +130,6 @@
                 </paper-card>
             </template>
             <br>
-            <iron-pages
-                selected="[[_pageData.page]]"
-                attr-for-selected="name"
-                selected-attribute="visible"
-            >
-                  <ver-proyecto name="proyecto" route="{{subroute}}" token="{{token}}" id_organization="{{id_organization}}"></ver-proyecto>
-
-
-            </iron-pages>
 
         </app-header-layout>
         
