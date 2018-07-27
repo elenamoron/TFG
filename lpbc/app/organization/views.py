@@ -155,11 +155,11 @@ class ProjectDetailView(viewsets.ModelViewSet):
     def get_queryset(self):
         return Project.objects.filter(organization=self.kwargs['pk1'], id=self.kwargs['pk2'])
 
-
     def delete(self, request, *args, **kwargs):
         project = Project.objects.filter(organization=self.kwargs['pk1'], id=self.kwargs['pk2'])
         project.delete()
-        return Response({"Project delete"}, status.HTTP_200_OK)
+        id_project = self.kwargs['pk2']
+        return Response({"messaje": "Project delete", "id": id_project}, status.HTTP_200_OK)
 
     def update(self, request, *args, **kwargs):
         project = get_object_or_404(Project, organization=self.kwargs['pk1'], id=self.kwargs['pk2'])

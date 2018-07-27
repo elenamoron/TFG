@@ -106,7 +106,7 @@
                    method="DELETE"
         ></iron-ajax>
         <app-header-layout>
-            <template is="dom-repeat" items="[[proyectos]]" rendered-item-count="{{renderedCount}}">
+            <template id="list_projects" is="dom-repeat" items="[[proyectos]]" rendered-item-count="{{renderedCount}}">
                 <paper-card class="rate">
                     <div class="card-content">
                         <div class="rate-header">{{item.name}}</div>
@@ -192,10 +192,11 @@
                 this.$.deleteProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/"+this.id_project+"/";
                 this.$.deleteProject.generateRequest();
             }
-            onDelete(){
-                this.$.getProject.headers['authorization']='Token '+this.token;
-                this.$.getProject.url="http://0.0.0.0:8000/api/v1/organization/"+this.id_organization+"/project/all";
-                this.$.getProject.generateRequest();
+            onDelete(data){
+                var project = data.detail.response;
+                var myarray=this.$.list_projects.items;
+                var newl=myarray.filter(function(i){return i.id!=project.id});
+                this.$.list_projects.items=newl;
             }
 
         }
